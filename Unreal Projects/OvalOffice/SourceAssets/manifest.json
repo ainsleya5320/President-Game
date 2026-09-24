@@ -1,0 +1,1136 @@
+{
+  "groups": [
+    {
+      "name": "Walls_Front",
+      "triangles": 1194,
+      "objects": 597,
+      "materials": [
+        "M16_Handmade_wheat_wallpaper",
+        "M56_Wallpaper_pale_satin_stripe"
+      ]
+    },
+    {
+      "name": "Walls_Back",
+      "triangles": 1234,
+      "objects": 617,
+      "materials": [
+        "M16_Handmade_wheat_wallpaper",
+        "M56_Wallpaper_pale_satin_stripe"
+      ]
+    },
+    {
+      "name": "Floor_Parquet",
+      "triangles": 70136,
+      "objects": 374,
+      "materials": [
+        "M31_Oak_parquet_tone_0",
+        "M32_Oak_parquet_tone_1",
+        "M33_Oak_parquet_tone_2",
+        "M34_Oak_parquet_tone_3",
+        "M35_Oak_parquet_tone_4",
+        "M36_Oak_parquet_tone_5",
+        "M37_Oak_parquet_tone_6",
+        "M38_Oak_recessed_panels"
+      ]
+    },
+    {
+      "name": "Architecture_Panelling",
+      "triangles": 98560,
+      "objects": 325,
+      "materials": [
+        "M57_Warm_ivory_painted_joinery",
+        "M60_Window_enamel"
+      ]
+    },
+    {
+      "name": "Architecture_Cornice",
+      "triangles": 17664,
+      "objects": 2,
+      "materials": [
+        "M57_Warm_ivory_painted_joinery"
+      ]
+    },
+    {
+      "name": "Architecture_Ceiling",
+      "triangles": 12,
+      "objects": 1,
+      "materials": [
+        "M24_Lime_plaster"
+      ]
+    },
+    {
+      "name": "Windows_Joinery",
+      "triangles": 9024,
+      "objects": 48,
+      "materials": [
+        "M57_Warm_ivory_painted_joinery",
+        "M60_Window_enamel"
+      ]
+    },
+    {
+      "name": "Windows_Glass",
+      "triangles": 36,
+      "objects": 3,
+      "materials": [
+        "M18_Historic_clear_window_glass_0",
+        "M19_Historic_clear_window_glass_1",
+        "M20_Historic_clear_window_glass_2"
+      ]
+    },
+    {
+      "name": "Windows_Curtains",
+      "triangles": 95400,
+      "objects": 228,
+      "materials": [
+        "M00_Aged_gilt_bronze",
+        "M02_Burnished_brass",
+        "M05_Crimson_silk_damask"
+      ]
+    },
+    {
+      "name": "Floor_Rug",
+      "triangles": 8704,
+      "objects": 2,
+      "materials": [
+        "M25_Linen_welting",
+        "M61_Wool_carpet_woven_historical_quotations"
+      ]
+    },
+    {
+      "name": "Sofa_West",
+      "triangles": 5968,
+      "objects": 21,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M25_Linen_welting",
+        "M27_Muted_red_blue_striped_accent_textile_2_23",
+        "M39_Oatmeal_sofa_linen_weave"
+      ]
+    },
+    {
+      "name": "Sofa_East",
+      "triangles": 5968,
+      "objects": 21,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M25_Linen_welting",
+        "M28_Muted_red_blue_striped_accent_textile_2_23",
+        "M39_Oatmeal_sofa_linen_weave"
+      ]
+    },
+    {
+      "name": "Coffee_Table_and_Accessories",
+      "triangles": 5184,
+      "objects": 20,
+      "materials": [
+        "M04_Chocolate_leather",
+        "M15_Green_apples",
+        "M26_Mica_clad_coffee_table",
+        "M38_Oak_recessed_panels",
+        "M54_Uncoated_cream_stationery",
+        "M59_White_porcelain"
+      ]
+    },
+    {
+      "name": "Resolute_Desk",
+      "triangles": 5534,
+      "objects": 32,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M03_Carved_oak_highlights",
+        "M04_Chocolate_leather",
+        "M38_Oak_recessed_panels",
+        "M42_Resolute_oak_photographic_carving_relief",
+        "M43_Resolute_aged_English_oak"
+      ]
+    },
+    {
+      "name": "Desk_Accessories",
+      "triangles": 5216,
+      "objects": 25,
+      "materials": [
+        "M06_Dark_cordovan_leather_blotter",
+        "M07_Ebony",
+        "M38_Oak_recessed_panels",
+        "M53_Telephone_LCD",
+        "M54_Uncoated_cream_stationery",
+        "M57_Warm_ivory_painted_joinery"
+      ]
+    },
+    {
+      "name": "Chair_East",
+      "triangles": 38364,
+      "objects": 66,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M02_Burnished_brass",
+        "M30_Natural_woven_cane_1_47",
+        "M39_Oatmeal_sofa_linen_weave"
+      ]
+    },
+    {
+      "name": "Chair_President",
+      "triangles": 2300,
+      "objects": 10,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M07_Ebony"
+      ]
+    },
+    {
+      "name": "Chair_West",
+      "triangles": 37888,
+      "objects": 65,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M29_Natural_woven_cane_1_47",
+        "M39_Oatmeal_sofa_linen_weave"
+      ]
+    },
+    {
+      "name": "Rear_Credenza_and_Frames",
+      "triangles": 7912,
+      "objects": 50,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M02_Burnished_brass",
+        "M07_Ebony",
+        "M43_Resolute_aged_English_oak",
+        "M45_Small_framed_photograph_0",
+        "M46_Small_framed_photograph_1",
+        "M47_Small_framed_photograph_2",
+        "M48_Small_framed_photograph_3",
+        "M49_Small_framed_photograph_4",
+        "M50_Small_framed_photograph_5",
+        "M51_Small_framed_photograph_6",
+        "M52_Small_framed_photograph_7"
+      ]
+    },
+    {
+      "name": "Chest_West",
+      "triangles": 9528,
+      "objects": 26,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M02_Burnished_brass",
+        "M43_Resolute_aged_English_oak"
+      ]
+    },
+    {
+      "name": "Chest_East",
+      "triangles": 9528,
+      "objects": 26,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M02_Burnished_brass",
+        "M43_Resolute_aged_English_oak"
+      ]
+    },
+    {
+      "name": "Bronze_Sculpture",
+      "triangles": 5020,
+      "objects": 20,
+      "materials": [
+        "M07_Ebony",
+        "M40_Patinated_bronze_sculpture"
+      ]
+    },
+    {
+      "name": "Painting_West",
+      "triangles": 2258,
+      "objects": 13,
+      "materials": [
+        "M00_Aged_gilt_bronze",
+        "M17_Hassam_The_Avenue_in_the_Rain_1917"
+      ]
+    },
+    {
+      "name": "Painting_East",
+      "triangles": 2258,
+      "objects": 13,
+      "materials": [
+        "M00_Aged_gilt_bronze",
+        "M44_Rockwell_Working_on_the_Statue_of_Liberty"
+      ]
+    },
+    {
+      "name": "Flag_United_States",
+      "triangles": 2272,
+      "objects": 5,
+      "materials": [
+        "M00_Aged_gilt_bronze",
+        "M02_Burnished_brass"
+      ]
+    },
+    {
+      "name": "Flag_Presidential",
+      "triangles": 37152,
+      "objects": 11,
+      "materials": [
+        "M00_Aged_gilt_bronze",
+        "M02_Burnished_brass",
+        "M41_Presidential_standard_woven_silk",
+        "M55_United_States_flag_woven_silk"
+      ]
+    },
+    {
+      "name": "Lamp_and_Table_West",
+      "triangles": 2344,
+      "objects": 5,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M02_Burnished_brass"
+      ]
+    },
+    {
+      "name": "Lamp_and_Table_East",
+      "triangles": 12512,
+      "objects": 19,
+      "materials": [
+        "M01_Antique_mahogany",
+        "M02_Burnished_brass",
+        "M21_Lampshade_warm_linen",
+        "M22_Lampshade_warm_linen_001",
+        "M25_Linen_welting",
+        "M59_White_porcelain"
+      ]
+    },
+    {
+      "name": "Door_West",
+      "triangles": 2696,
+      "objects": 13,
+      "materials": [
+        "M02_Burnished_brass",
+        "M57_Warm_ivory_painted_joinery",
+        "M60_Window_enamel"
+      ]
+    },
+    {
+      "name": "Door_East",
+      "triangles": 2696,
+      "objects": 13,
+      "materials": [
+        "M02_Burnished_brass",
+        "M57_Warm_ivory_painted_joinery",
+        "M60_Window_enamel"
+      ]
+    },
+    {
+      "name": "Fireplace",
+      "triangles": 1288,
+      "objects": 14,
+      "materials": [
+        "M07_Ebony",
+        "M58_White_marble_fireplace"
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "id": "M00_Aged_gilt_bronze",
+      "name": "Aged gilt bronze",
+      "color": [
+        0.47999998927116394,
+        0.28999999165534973,
+        0.07999999821186066
+      ],
+      "roughness": 0.27000001072883606,
+      "metallic": 0.7799999713897705,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M01_Antique_mahogany",
+      "name": "Antique mahogany",
+      "color": [
+        0.05999999865889549,
+        0.014999999664723873,
+        0.007000000216066837
+      ],
+      "roughness": 0.28999999165534973,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M02_Burnished_brass",
+      "name": "Burnished brass",
+      "color": [
+        0.41999998688697815,
+        0.30000001192092896,
+        0.11999999731779099
+      ],
+      "roughness": 0.23999999463558197,
+      "metallic": 0.75,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M03_Carved_oak_highlights",
+      "name": "Carved oak highlights",
+      "color": [
+        0.07500000298023224,
+        0.024000000208616257,
+        0.00800000037997961
+      ],
+      "roughness": 0.36000001430511475,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M04_Chocolate_leather",
+      "name": "Chocolate leather",
+      "color": [
+        0.07000000029802322,
+        0.039000000804662704,
+        0.02199999988079071
+      ],
+      "roughness": 0.41999998688697815,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M05_Crimson_silk_damask",
+      "name": "Crimson silk damask",
+      "color": [
+        0.0949999988079071,
+        0.006000000052154064,
+        0.004999999888241291
+      ],
+      "roughness": 0.8399999737739563,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M06_Dark_cordovan_leather_blotter",
+      "name": "Dark cordovan leather blotter",
+      "color": [
+        0.02199999988079071,
+        0.0430000014603138,
+        0.035999998450279236
+      ],
+      "roughness": 0.46000000834465027,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M07_Ebony",
+      "name": "Ebony",
+      "color": [
+        0.012000000104308128,
+        0.014999999664723873,
+        0.01600000075995922
+      ],
+      "roughness": 0.33000001311302185,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M08_Garden_foliage_0",
+      "name": "Garden foliage 0",
+      "color": [
+        0.017999999225139618,
+        0.05000000074505806,
+        0.00800000037997961
+      ],
+      "roughness": 0.7799999713897705,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M09_Garden_foliage_1",
+      "name": "Garden foliage 1",
+      "color": [
+        0.028999999165534973,
+        0.06700000166893005,
+        0.012000000104308128
+      ],
+      "roughness": 0.7799999713897705,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M10_Garden_foliage_2",
+      "name": "Garden foliage 2",
+      "color": [
+        0.03999999910593033,
+        0.08399999886751175,
+        0.01600000075995922
+      ],
+      "roughness": 0.7799999713897705,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M11_Garden_foliage_3",
+      "name": "Garden foliage 3",
+      "color": [
+        0.050999999046325684,
+        0.10100000351667404,
+        0.019999999552965164
+      ],
+      "roughness": 0.7799999713897705,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M12_Garden_foliage_4",
+      "name": "Garden foliage 4",
+      "color": [
+        0.06199999898672104,
+        0.11800000071525574,
+        0.024000000208616257
+      ],
+      "roughness": 0.7799999713897705,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M13_Garden_foliage_5",
+      "name": "Garden foliage 5",
+      "color": [
+        0.0729999989271164,
+        0.13500000536441803,
+        0.02800000086426735
+      ],
+      "roughness": 0.7799999713897705,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M14_Garden_tree_bark",
+      "name": "Garden tree bark",
+      "color": [
+        0.03500000014901161,
+        0.01899999938905239,
+        0.009999999776482582
+      ],
+      "roughness": 0.949999988079071,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M15_Green_apples",
+      "name": "Green apples",
+      "color": [
+        0.20000000298023224,
+        0.30000001192092896,
+        0.014999999664723873
+      ],
+      "roughness": 0.25999999046325684,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M16_Handmade_wheat_wallpaper",
+      "name": "Handmade wheat wallpaper",
+      "color": [
+        0.6499999761581421,
+        0.5899999737739563,
+        0.4699999988079071
+      ],
+      "roughness": 0.8700000047683716,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M17_Hassam_The_Avenue_in_the_Rain_1917",
+      "name": "Hassam | The Avenue in the Rain, 1917",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.7200000286102295,
+      "metallic": 0.0,
+      "texture": "avenue.png",
+      "glass": false
+    },
+    {
+      "id": "M18_Historic_clear_window_glass_0",
+      "name": "Historic clear window glass 0",
+      "color": [
+        0.9599999785423279,
+        0.9800000190734863,
+        1.0
+      ],
+      "roughness": 0.029999999329447746,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": true
+    },
+    {
+      "id": "M19_Historic_clear_window_glass_1",
+      "name": "Historic clear window glass 1",
+      "color": [
+        0.9599999785423279,
+        0.9800000190734863,
+        1.0
+      ],
+      "roughness": 0.029999999329447746,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": true
+    },
+    {
+      "id": "M20_Historic_clear_window_glass_2",
+      "name": "Historic clear window glass 2",
+      "color": [
+        0.9599999785423279,
+        0.9800000190734863,
+        1.0
+      ],
+      "roughness": 0.029999999329447746,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": true
+    },
+    {
+      "id": "M21_Lampshade_warm_linen",
+      "name": "Lampshade warm linen",
+      "color": [
+        0.8500000238418579,
+        0.7599999904632568,
+        0.5600000023841858
+      ],
+      "roughness": 0.8500000238418579,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M22_Lampshade_warm_linen_001",
+      "name": "Lampshade warm linen.001",
+      "color": [
+        0.8500000238418579,
+        0.7599999904632568,
+        0.5600000023841858
+      ],
+      "roughness": 0.8500000238418579,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M23_Lawn",
+      "name": "Lawn",
+      "color": [
+        0.03500000014901161,
+        0.06499999761581421,
+        0.012000000104308128
+      ],
+      "roughness": 0.9300000071525574,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M24_Lime_plaster",
+      "name": "Lime plaster",
+      "color": [
+        0.7599999904632568,
+        0.7400000095367432,
+        0.6600000262260437
+      ],
+      "roughness": 0.8999999761581421,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M25_Linen_welting",
+      "name": "Linen welting",
+      "color": [
+        0.5699999928474426,
+        0.5199999809265137,
+        0.4000000059604645
+      ],
+      "roughness": 0.8700000047683716,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M26_Mica_clad_coffee_table",
+      "name": "Mica clad coffee table",
+      "color": [
+        0.23999999463558197,
+        0.17000000178813934,
+        0.10000000149011612
+      ],
+      "roughness": 0.3400000035762787,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M27_Muted_red_blue_striped_accent_textile_2_23",
+      "name": "Muted red blue striped accent textile -2.23",
+      "color": [
+        0.4000000059604645,
+        0.30000001192092896,
+        0.20000000298023224
+      ],
+      "roughness": 0.8999999761581421,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M28_Muted_red_blue_striped_accent_textile_2_23",
+      "name": "Muted red blue striped accent textile 2.23",
+      "color": [
+        0.4000000059604645,
+        0.30000001192092896,
+        0.20000000298023224
+      ],
+      "roughness": 0.8999999761581421,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M29_Natural_woven_cane_1_47",
+      "name": "Natural woven cane -1.47",
+      "color": [
+        0.3499999940395355,
+        0.2199999988079071,
+        0.0949999988079071
+      ],
+      "roughness": 0.5799999833106995,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M30_Natural_woven_cane_1_47",
+      "name": "Natural woven cane 1.47",
+      "color": [
+        0.3499999940395355,
+        0.2199999988079071,
+        0.0949999988079071
+      ],
+      "roughness": 0.5799999833106995,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M31_Oak_parquet_tone_0",
+      "name": "Oak parquet tone 0",
+      "color": [
+        0.13600000739097595,
+        0.05779999867081642,
+        0.01785000041127205
+      ],
+      "roughness": 0.36000001430511475,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M32_Oak_parquet_tone_1",
+      "name": "Oak parquet tone 1",
+      "color": [
+        0.14399999380111694,
+        0.06120000034570694,
+        0.01889999955892563
+      ],
+      "roughness": 0.36000001430511475,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M33_Oak_parquet_tone_2",
+      "name": "Oak parquet tone 2",
+      "color": [
+        0.15199999511241913,
+        0.06459999829530716,
+        0.019950000569224358
+      ],
+      "roughness": 0.36000001430511475,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M34_Oak_parquet_tone_3",
+      "name": "Oak parquet tone 3",
+      "color": [
+        0.1599999964237213,
+        0.06800000369548798,
+        0.020999999716877937
+      ],
+      "roughness": 0.36000001430511475,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M35_Oak_parquet_tone_4",
+      "name": "Oak parquet tone 4",
+      "color": [
+        0.1679999977350235,
+        0.0714000016450882,
+        0.022050000727176666
+      ],
+      "roughness": 0.36000001430511475,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M36_Oak_parquet_tone_5",
+      "name": "Oak parquet tone 5",
+      "color": [
+        0.17599999904632568,
+        0.07479999959468842,
+        0.023099999874830246
+      ],
+      "roughness": 0.36000001430511475,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M37_Oak_parquet_tone_6",
+      "name": "Oak parquet tone 6",
+      "color": [
+        0.18400000035762787,
+        0.07819999754428864,
+        0.024150000885128975
+      ],
+      "roughness": 0.36000001430511475,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M38_Oak_recessed_panels",
+      "name": "Oak recessed panels",
+      "color": [
+        0.03099999949336052,
+        0.008999999612569809,
+        0.003000000026077032
+      ],
+      "roughness": 0.4300000071525574,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M39_Oatmeal_sofa_linen_weave",
+      "name": "Oatmeal sofa | linen weave",
+      "color": [
+        0.5199999809265137,
+        0.4699999988079071,
+        0.3700000047683716
+      ],
+      "roughness": 0.8700000047683716,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M40_Patinated_bronze_sculpture",
+      "name": "Patinated bronze sculpture",
+      "color": [
+        0.017000000923871994,
+        0.023000000044703484,
+        0.017999999225139618
+      ],
+      "roughness": 0.36000001430511475,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M41_Presidential_standard_woven_silk",
+      "name": "Presidential standard | woven silk",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.6700000166893005,
+      "metallic": 0.0,
+      "texture": "presidential_flag.png",
+      "glass": false
+    },
+    {
+      "id": "M42_Resolute_oak_photographic_carving_relief",
+      "name": "Resolute oak | photographic carving relief",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.46000000834465027,
+      "metallic": 0.0,
+      "texture": "desk_reference.png",
+      "glass": false
+    },
+    {
+      "id": "M43_Resolute_aged_English_oak",
+      "name": "Resolute | aged English oak",
+      "color": [
+        0.04500000178813934,
+        0.010999999940395355,
+        0.004000000189989805
+      ],
+      "roughness": 0.28999999165534973,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M44_Rockwell_Working_on_the_Statue_of_Liberty",
+      "name": "Rockwell | Working on the Statue of Liberty",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.7200000286102295,
+      "metallic": 0.0,
+      "texture": "liberty.png",
+      "glass": false
+    },
+    {
+      "id": "M45_Small_framed_photograph_0",
+      "name": "Small framed photograph 0",
+      "color": [
+        0.07000000029802322,
+        0.10000000149011612,
+        0.07999999821186066
+      ],
+      "roughness": 0.699999988079071,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M46_Small_framed_photograph_1",
+      "name": "Small framed photograph 1",
+      "color": [
+        0.07000000029802322,
+        0.10000000149011612,
+        0.07999999821186066
+      ],
+      "roughness": 0.699999988079071,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M47_Small_framed_photograph_2",
+      "name": "Small framed photograph 2",
+      "color": [
+        0.07000000029802322,
+        0.10000000149011612,
+        0.07999999821186066
+      ],
+      "roughness": 0.699999988079071,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M48_Small_framed_photograph_3",
+      "name": "Small framed photograph 3",
+      "color": [
+        0.07000000029802322,
+        0.10000000149011612,
+        0.07999999821186066
+      ],
+      "roughness": 0.699999988079071,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M49_Small_framed_photograph_4",
+      "name": "Small framed photograph 4",
+      "color": [
+        0.07000000029802322,
+        0.10000000149011612,
+        0.07999999821186066
+      ],
+      "roughness": 0.699999988079071,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M50_Small_framed_photograph_5",
+      "name": "Small framed photograph 5",
+      "color": [
+        0.07000000029802322,
+        0.10000000149011612,
+        0.07999999821186066
+      ],
+      "roughness": 0.699999988079071,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M51_Small_framed_photograph_6",
+      "name": "Small framed photograph 6",
+      "color": [
+        0.07000000029802322,
+        0.10000000149011612,
+        0.07999999821186066
+      ],
+      "roughness": 0.699999988079071,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M52_Small_framed_photograph_7",
+      "name": "Small framed photograph 7",
+      "color": [
+        0.07000000029802322,
+        0.10000000149011612,
+        0.07999999821186066
+      ],
+      "roughness": 0.699999988079071,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M53_Telephone_LCD",
+      "name": "Telephone LCD",
+      "color": [
+        0.10000000149011612,
+        0.20000000298023224,
+        0.1899999976158142
+      ],
+      "roughness": 0.25,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M54_Uncoated_cream_stationery",
+      "name": "Uncoated cream stationery",
+      "color": [
+        0.8700000047683716,
+        0.8650000095367432,
+        0.800000011920929
+      ],
+      "roughness": 0.8500000238418579,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M55_United_States_flag_woven_silk",
+      "name": "United States flag | woven silk",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.6600000262260437,
+      "metallic": 0.0,
+      "texture": "us_flag.png",
+      "glass": false
+    },
+    {
+      "id": "M56_Wallpaper_pale_satin_stripe",
+      "name": "Wallpaper pale satin stripe",
+      "color": [
+        0.75,
+        0.699999988079071,
+        0.6000000238418579
+      ],
+      "roughness": 0.7900000214576721,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M57_Warm_ivory_painted_joinery",
+      "name": "Warm ivory painted joinery",
+      "color": [
+        0.7799999713897705,
+        0.7649999856948853,
+        0.6800000071525574
+      ],
+      "roughness": 0.3199999928474426,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M58_White_marble_fireplace",
+      "name": "White marble fireplace",
+      "color": [
+        0.6899999976158142,
+        0.6899999976158142,
+        0.6399999856948853
+      ],
+      "roughness": 0.2800000011920929,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M59_White_porcelain",
+      "name": "White porcelain",
+      "color": [
+        0.8399999737739563,
+        0.8500000238418579,
+        0.7799999713897705
+      ],
+      "roughness": 0.20000000298023224,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M60_Window_enamel",
+      "name": "Window enamel",
+      "color": [
+        0.8700000047683716,
+        0.8650000095367432,
+        0.800000011920929
+      ],
+      "roughness": 0.25,
+      "metallic": 0.0,
+      "texture": null,
+      "glass": false
+    },
+    {
+      "id": "M61_Wool_carpet_woven_historical_quotations",
+      "name": "Wool carpet | woven historical quotations",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.9700000286102295,
+      "metallic": 0.0,
+      "texture": "rug.png",
+      "glass": false
+    }
+  ]
+}

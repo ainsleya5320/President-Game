@@ -1,0 +1,18 @@
+{
+  "renders_checked": 4,
+  "render_resolution": [
+    1500,
+    1000
+  ],
+  "glb_meshes": 758,
+  "embedded_material_images": 11,
+  "named_player_starts": 3,
+  "portable_model_has_external_image_dependencies": false,
+  "walking_clearance": {
+    "player_width_m": 0.68,
+    "player_height_m": 1.8,
+    "hall_clear_width_m": 1.267,
+    "door_clear_width_m": 1.263,
+    "all_routes_pass": true
+  }
+}

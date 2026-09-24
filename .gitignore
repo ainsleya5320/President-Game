@@ -1,0 +1,27 @@
+# Unreal-generated files
+**/Binaries/
+**/DerivedDataCache/
+**/Intermediate/
+**/Saved/
+**/.vs/
+**/.idea/
+*.sln
+*.suo
+
+# Local caches, backups, packaged duplicates and machine-specific shortcuts
+__pycache__/
+*.pyc
+*.log
+*.blend[0-9]*
+*.zip
+*.lnk
+*before-polish*
+*before_walkability*
+.DS_Store
+Thumbs.db
+desktop.ini
+.env
+.env.*
+!.env.example
+
+# .obj files in SourceAssets are 3D models and must remain tracked.

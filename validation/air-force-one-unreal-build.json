@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "map": "/Game/AirForceOne/Maps/AirForceOne",
+  "meshes": 9,
+  "materials": 20,
+  "triangles": 189578,
+  "player_capsule_radius_cm": 34,
+  "player_capsule_half_height_cm": 90,
+  "walking_speed_cm_per_s": 180,
+  "collision": "complex static mesh collision",
+  "runtime_test": "passed: seven routes, floor support and wall blocking"
+}

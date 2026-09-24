@@ -1,0 +1,119 @@
+newmtl AF00_Blue_grey_corridor_wool
+Kd 0.5 0.5 0.5
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF01_Bookmatched_walnut_veneer
+Kd 0.5 0.5 0.5
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF02_Briefing_display_standby
+Kd 0.007000000216066837 0.017000000923871994 0.027000000700354576
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF03_Champagne_satin_metal
+Kd 0.38999998569488525 0.3199999928474426 0.20999999344348907
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF04_Cloud_deck_outside_windows
+Kd 0.5 0.5 0.5
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF05_Cognac_leather_fine_grain
+Kd 0.5 0.5 0.5
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF06_Dark_bronze_reveals
+Kd 0.026000000536441803 0.023000000044703484 0.020999999716877937
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF07_Dark_green_leather_desk_blotter
+Kd 0.017999999225139618 0.035999998450279236 0.03400000184774399
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF08_Linen_lamp_shade
+Kd 0.8399999737739563 0.7900000214576721 0.6399999856948853
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF09_Linen_lamp_shade_001
+Kd 0.8399999737739563 0.7900000214576721 0.6399999856948853
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF10_Linen_lamp_shade_002
+Kd 0.8399999737739563 0.7900000214576721 0.6399999856948853
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF11_Navy_textile
+Kd 0.012000000104308128 0.028999999165534973 0.054999999701976776
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF12_Presidential_seal_emblem
+Kd 0.800000011920929 0.800000011920929 0.800000011920929
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF13_Presidential_star_wool_carpet
+Kd 0.5 0.5 0.5
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF14_Saddle_stitching
+Kd 0.25 0.14499999582767487 0.07000000029802322
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF15_Soft_black_polymer
+Kd 0.008999999612569809 0.014000000432133675 0.017000000923871994
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF16_Warm_ivory_cabin_leather
+Kd 0.5 0.5 0.5
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF17_Warm_stationery
+Kd 0.8100000023841858 0.800000011920929 0.7400000095367432
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF18_Window_glass
+Kd 0.8999999761581421 0.949999988079071 0.9800000190734863
+Ks 0.2 0.2 0.2
+Ns 32
+d 1
+
+newmtl AF19_Window_surround_enamel
+Kd 0.7599999904632568 0.7599999904632568 0.6899999976158142
+Ks 0.2 0.2 0.2
+Ns 32
+d 1

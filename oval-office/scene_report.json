@@ -1,0 +1,27 @@
+{
+  "objects": 3306,
+  "rendered_objects": 3068,
+  "materials": 62,
+  "cameras": [
+    "01 | Oval Office architectural view",
+    "02 | Resolute desk and south windows",
+    "03 | Room overview"
+  ],
+  "packed_images": [
+    "avenue.jpg",
+    "desk-reference.jpg",
+    "garden.hdr",
+    "liberty.jpg",
+    "presidential_flag.png",
+    "rug.png",
+    "us_flag.png"
+  ],
+  "missing_external_images": [],
+  "renderer": "CYCLES",
+  "blender_version": "5.2.2 LTS",
+  "render_size": [
+    1800,
+    1238
+  ],
+  "samples": 128
+}

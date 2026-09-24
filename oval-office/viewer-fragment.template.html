@@ -1,0 +1,83 @@
+<div id="oval-office-explorer">
+  <div class="viz-controls" role="group" aria-label="Camera view">
+    <button type="button" class="btn" data-view="cutaway" aria-pressed="true">Cutaway</button>
+    <button type="button" class="btn" data-view="interior" aria-pressed="false">Inside the room</button>
+    <button type="button" class="btn" data-view="desk" aria-pressed="false">Desk</button>
+    <label class="form-check"><input type="checkbox" class="form-check-input" id="oval-wire"><span class="form-check-label">Wireframe</span></label>
+  </div>
+  <div id="oval-stage" role="img" aria-label="Interactive 3D model of the Oval Office. Drag to orbit, scroll or pinch to zoom. Use the view buttons to explore the room or desk."></div>
+  <div id="oval-status" class="text-small text-muted" aria-live="polite">Loading the 3D room…</div>
+</div>
+<style>
+#oval-office-explorer #oval-stage { width:100%; height:clamp(360px,65vw,560px); position:relative; touch-action:none; }
+#oval-office-explorer canvas { display:block; width:100%; height:100%; }
+#oval-office-explorer #oval-status { margin-top:8px; }
+</style>
+<script type="module">
+import * as THREE from 'https://esm.sh/three@0.170.0';
+import { OrbitControls } from 'https://esm.sh/three@0.170.0/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://esm.sh/three@0.170.0/examples/jsm/loaders/GLTFLoader.js';
+const root=document.getElementById('oval-office-explorer');
+const stage=root.querySelector('#oval-stage');
+const status=root.querySelector('#oval-status');
+const wire=root.querySelector('#oval-wire');
+const encoded='__MODEL_BASE64__';
+const palette=__PALETTE__;
+let renderer, model, scene, camera, controls, view='cutaway';
+const choices={cutaway:{position:[8,6.8,10],target:[0,1.5,0]},interior:{position:[-.24,1.88,4.65],target:[0,1.59,-2.5]},desk:{position:[-2.3,1.8,.3],target:[0,1.0,-2.6]}};
+function render(){if(renderer&&scene&&camera)renderer.render(scene,camera);}
+function persist(){
+ if(!window.openai?.setWidgetState||!camera||!controls)return;
+ window.openai.setWidgetState({modelContent:{view,wireframe:wire.checked},privateContent:{camera:camera.position.toArray(),target:controls.target.toArray()}}).catch(()=>{});
+}
+function architecture(){
+ if(!model)return;
+ model.traverse(o=>{
+  if(!o.isMesh)return;
+  const n=o.name;
+  if(n.startsWith('ROOF__')||n.startsWith('UPPER__')||n.startsWith('FRONTWALL__'))o.visible=view!=='cutaway';
+  if(n.startsWith('UPPER__'))o.visible=false;
+  if(n==='Subfloor'||n.startsWith('Quarter_sawn_parquet')||n.startsWith('Quarter sawn parquet'))o.visible=false;
+  const materials=Array.isArray(o.material)?o.material:[o.material];
+  materials.forEach(m=>{m.wireframe=wire.checked;});
+ });
+}
+function setView(next,save=true){
+ view=choices[next]?next:'cutaway';
+ if(camera&&controls){camera.position.fromArray(choices[view].position);controls.target.fromArray(choices[view].target);controls.minDistance=view==='cutaway'?4:.35;controls.maxDistance=view==='cutaway'?30:14;controls.maxPolarAngle=view==='cutaway'?Math.PI*.48:Math.PI*.93;controls.update();}
+ root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===view)));
+ architecture();render();if(save)persist();
+}
+function restore(state){
+ if(!state)return;
+ const mc=state.modelContent||{},pc=state.privateContent||{};wire.checked=!!mc.wireframe;setView(mc.view||'cutaway',false);
+ if(camera&&controls&&pc.camera?.length===3&&pc.target?.length===3){camera.position.fromArray(pc.camera);controls.target.fromArray(pc.target);controls.update();render();}
+}
+root.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+wire.addEventListener('change',()=>{architecture();render();persist();});
+window.addEventListener('openai:set_globals',e=>{const s=e.detail?.globals?.widgetState;if(s)restore(s);});
+try {
+ renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;stage.appendChild(renderer.domElement);
+ scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(46,1,.06,100);
+ scene.add(new THREE.HemisphereLight(0xfff8ec,0x8f8c83,2.2));
+ const sun=new THREE.DirectionalLight(0xfff5e5,2.7);sun.position.set(-3,8,5);scene.add(sun);
+ const windowLight=new THREE.DirectionalLight(0xe1edff,1.5);windowLight.position.set(0,5,-8);scene.add(windowLight);
+ controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=false;controls.screenSpacePanning=true;controls.addEventListener('change',render);controls.addEventListener('end',persist);
+ const bytes=Uint8Array.from(atob(encoded),c=>c.charCodeAt(0));
+ const unpacked=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+ const asset=await new Promise((resolve,reject)=>new GLTFLoader().parse(unpacked,'',resolve,reject));
+ model=asset.scene;
+ model.traverse(o=>{
+  if(!o.isMesh)return;
+  const mats=Array.isArray(o.material)?o.material:[o.material];
+  mats.forEach(m=>{m.side=THREE.DoubleSide;if(m.metalness>.6)m.metalness=.3;const c=palette[m.name];if(c&&!m.map)m.color.setRGB(c[0],c[1],c[2]);});
+  if(o.name.startsWith('Window_glazing')||o.name.startsWith('Window glazing')){o.material=new THREE.MeshStandardMaterial({color:0xc8dae3,transparent:true,opacity:.10,depthWrite:false,roughness:.1,side:THREE.DoubleSide});}
+ });
+ scene.add(model);
+ const floorShape=new THREE.Shape();floorShape.absellipse(0,0,4.45,5.46,0,Math.PI*2,false,0);const floor=new THREE.Mesh(new THREE.ExtrudeGeometry(floorShape,{depth:.10,bevelEnabled:false,curveSegments:96}),new THREE.MeshStandardMaterial({color:0x8b653f,roughness:.7}));floor.rotation.x=-Math.PI/2;floor.position.y=-.10;scene.add(floor);
+ const fit=()=>{const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();render();};
+ new ResizeObserver(fit).observe(stage);fit();setView('cutaway',false);restore(window.openai?.widgetState);
+ status.textContent='Obama-era reconstruction · Simplified interactive materials';
+ root.dataset.ready='true';
+} catch(error) {status.textContent='The 3D view could not load. The Blender and GLB files remain available below.';status.setAttribute('role','alert');console.error(error);root.dataset.error=String(error);}
+</script>

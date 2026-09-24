@@ -1,0 +1,57 @@
+{
+  "project": "Air Force One compact presidential suite",
+  "blender_file": "Air_Force_One.blend",
+  "portable_model": "Air_Force_One.glb",
+  "units": "metres",
+  "rooms": [
+    "Presidential office",
+    "Connecting hallway",
+    "Conference room"
+  ],
+  "dimensions_metres": [
+    7.2,
+    13.1,
+    2.6
+  ],
+  "door_clear_width_metres": 1.263,
+  "ceiling_metres": 2.4,
+  "objects": 791,
+  "materials": 20,
+  "cameras": [
+    "01 | Presidential office",
+    "02 | Conference room",
+    "03 | Connecting hallway",
+    "04 | Three-room cutaway"
+  ],
+  "game_markers": {
+    "PLAYER_START_OFFICE": [
+      0.9480000138282776,
+      3.656571388244629,
+      0.05000000074505806
+    ],
+    "PLAYER_START_HALL": [
+      2.7385246753692627,
+      3.6314284801483154,
+      0.05000000074505806
+    ],
+    "PLAYER_START_CONFERENCE": [
+      1.226987361907959,
+      6.481428623199463,
+      0.05000000074505806
+    ],
+    "INTERACT_PRESIDENT_DESK": [
+      0.5992658138275146,
+      1.9278688430786133,
+      0.8999999761581421
+    ],
+    "INTERACT_BRIEFING_TABLE": [
+      -0.6980252861976624,
+      9.421422958374023,
+      0.8500000238418579
+    ]
+  },
+  "layout_note": "Interpretive game layout based on public references; not a surveyed replica.",
+  "integration_status": "Native Unreal Engine 5.8 map built in the OvalOffice project. First-person controls and static collision implemented. All seven runtime routes, floor support and wall blocking passed. Campaign transitions remain separate.",
+  "hall_clear_width_metres": 1.267,
+  "walkability_report": "walkability_report.json"
+}

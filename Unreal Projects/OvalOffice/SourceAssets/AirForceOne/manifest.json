@@ -1,0 +1,387 @@
+{
+  "groups": [
+    {
+      "name": "01_Cabin_shell_and_curved_ceiling",
+      "triangles": 3552,
+      "objects": 47,
+      "materials": [
+        "AF00_Blue_grey_corridor_wool",
+        "AF01_Bookmatched_walnut_veneer",
+        "AF06_Dark_bronze_reveals",
+        "AF13_Presidential_star_wool_carpet",
+        "AF14_Saddle_stitching",
+        "AF16_Warm_ivory_cabin_leather"
+      ]
+    },
+    {
+      "name": "Ceiling",
+      "triangles": 316,
+      "objects": 3,
+      "materials": [
+        "AF16_Warm_ivory_cabin_leather"
+      ]
+    },
+    {
+      "name": "02_Oval_windows_and_draperies",
+      "triangles": 36340,
+      "objects": 93,
+      "materials": [
+        "AF03_Champagne_satin_metal",
+        "AF06_Dark_bronze_reveals",
+        "AF16_Warm_ivory_cabin_leather",
+        "AF19_Window_surround_enamel"
+      ]
+    },
+    {
+      "name": "Window_Glass",
+      "triangles": 506,
+      "objects": 11,
+      "materials": [
+        "AF18_Window_glass"
+      ]
+    },
+    {
+      "name": "03_Passage_and_sliding_doors",
+      "triangles": 9652,
+      "objects": 31,
+      "materials": [
+        "AF01_Bookmatched_walnut_veneer",
+        "AF03_Champagne_satin_metal",
+        "AF06_Dark_bronze_reveals",
+        "AF16_Warm_ivory_cabin_leather",
+        "AF19_Window_surround_enamel"
+      ]
+    },
+    {
+      "name": "04_Executive_furniture",
+      "triangles": 39876,
+      "objects": 119,
+      "materials": [
+        "AF01_Bookmatched_walnut_veneer",
+        "AF03_Champagne_satin_metal",
+        "AF05_Cognac_leather_fine_grain",
+        "AF06_Dark_bronze_reveals",
+        "AF07_Dark_green_leather_desk_blotter",
+        "AF11_Navy_textile",
+        "AF14_Saddle_stitching"
+      ]
+    },
+    {
+      "name": "05_Conference_suite",
+      "triangles": 71032,
+      "objects": 206,
+      "materials": [
+        "AF01_Bookmatched_walnut_veneer",
+        "AF02_Briefing_display_standby",
+        "AF03_Champagne_satin_metal",
+        "AF05_Cognac_leather_fine_grain",
+        "AF06_Dark_bronze_reveals",
+        "AF07_Dark_green_leather_desk_blotter",
+        "AF11_Navy_textile",
+        "AF14_Saddle_stitching",
+        "AF17_Warm_stationery"
+      ]
+    },
+    {
+      "name": "06_Desk_objects_and_cabin_details",
+      "triangles": 27364,
+      "objects": 243,
+      "materials": [
+        "AF01_Bookmatched_walnut_veneer",
+        "AF03_Champagne_satin_metal",
+        "AF06_Dark_bronze_reveals",
+        "AF08_Linen_lamp_shade",
+        "AF09_Linen_lamp_shade_001",
+        "AF10_Linen_lamp_shade_002",
+        "AF11_Navy_textile",
+        "AF12_Presidential_seal_emblem",
+        "AF14_Saddle_stitching",
+        "AF15_Soft_black_polymer",
+        "AF17_Warm_stationery",
+        "AF19_Window_surround_enamel"
+      ]
+    },
+    {
+      "name": "07_Daylight_and_cabin_illumination",
+      "triangles": 940,
+      "objects": 5,
+      "materials": [
+        "AF19_Window_surround_enamel"
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "id": "AF00_Blue_grey_corridor_wool",
+      "name": "Blue grey corridor wool",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.9900000095367432,
+      "metallic": 0.0,
+      "normal_strength": 0.6000000238418579,
+      "glass": false,
+      "texture": "hall_carpet.png",
+      "normal": "hall_carpet_normal.png"
+    },
+    {
+      "id": "AF01_Bookmatched_walnut_veneer",
+      "name": "Bookmatched walnut veneer",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.3100000023841858,
+      "metallic": 0.0,
+      "normal_strength": 0.18000000715255737,
+      "glass": false,
+      "texture": "walnut.png",
+      "normal": "walnut_normal.png"
+    },
+    {
+      "id": "AF02_Briefing_display_standby",
+      "name": "Briefing display standby",
+      "color": [
+        0.007000000216066837,
+        0.017000000923871994,
+        0.027000000700354576
+      ],
+      "roughness": 0.2199999988079071,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF03_Champagne_satin_metal",
+      "name": "Champagne satin metal",
+      "color": [
+        0.38999998569488525,
+        0.3199999928474426,
+        0.20999999344348907
+      ],
+      "roughness": 0.2800000011920929,
+      "metallic": 0.6499999761581421,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF04_Cloud_deck_outside_windows",
+      "name": "Cloud deck outside windows",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 1.0,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false,
+      "texture": "cloud_deck.png"
+    },
+    {
+      "id": "AF05_Cognac_leather_fine_grain",
+      "name": "Cognac leather | fine grain",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.5799999833106995,
+      "metallic": 0.0,
+      "normal_strength": 0.14000000059604645,
+      "glass": false,
+      "texture": "cognac_leather.png",
+      "normal": "cognac_leather_normal.png"
+    },
+    {
+      "id": "AF06_Dark_bronze_reveals",
+      "name": "Dark bronze reveals",
+      "color": [
+        0.026000000536441803,
+        0.023000000044703484,
+        0.020999999716877937
+      ],
+      "roughness": 0.3799999952316284,
+      "metallic": 0.3499999940395355,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF07_Dark_green_leather_desk_blotter",
+      "name": "Dark green leather desk blotter",
+      "color": [
+        0.017999999225139618,
+        0.035999998450279236,
+        0.03400000184774399
+      ],
+      "roughness": 0.5799999833106995,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF08_Linen_lamp_shade",
+      "name": "Linen lamp shade",
+      "color": [
+        0.8399999737739563,
+        0.7900000214576721,
+        0.6399999856948853
+      ],
+      "roughness": 0.8500000238418579,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF09_Linen_lamp_shade_001",
+      "name": "Linen lamp shade.001",
+      "color": [
+        0.8399999737739563,
+        0.7900000214576721,
+        0.6399999856948853
+      ],
+      "roughness": 0.8500000238418579,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF10_Linen_lamp_shade_002",
+      "name": "Linen lamp shade.002",
+      "color": [
+        0.8399999737739563,
+        0.7900000214576721,
+        0.6399999856948853
+      ],
+      "roughness": 0.8500000238418579,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF11_Navy_textile",
+      "name": "Navy textile",
+      "color": [
+        0.012000000104308128,
+        0.028999999165534973,
+        0.054999999701976776
+      ],
+      "roughness": 0.9200000166893005,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF12_Presidential_seal_emblem",
+      "name": "Presidential seal emblem",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "roughness": 0.6600000262260437,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false,
+      "texture": "seal.png"
+    },
+    {
+      "id": "AF13_Presidential_star_wool_carpet",
+      "name": "Presidential star wool carpet",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.9800000190734863,
+      "metallic": 0.0,
+      "normal_strength": 0.6499999761581421,
+      "glass": false,
+      "texture": "star_carpet.png",
+      "normal": "star_carpet_normal.png"
+    },
+    {
+      "id": "AF14_Saddle_stitching",
+      "name": "Saddle stitching",
+      "color": [
+        0.25,
+        0.14499999582767487,
+        0.07000000029802322
+      ],
+      "roughness": 0.8999999761581421,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF15_Soft_black_polymer",
+      "name": "Soft black polymer",
+      "color": [
+        0.008999999612569809,
+        0.014000000432133675,
+        0.017000000923871994
+      ],
+      "roughness": 0.5799999833106995,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF16_Warm_ivory_cabin_leather",
+      "name": "Warm ivory cabin leather",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "roughness": 0.7799999713897705,
+      "metallic": 0.0,
+      "normal_strength": 0.02500000037252903,
+      "glass": false,
+      "texture": "ivory_panels.png",
+      "normal": "ivory_panels_normal.png"
+    },
+    {
+      "id": "AF17_Warm_stationery",
+      "name": "Warm stationery",
+      "color": [
+        0.8100000023841858,
+        0.800000011920929,
+        0.7400000095367432
+      ],
+      "roughness": 0.8999999761581421,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF18_Window_glass",
+      "name": "Window glass",
+      "color": [
+        0.8999999761581421,
+        0.949999988079071,
+        0.9800000190734863
+      ],
+      "roughness": 0.07999999821186066,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": true
+    },
+    {
+      "id": "AF19_Window_surround_enamel",
+      "name": "Window surround enamel",
+      "color": [
+        0.7599999904632568,
+        0.7599999904632568,
+        0.6899999976158142
+      ],
+      "roughness": 0.3700000047683716,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    }
+  ]
+}
