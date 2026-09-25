@@ -1,0 +1,28 @@
+{
+  "key_pin_defaults": [
+    "W",
+    "S",
+    "D",
+    "A"
+  ],
+  "repaired": [
+    {
+      "before": "(",
+      "after": "W"
+    },
+    {
+      "before": "(",
+      "after": "S"
+    },
+    {
+      "before": "(",
+      "after": "D"
+    },
+    {
+      "before": "(",
+      "after": "A"
+    }
+  ],
+  "compiled": true,
+  "explanation": "FKey::ImportTextItem reads a bare key name. Struct syntax was parsed as an invalid key."
+}

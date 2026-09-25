@@ -65,7 +65,9 @@ def controls():
  for positive,negative,fn in [('W','S','GetActorForwardVector'),('D','A','GetActorRightVector')]:
   sels=[]
   for key,amount in [(positive,1),(negative,-1)]:
-   down=call(e,'/Script/Engine.PlayerController.IsInputKeyDown');link(pc,'ReturnValue',down,'self');val(down,'Key','(KeyName='+key+')')
+   # FKey imports a bare key name; struct-style '(KeyName=W)' parses as an invalid key.
+   down=call(e,'/Script/Engine.PlayerController.IsInputKeyDown');link(pc,'ReturnValue',down,'self');val(down,'Key',key)
+   assert str(PIN.get_pin_value(down.find_input_pin('Key')))==key, 'Invalid movement key serialization'
    sel=call(e,'/Script/Engine.KismetMathLibrary.SelectFloat');val(sel,'A',amount);val(sel,'B',0);link(down,'ReturnValue',sel,'bPickA');sels.append(sel)
   add=call(e,'/Script/Engine.KismetMathLibrary.Add_DoubleDouble');link(sels[0],'ReturnValue',add,'A');link(sels[1],'ReturnValue',add,'B')
   direction=call(e,'/Script/Engine.Actor.'+fn);move=call(e,'/Script/Engine.Pawn.AddMovementInput');link(prior,'then',move,'execute');link(direction,'ReturnValue',move,'WorldDirection');link(add,'ReturnValue',move,'ScaleValue');prior=move

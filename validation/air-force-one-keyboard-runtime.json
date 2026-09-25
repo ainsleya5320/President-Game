@@ -1,0 +1,53 @@
+{
+  "method": "Observed physical keyboard input and resulting character displacement; no movement injected",
+  "keys": {
+    "W": {
+      "input_frames": 206,
+      "distance_cm": 905.704,
+      "first_position": [
+        365.0,
+        95.0,
+        93.35
+      ],
+      "last_position": [
+        1187.836,
+        139.841,
+        93.35
+      ]
+    },
+    "A": {
+      "input_frames": 124,
+      "distance_cm": 543.548,
+      "first_position": [
+        419.433,
+        310.064,
+        93.35
+      ],
+      "last_position": [
+        1136.416,
+        35.681,
+        93.35
+      ]
+    },
+    "D": {
+      "input_frames": 103,
+      "distance_cm": 458.284,
+      "first_position": [
+        697.785,
+        117.07,
+        93.35
+      ],
+      "last_position": [
+        1178.189,
+        155.137,
+        93.35
+      ]
+    }
+  },
+  "ready": true,
+  "position": [
+    1135.872,
+    34.725,
+    93.35
+  ]
+}

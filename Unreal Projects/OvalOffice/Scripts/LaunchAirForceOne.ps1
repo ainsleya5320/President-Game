@@ -1,4 +1,4 @@
-param([switch]$Editor,[switch]$Review,[switch]$Preview)
+param([switch]$Editor,[switch]$Review,[switch]$Preview,[switch]$AuditKeys)
 $projectRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $engine = 'C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe'
 $project = Join-Path $projectRoot 'OvalOffice.uproject'
@@ -12,5 +12,6 @@ $arguments = @(('"'+$project+'"'),'/Game/AirForceOne/Maps/AirForceOne','-dx11','
 if (!$Editor) { $arguments += '-game' }
 if ($Review) { $arguments += ('"-ExecCmds=py '+(Join-Path $PSScriptRoot 'test_air_force_one.py').Replace('\','/')+'"') }
 if ($Preview) { $arguments += ('"-ExecCmds=py '+(Join-Path $PSScriptRoot 'preview_air_force_one.py').Replace('\','/')+'"') }
+if ($AuditKeys) { $arguments += ('"-ExecCmds=py '+(Join-Path $PSScriptRoot 'audit_air_force_one_keys.py').Replace('\','/')+'"') }
 # The game/editor is the interactive result requested by the user.
 Start-Process -FilePath $engine -ArgumentList $arguments -WindowStyle Normal -PassThru | Select-Object Id
