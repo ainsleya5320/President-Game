@@ -1,4 +1,4 @@
-import unreal as u,json,traceback
+import unreal as u,json,traceback,re
 from pathlib import Path
 P=Path(u.Paths.project_dir());S=P/'SourceAssets'/'AirForceOne';D=json.loads((S/'manifest.json').read_text())
 BASE='/Game/AirForceOne';MAP=BASE+'/Maps/AirForceOne';REPORT=[]
@@ -33,7 +33,12 @@ def material(info):
   lerp=ml.create_material_expression(m,u.MaterialExpressionLinearInterpolate);lerp.set_editor_property('const_alpha',info['normal_strength']);ml.connect_material_expressions(flat,'',lerp,'A');ml.connect_material_expressions(n,'RGB',lerp,'B');ml.connect_material_property(lerp,'',u.MaterialProperty.MP_NORMAL)
  if info['glass']:
   m.set_editor_property('blend_mode',u.BlendMode.BLEND_TRANSLUCENT);scalar(m,'Opacity',.075,u.MaterialProperty.MP_OPACITY)
- if 'Luminous' in info['name'] or 'daylight' in info['name'].lower():
+ if info['name']=='Aircraft window cloud panorama':
+  m.set_editor_property('shading_model',u.MaterialShadingModel.MSM_UNLIT)
+  multiply=ml.create_material_expression(m,u.MaterialExpressionMultiply);multiply.set_editor_property('const_b',24.0);ml.connect_material_expressions(t,'RGB',multiply,'A');ml.connect_material_property(multiply,'',u.MaterialProperty.MP_EMISSIVE_COLOR)
+ elif info['name']=='Luminous champagne cove':
+  c=ml.create_material_expression(m,u.MaterialExpressionConstant3Vector);c.set_editor_property('constant',u.LinearColor(12,8,4,1));ml.connect_material_property(c,'',u.MaterialProperty.MP_EMISSIVE_COLOR)
+ elif 'Luminous' in info['name'] or 'daylight' in info['name'].lower():
   c=ml.create_material_expression(m,u.MaterialExpressionConstant3Vector);c.set_editor_property('constant',u.LinearColor(.6,.72,1,1));ml.connect_material_property(c,'',u.MaterialProperty.MP_EMISSIVE_COLOR)
  ml.recompile_material(m);assets.save_loaded_asset(m,False);return m
 def spawn(cls,name,loc,rotation=None,folder='Lighting'):
@@ -101,7 +106,15 @@ try:
    for k,v in [('filename',str(S/'Meshes'/(name+'.obj'))),('destination_path',BASE+'/Meshes'),('destination_name','SM_'+name),('replace_existing',True),('automated',True),('save',True),('factory',u.FbxFactory()),('options',options)]:task.set_editor_property(k,v)
    tools.import_asset_tasks([task]);mesh=u.load_asset(dest)
   if not mesh:raise RuntimeError('Import failed '+name)
-  for i,slot in enumerate(mesh.get_editor_property('static_materials')):mesh.set_material(i,mats[str(slot.get_editor_property('material_slot_name'))])
+  for i,slot in enumerate(mesh.get_editor_property('static_materials')):
+   key=str(slot.get_editor_property('material_slot_name'))
+   # Reimport retains old user-facing slot names when newly added materials shift
+   # the export indices. Resolve those retained slots by the stable name suffix.
+   if key not in mats:
+    suffix=re.sub(r'^AF\d+_','',key);matches=[k for k in mats if re.sub(r'^AF\d+_','',k)==suffix]
+    if len(matches)!=1:raise RuntimeError('Unresolved material slot '+key)
+    key=matches[0]
+   mesh.set_material(i,mats[key])
   body=mesh.get_editor_property('body_setup');body.set_editor_property('collision_trace_flag',u.CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE);body.set_editor_property('double_sided_geometry',True)
   assets.save_loaded_asset(mesh,False);meshes[name]=mesh;note('Imported',name,entry['triangles'],'bounds',mesh.get_bounding_box())
  gm=controls();note('First person controls ready')
@@ -118,6 +131,7 @@ try:
  for i,y in enumerate([95,245,650,830,1030,1210]):lamp('Window daylight '+str(i),(y,-320,150),(y,40,100),600,(.80,.9,1),100)
  for i,y in enumerate([130,340,630,850,1100]):lamp('Cabin ceiling '+str(i),(y,-50,230),(y,-50,0),450,(1,.88,.72),130,False)
  for i,y in enumerate([110,440,850,1190]):lamp('Hall light '+str(i),(y,276,224),(y,276,0),170,(1,.89,.75),65,False)
+ for i,y in enumerate([118,329,540,751,962,1173]):lamp('Passage window daylight '+str(i),(y,339,156),(y,210,125),95,(.80,.9,1),55,False)
  for i,y in enumerate([100,350,680,1050]):lamp('Cabin soft bounce '+str(i),(y,155,150),(y,-280,140),180,(1,.93,.83),150,False)
  # Pale sky outside the windows, kept clear of the window geometry.
  sky=asset(u.Material,'M_OutsideSky','Materials',u.MaterialFactoryNew());ml.delete_all_material_expressions(sky);sky.set_editor_property('two_sided',True);sky.set_editor_property('shading_model',u.MaterialShadingModel.MSM_UNLIT)

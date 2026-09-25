@@ -15,8 +15,8 @@
   ],
   "door_clear_width_metres": 1.263,
   "ceiling_metres": 2.4,
-  "objects": 791,
-  "materials": 20,
+  "objects": 976,
+  "materials": 26,
   "cameras": [
     "01 | Presidential office",
     "02 | Conference room",
@@ -51,7 +51,7 @@
     ]
   },
   "layout_note": "Interpretive game layout based on public references; not a surveyed replica.",
-  "integration_status": "Native Unreal Engine 5.8 map built in the OvalOffice project. First-person controls and static collision implemented. All seven runtime routes, floor support and wall blocking passed. Campaign transitions remain separate.",
+  "integration_status": "Native Unreal first-person exploration level with collision and WASD controls. Campaign transitions remain separate.",
   "hall_clear_width_metres": 1.267,
   "walkability_report": "walkability_report.json"
 }

@@ -1,4 +1,4 @@
-"""Capture native game views and leave the player at the office entrance."""
+"""Capture native game views and leave the player facing the updated passage."""
 import unreal as u,time
 from pathlib import Path
 P=Path(u.Paths.project_dir())/'Saved'/'AirForceOne';started=time.monotonic();stage=0;since=0
@@ -18,5 +18,5 @@ def callback(dt):
  elif stage in [2,4,6] and now-since>3:
   label,loc,yaw=views[(stage-2)//2];u.SystemLibrary.execute_console_command(world,'Shot filename="'+(P/(label+'.png')).as_posix()+'" nosuffix');stage+=1;since=now
  elif stage==7 and now-since>2:
-  pawn.set_actor_location(u.Vector(365,95,94),False,True);u.GameplayStatics.get_player_controller(world,0).set_control_rotation(u.Rotator(pitch=0,yaw=-130,roll=0));u.unregister_slate_post_tick_callback(handle);(P/'preview_complete.txt').write_text('Native Unreal screenshots captured. Player restored to office entrance.')
+  pawn.set_actor_location(u.Vector(70,276,94),False,True);u.GameplayStatics.get_player_controller(world,0).set_control_rotation(u.Rotator(pitch=0,yaw=0,roll=0));u.unregister_slate_post_tick_callback(handle);(P/'preview_complete.txt').write_text('Native Unreal screenshots captured. Player facing the updated passage.')
 handle=u.register_slate_post_tick_callback(callback)

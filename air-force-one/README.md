@@ -17,6 +17,8 @@ Approximately 7.2 × 13.1 metres after the walking-clearance revision. Both door
 
 The layout is an artistic reconstruction adapted for a compact game level, not a surveyed replica. The office's warm material palette and furniture vocabulary follow the user's supplied photograph and the office shown in the ABC News tour. The conference room and hallway arrangement are interpretive.
 
+The passage now has a curved fuselage shoulder and raised crown, six recessed oval windows with cloud views, warm continuous cove lighting and shallow framed artwork. Presidential seals mark both passage ends, the office and conference room. Portraits, landscapes and Liberty artwork use the existing locally generated Oval Office assets, documented in `../Unreal Projects/OvalOffice/Prototype/assets/ASSET_NOTES.md`. These are decorative interpretations rather than claims about the real aircraft's art collection.
+
 ## References
 
 - User-supplied presidential aircraft office photograph, retained locally in `references/office-reference.png`.
@@ -25,7 +27,7 @@ The layout is an artistic reconstruction adapted for a compact game level, not a
 
 ## Rebuild
 
-Run `make_materials.py` with Python/Pillow/NumPy, then run `build_air_force_one.py` in Blender's background mode. The latter saves the packed Blender file. Next run `ensure_walkable.py` with the saved Blender file loaded to apply the circulation revision and run the geometry-based clearance test. With that file loaded, `render_and_export.py` accepts `office`, `conference`, `hallway`, `cutaway`, or `export` as its final command-line argument.
+Run `make_materials.py` with Python/Pillow/NumPy, then run `build_air_force_one.py` in Blender's background mode. The latter saves the packed Blender file. Next run `ensure_walkable.py` with the saved Blender file loaded to apply the circulation revision. Run `refine_cabin.py` to add the curved passage, oval windows and gallery, followed by `ensure_walkable.py` again to verify clearance. With that file loaded, `render_and_export.py` accepts `office`, `conference`, `hallway`, `cutaway`, or `export` as its final command-line argument. `export_unreal.py` updates the native mesh/material sources; rebuild them with the Unreal project's `Scripts/build_air_force_one.py` and verify with `LaunchAirForceOne.ps1 -Review`.
 
 All renders are produced by Blender Cycles. Material images are locally authored procedural textures; the small presidential emblem reuses the existing Oval Office project's seal asset. No generated photograph is being presented as a 3D render.
 

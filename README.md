@@ -35,6 +35,8 @@ The project file is [`Unreal Projects/OvalOffice/OvalOffice.uproject`](Unreal%20
 
 Air Force One is currently an exploration level. Campaign events, desk interactions and travel transitions between the native levels are not yet implemented.
 
+The aircraft passage includes a curved fuselage ceiling, six recessed oval windows with cloud views and warm cove lighting. Framed portraits, landscapes and presidential seal plaques decorate the passage, office and conference room while preserving walking clearance.
+
 ## Project files
 
 | Folder | Contents |

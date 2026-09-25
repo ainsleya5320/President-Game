@@ -2,23 +2,26 @@
   "groups": [
     {
       "name": "01_Cabin_shell_and_curved_ceiling",
-      "triangles": 3552,
-      "objects": 47,
+      "triangles": 3364,
+      "objects": 46,
       "materials": [
-        "AF00_Blue_grey_corridor_wool",
-        "AF01_Bookmatched_walnut_veneer",
-        "AF06_Dark_bronze_reveals",
-        "AF13_Presidential_star_wool_carpet",
-        "AF14_Saddle_stitching",
-        "AF16_Warm_ivory_cabin_leather"
+        "AF01_Blue_grey_corridor_wool",
+        "AF02_Bookmatched_walnut_veneer",
+        "AF07_Dark_bronze_reveals",
+        "AF19_Presidential_star_wool_carpet",
+        "AF20_Saddle_stitching",
+        "AF22_Warm_ivory_cabin_leather"
       ]
     },
     {
       "name": "Ceiling",
-      "triangles": 316,
-      "objects": 3,
+      "triangles": 1816,
+      "objects": 18,
       "materials": [
-        "AF16_Warm_ivory_cabin_leather"
+        "AF04_Champagne_satin_metal",
+        "AF15_Luminous_champagne_cove",
+        "AF22_Warm_ivory_cabin_leather",
+        "AF25_Window_surround_enamel"
       ]
     },
     {
@@ -26,10 +29,10 @@
       "triangles": 36340,
       "objects": 93,
       "materials": [
-        "AF03_Champagne_satin_metal",
-        "AF06_Dark_bronze_reveals",
-        "AF16_Warm_ivory_cabin_leather",
-        "AF19_Window_surround_enamel"
+        "AF04_Champagne_satin_metal",
+        "AF07_Dark_bronze_reveals",
+        "AF22_Warm_ivory_cabin_leather",
+        "AF25_Window_surround_enamel"
       ]
     },
     {
@@ -37,19 +40,18 @@
       "triangles": 506,
       "objects": 11,
       "materials": [
-        "AF18_Window_glass"
+        "AF24_Window_glass"
       ]
     },
     {
       "name": "03_Passage_and_sliding_doors",
-      "triangles": 9652,
-      "objects": 31,
+      "triangles": 8900,
+      "objects": 27,
       "materials": [
-        "AF01_Bookmatched_walnut_veneer",
-        "AF03_Champagne_satin_metal",
-        "AF06_Dark_bronze_reveals",
-        "AF16_Warm_ivory_cabin_leather",
-        "AF19_Window_surround_enamel"
+        "AF02_Bookmatched_walnut_veneer",
+        "AF04_Champagne_satin_metal",
+        "AF07_Dark_bronze_reveals",
+        "AF22_Warm_ivory_cabin_leather"
       ]
     },
     {
@@ -57,13 +59,13 @@
       "triangles": 39876,
       "objects": 119,
       "materials": [
-        "AF01_Bookmatched_walnut_veneer",
-        "AF03_Champagne_satin_metal",
-        "AF05_Cognac_leather_fine_grain",
-        "AF06_Dark_bronze_reveals",
-        "AF07_Dark_green_leather_desk_blotter",
-        "AF11_Navy_textile",
-        "AF14_Saddle_stitching"
+        "AF02_Bookmatched_walnut_veneer",
+        "AF04_Champagne_satin_metal",
+        "AF06_Cognac_leather_fine_grain",
+        "AF07_Dark_bronze_reveals",
+        "AF08_Dark_green_leather_desk_blotter",
+        "AF16_Navy_textile",
+        "AF20_Saddle_stitching"
       ]
     },
     {
@@ -71,15 +73,15 @@
       "triangles": 71032,
       "objects": 206,
       "materials": [
-        "AF01_Bookmatched_walnut_veneer",
-        "AF02_Briefing_display_standby",
-        "AF03_Champagne_satin_metal",
-        "AF05_Cognac_leather_fine_grain",
-        "AF06_Dark_bronze_reveals",
-        "AF07_Dark_green_leather_desk_blotter",
-        "AF11_Navy_textile",
-        "AF14_Saddle_stitching",
-        "AF17_Warm_stationery"
+        "AF02_Bookmatched_walnut_veneer",
+        "AF03_Briefing_display_standby",
+        "AF04_Champagne_satin_metal",
+        "AF06_Cognac_leather_fine_grain",
+        "AF07_Dark_bronze_reveals",
+        "AF08_Dark_green_leather_desk_blotter",
+        "AF16_Navy_textile",
+        "AF20_Saddle_stitching",
+        "AF23_Warm_stationery"
       ]
     },
     {
@@ -87,18 +89,18 @@
       "triangles": 27364,
       "objects": 243,
       "materials": [
-        "AF01_Bookmatched_walnut_veneer",
-        "AF03_Champagne_satin_metal",
-        "AF06_Dark_bronze_reveals",
-        "AF08_Linen_lamp_shade",
-        "AF09_Linen_lamp_shade_001",
-        "AF10_Linen_lamp_shade_002",
-        "AF11_Navy_textile",
-        "AF12_Presidential_seal_emblem",
-        "AF14_Saddle_stitching",
-        "AF15_Soft_black_polymer",
-        "AF17_Warm_stationery",
-        "AF19_Window_surround_enamel"
+        "AF02_Bookmatched_walnut_veneer",
+        "AF04_Champagne_satin_metal",
+        "AF07_Dark_bronze_reveals",
+        "AF12_Linen_lamp_shade",
+        "AF13_Linen_lamp_shade_001",
+        "AF14_Linen_lamp_shade_002",
+        "AF16_Navy_textile",
+        "AF17_Presidential_seal_emblem",
+        "AF20_Saddle_stitching",
+        "AF21_Soft_black_polymer",
+        "AF23_Warm_stationery",
+        "AF25_Window_surround_enamel"
       ]
     },
     {
@@ -106,13 +108,54 @@
       "triangles": 940,
       "objects": 5,
       "materials": [
-        "AF19_Window_surround_enamel"
+        "AF25_Window_surround_enamel"
+      ]
+    },
+    {
+      "name": "09_Sculpted_aircraft_passage",
+      "triangles": 11628,
+      "objects": 48,
+      "materials": [
+        "AF00_Aircraft_window_cloud_panorama",
+        "AF04_Champagne_satin_metal",
+        "AF07_Dark_bronze_reveals",
+        "AF22_Warm_ivory_cabin_leather",
+        "AF25_Window_surround_enamel"
+      ]
+    },
+    {
+      "name": "10_Presidential_seals_and_gallery",
+      "triangles": 25782,
+      "objects": 121,
+      "materials": [
+        "AF02_Bookmatched_walnut_veneer",
+        "AF04_Champagne_satin_metal",
+        "AF09_Gallery_American_landscape",
+        "AF10_Gallery_Liberty",
+        "AF11_Gallery_Washington",
+        "AF16_Navy_textile",
+        "AF18_Presidential_seal_gallery_plaque",
+        "AF23_Warm_stationery"
       ]
     }
   ],
   "materials": [
     {
-      "id": "AF00_Blue_grey_corridor_wool",
+      "id": "AF00_Aircraft_window_cloud_panorama",
+      "name": "Aircraft window cloud panorama",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "roughness": 0.6499999761581421,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false,
+      "texture": "cloud_deck.png"
+    },
+    {
+      "id": "AF01_Blue_grey_corridor_wool",
       "name": "Blue grey corridor wool",
       "color": [
         0.5,
@@ -127,7 +170,7 @@
       "normal": "hall_carpet_normal.png"
     },
     {
-      "id": "AF01_Bookmatched_walnut_veneer",
+      "id": "AF02_Bookmatched_walnut_veneer",
       "name": "Bookmatched walnut veneer",
       "color": [
         0.5,
@@ -142,7 +185,7 @@
       "normal": "walnut_normal.png"
     },
     {
-      "id": "AF02_Briefing_display_standby",
+      "id": "AF03_Briefing_display_standby",
       "name": "Briefing display standby",
       "color": [
         0.007000000216066837,
@@ -155,7 +198,7 @@
       "glass": false
     },
     {
-      "id": "AF03_Champagne_satin_metal",
+      "id": "AF04_Champagne_satin_metal",
       "name": "Champagne satin metal",
       "color": [
         0.38999998569488525,
@@ -168,7 +211,7 @@
       "glass": false
     },
     {
-      "id": "AF04_Cloud_deck_outside_windows",
+      "id": "AF05_Cloud_deck_outside_windows",
       "name": "Cloud deck outside windows",
       "color": [
         0.5,
@@ -182,7 +225,7 @@
       "texture": "cloud_deck.png"
     },
     {
-      "id": "AF05_Cognac_leather_fine_grain",
+      "id": "AF06_Cognac_leather_fine_grain",
       "name": "Cognac leather | fine grain",
       "color": [
         0.5,
@@ -197,7 +240,7 @@
       "normal": "cognac_leather_normal.png"
     },
     {
-      "id": "AF06_Dark_bronze_reveals",
+      "id": "AF07_Dark_bronze_reveals",
       "name": "Dark bronze reveals",
       "color": [
         0.026000000536441803,
@@ -210,7 +253,7 @@
       "glass": false
     },
     {
-      "id": "AF07_Dark_green_leather_desk_blotter",
+      "id": "AF08_Dark_green_leather_desk_blotter",
       "name": "Dark green leather desk blotter",
       "color": [
         0.017999999225139618,
@@ -223,7 +266,49 @@
       "glass": false
     },
     {
-      "id": "AF08_Linen_lamp_shade",
+      "id": "AF09_Gallery_American_landscape",
+      "name": "Gallery | American landscape",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "roughness": 0.6499999761581421,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false,
+      "texture": "river_landscape.png"
+    },
+    {
+      "id": "AF10_Gallery_Liberty",
+      "name": "Gallery | Liberty",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "roughness": 0.6499999761581421,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false,
+      "texture": "statue_liberty.png"
+    },
+    {
+      "id": "AF11_Gallery_Washington",
+      "name": "Gallery | Washington",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "roughness": 0.6499999761581421,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false,
+      "texture": "washington_portrait.png"
+    },
+    {
+      "id": "AF12_Linen_lamp_shade",
       "name": "Linen lamp shade",
       "color": [
         0.8399999737739563,
@@ -236,7 +321,7 @@
       "glass": false
     },
     {
-      "id": "AF09_Linen_lamp_shade_001",
+      "id": "AF13_Linen_lamp_shade_001",
       "name": "Linen lamp shade.001",
       "color": [
         0.8399999737739563,
@@ -249,7 +334,7 @@
       "glass": false
     },
     {
-      "id": "AF10_Linen_lamp_shade_002",
+      "id": "AF14_Linen_lamp_shade_002",
       "name": "Linen lamp shade.002",
       "color": [
         0.8399999737739563,
@@ -262,7 +347,20 @@
       "glass": false
     },
     {
-      "id": "AF11_Navy_textile",
+      "id": "AF15_Luminous_champagne_cove",
+      "name": "Luminous champagne cove",
+      "color": [
+        1.0,
+        0.7400000095367432,
+        0.4000000059604645
+      ],
+      "roughness": 0.5,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false
+    },
+    {
+      "id": "AF16_Navy_textile",
       "name": "Navy textile",
       "color": [
         0.012000000104308128,
@@ -275,7 +373,7 @@
       "glass": false
     },
     {
-      "id": "AF12_Presidential_seal_emblem",
+      "id": "AF17_Presidential_seal_emblem",
       "name": "Presidential seal emblem",
       "color": [
         0.800000011920929,
@@ -289,7 +387,21 @@
       "texture": "seal.png"
     },
     {
-      "id": "AF13_Presidential_star_wool_carpet",
+      "id": "AF18_Presidential_seal_gallery_plaque",
+      "name": "Presidential seal gallery plaque",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "roughness": 0.6499999761581421,
+      "metallic": 0.0,
+      "normal_strength": 0.2,
+      "glass": false,
+      "texture": "presidential_seal.png"
+    },
+    {
+      "id": "AF19_Presidential_star_wool_carpet",
       "name": "Presidential star wool carpet",
       "color": [
         0.5,
@@ -304,7 +416,7 @@
       "normal": "star_carpet_normal.png"
     },
     {
-      "id": "AF14_Saddle_stitching",
+      "id": "AF20_Saddle_stitching",
       "name": "Saddle stitching",
       "color": [
         0.25,
@@ -317,7 +429,7 @@
       "glass": false
     },
     {
-      "id": "AF15_Soft_black_polymer",
+      "id": "AF21_Soft_black_polymer",
       "name": "Soft black polymer",
       "color": [
         0.008999999612569809,
@@ -330,7 +442,7 @@
       "glass": false
     },
     {
-      "id": "AF16_Warm_ivory_cabin_leather",
+      "id": "AF22_Warm_ivory_cabin_leather",
       "name": "Warm ivory cabin leather",
       "color": [
         0.5,
@@ -345,7 +457,7 @@
       "normal": "ivory_panels_normal.png"
     },
     {
-      "id": "AF17_Warm_stationery",
+      "id": "AF23_Warm_stationery",
       "name": "Warm stationery",
       "color": [
         0.8100000023841858,
@@ -358,7 +470,7 @@
       "glass": false
     },
     {
-      "id": "AF18_Window_glass",
+      "id": "AF24_Window_glass",
       "name": "Window glass",
       "color": [
         0.8999999761581421,
@@ -371,7 +483,7 @@
       "glass": true
     },
     {
-      "id": "AF19_Window_surround_enamel",
+      "id": "AF25_Window_surround_enamel",
       "name": "Window surround enamel",
       "color": [
         0.7599999904632568,
