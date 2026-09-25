@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "game": "Four Years browser prototype",
+  "navigation": {
+    "test": "Prototype/test_aircraft_navigation.cjs",
+    "routes": 7,
+    "route_samples": 4355,
+    "clear_room_shortcuts": 3,
+    "blocked_wall_exterior_and_table_points": 5,
+    "result": "passed"
+  },
+  "browser_checks": [
+    "Board Air Force One from the Oval Office toolbar",
+    "Visually inspect hallway and conference room",
+    "Verify WASD short taps move the hallway view",
+    "Open and resolve a monthly briefing aboard the plane",
+    "Return to the Oval Office with unchanged decision result and resources",
+    "Verify the same decision in the shared journal",
+    "Reload and continue the saved term aboard Air Force One",
+    "Inspect the cutaway overview",
+    "No browser console errors or warnings during the checks"
+  ],
+  "test_save": "Separate localhost port 8782; existing user term at port 8781 was not used for decision testing",
+  "delivery": "Existing term resumed at port 8781 and left aboard Air Force One, with resources unchanged"
+}

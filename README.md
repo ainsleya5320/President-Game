@@ -19,11 +19,13 @@ Use a Git clone with LFS rather than relying on GitHub's source ZIP for the larg
 
 ### Browser prototype
 
+Run **Play Four Years.cmd** on Windows, then choose **Board Air Force One** from the game's toolbar. The Oval Office and the aircraft share your monthly briefings, resources, decision journal and saved term. **Return to Oval Office** brings you back; location changes do not advance the calendar or spend resources. The aircraft includes walkable office, hallway and conference rooms, room-view shortcuts and a cutaway overview.
+
 Serve the repository with a local web server, for example `python -m http.server 8781`, then open:
 
 <http://localhost:8781/Unreal%20Projects/OvalOffice/Prototype/Four_Years_Prototype.html>
 
-This prototype includes the explorable Oval Office, decorative improvements, a garden view and twelve monthly decisions. It loads Three.js from a CDN, so an internet connection is required.
+This prototype includes the explorable Oval Office and Air Force One, decorative improvements, a garden view and twelve monthly decisions. It loads Three.js from a CDN, so an internet connection is required. Its models are embedded in the generated HTML; no separate model download is needed. Saves belong to the browser and URL origin, so keep using the same browser and local address to continue an existing term.
 
 ### Air Force One in Unreal
 

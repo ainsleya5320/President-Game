@@ -9,7 +9,9 @@ An editable Blender environment containing a presidential office, connecting pas
 - **renders/** — office, conference, hallway, and cutaway views rendered from the actual Blender geometry.
 - **level_manifest.json** — dimensions, units, room names, and marker positions.
 
-The Blender scene is the visual master. A native Unreal Engine 5.8 exploration level now lives in `../Unreal Projects/OvalOffice/Content/AirForceOne`. Open `../Play Air Force One.cmd` to walk through it, or `Edit Air Force One.cmd` to edit the level. Native first-person movement, collision, materials and lighting are implemented; all seven runtime routes, floor support and wall blocking passed. Campaign transitions and the browser game's integration remain separate.
+The Blender scene is the visual master. A native Unreal Engine 5.8 exploration level now lives in `../Unreal Projects/OvalOffice/Content/AirForceOne`. Open `../Play Air Force One.cmd` to walk through it, or `Edit Air Force One.cmd` to edit the level. Native first-person movement, collision, materials and lighting are implemented; all seven runtime routes, floor support and wall blocking passed.
+
+Air Force One is also integrated into the **Four Years browser game**. Run `../Play Four Years.cmd`, begin or continue a term, and select **Board Air Force One**. The game reuses this cabin's geometry and collision footprints, with reduced texture sizes, combined static meshes and browser lighting. Briefings and decisions work aboard the plane; returning to the Oval Office preserves the same term. Native Unreal campaign transitions remain separate.
 
 ## Design
 

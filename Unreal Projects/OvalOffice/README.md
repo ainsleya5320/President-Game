@@ -4,7 +4,7 @@ Open `OvalOffice.uproject` with Unreal Engine 5.8. The startup map is the furnis
 
 **Air Force One is also available as a native first-person level.** Open `Play Air Force One.cmd` to walk through the aircraft, or `Edit Air Force One.cmd` to edit it. See `AIR FORCE ONE.md` for controls and details.
 
-For the first playable presidency game sketch, open `Prototype/Four_Years_Prototype.html` in a modern browser. It uses this Oval Office model and contains a walkable room and twelve monthly decisions. `GAME_CONCEPT.md` explains the gameplay direction and what remains to be built natively in Unreal.
+For the playable presidency game, run the repository's **Play Four Years.cmd**, or serve `Prototype/Four_Years_Prototype.html` in a modern browser. It contains the walkable Oval Office, Air Force One's office/hallway/conference suite and twelve monthly decisions. Use **Board Air Force One** and **Return to Oval Office** to switch locations while keeping the same term. `GAME_CONCEPT.md` explains the gameplay direction and what remains to be built natively in Unreal.
 
 The playable prototype now includes a Rose Garden-inspired exterior view, framed fireplace artwork, mantel greenery, and clearer door panels and hardware. These additions are in the browser prototype; the original native Unreal level remains an editable room model. Generated image source files and prompts are documented in `Prototype/assets/ASSET_NOTES.md`.
 
@@ -19,7 +19,7 @@ The playable prototype now includes a Rose Garden-inspired exterior view, framed
 
 Two editable levels, 31 static mesh assets, 62 material instances, image textures, daylight and lamp lighting, and interior/desk/cutaway cameras. Geometry was transferred from the original Blender model at centimetre scale. Source meshes, textures and import scripts are included for reproducibility.
 
-This is a visual design scene with free camera navigation; collision, character controls and gameplay have not been built. The model is an artistic approximation of an Obama-era Oval Office, not an exact architectural survey or a photoreal replica. Blender procedural surfaces have been translated into simpler Unreal materials; lighting is rebuilt for Unreal.
+The original native Oval Office is a visual design scene with free camera navigation; its character controls and decision gameplay have not been built. The native Air Force One level has a walking character and collision; the browser game supplies the shared decision system and location switching. The models are artistic approximations, not exact architectural surveys or photoreal replicas. Blender procedural surfaces have been translated into simpler Unreal materials; lighting is rebuilt for Unreal.
 
 ## Graphics
 

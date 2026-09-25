@@ -11,6 +11,7 @@ This is an original project inspired by the monthly decision-and-fallout structu
 `Prototype/Four_Years_Prototype.html` is a browser-based vertical slice. It contains:
 
 - A walkable first-person view of the existing Oval Office model, a separate overview camera, and a desk interaction. Use W/A/S/D, drag to look, and press E near the desk to open a briefing.
+- A second location aboard Air Force One: presidential office, curved windowed passage and conference room. Board or return using the toolbar, with the same briefings, resources and journal in either location. Travel is currently free exploration; it does not spend a month or change the simulation. Save/resume restores the selected location.
 - Twelve original monthly briefings. Each has three choices.
 - Four resources: public trust, political capital, fiscal room, and stamina.
 - Visible immediate effects, uncertain setbacks, delayed effects, a journal, a one-year conclusion, and local save/resume.
