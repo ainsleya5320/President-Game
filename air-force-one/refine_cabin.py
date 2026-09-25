@@ -104,8 +104,6 @@ for k,y in enumerate(stations):
         rings.extend([(wallx(z+1.5)+offset,y+yy,z+1.5) for yy,z in rounded(w,h,r)])
     mesh('Sculpted oval window reveal',rings,[(j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for j in range(2) for i in range(n)],cream,smooth=True)
     curve('Oval window inner seal',[(wallx(z+1.5)+.062,y+yy,z+1.5) for yy,z in rounded(.385,.625,.182)],.008,dark,True)
-    # Slightly luminous cloud view sits behind the aperture; it also works in Unreal.
-    mesh('Cloud view through passage window',[(3.85,y-.6,.85),(3.85,y+.6,.85),(3.85,y+.6,2.2),(3.85,y-.6,2.2)],[(0,1,2,3)],cloud,[(0,0),(1,0),(1,1),(0,1)])
     cube('Window shade pull',(wallx(1.83)+.03,y,1.83),(.028,.105,.022),gold)
     # Expansion ribs communicate the repeated aircraft frames without heavy bars.
     curve('CEILING | Curved fuselage seam',[(x-.008,yb,z) for x,z in profile if z>=1.98],.004,cream)
@@ -113,6 +111,9 @@ for k,y in enumerate(stations):
     d=bpy.data.lights.new('Oval window daylight','AREA');d.energy=38;d.color=(.80,.9,1);d.shape='RECTANGLE';d.size=.40;d.size_y=.65
     o=bpy.data.objects.new('Oval window daylight',d);C.objects.link(o);o.location=(3.42,y,1.55);o.rotation_euler=(Vector((2.2,y,1.2))-o.location).to_track_quat('-Z','Y').to_euler()
 
+# A continuous sky backing also fills the windows at grazing viewing angles.
+# Independent small cards leave black gaps when looking down the corridor.
+mesh('Cloud view through passage windows',[(3.75,-20,-1),(3.75,35,-1),(3.75,35,5),(3.75,-20,5)],[(0,1,2,3)],cloud,[(0,0),(7,0),(7,1),(0,1)])
 lightmat=bpy.data.materials.get('Luminous champagne cove') or bpy.data.materials.new('Luminous champagne cove')
 lightmat.use_nodes=True;bs=lightmat.node_tree.nodes.get('Principled BSDF');bs.inputs['Base Color'].default_value=(1,.74,.4,1);bs.inputs['Emission Color'].default_value=(1,.78,.48,1);bs.inputs['Emission Strength'].default_value=3
 for x,z in [(2.24,2.505),(3.20,2.185)]:

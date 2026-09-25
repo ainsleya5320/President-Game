@@ -113,8 +113,8 @@
     },
     {
       "name": "09_Sculpted_aircraft_passage",
-      "triangles": 11628,
-      "objects": 48,
+      "triangles": 11618,
+      "objects": 43,
       "materials": [
         "AF00_Aircraft_window_cloud_panorama",
         "AF04_Champagne_satin_metal",

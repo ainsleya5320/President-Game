@@ -52,10 +52,16 @@ def callback(dt):
    pawn.get_component_by_class(u.CharacterMovementComponent).stop_movement_immediately();pawn.set_actor_location(u.Vector(70,276,94),False,True);u.GameplayStatics.get_player_controller(world,0).set_control_rotation(u.Rotator(pitch=0,yaw=0,roll=0));stage='hallshot';stage_time=now
   elif stage=='hallshot':
    if now-stage_time<3:return
-   shot('Unreal_Hallway');pawn.set_actor_location(u.Vector(650,150,94),False,True);u.GameplayStatics.get_player_controller(world,0).set_control_rotation(u.Rotator(pitch=-4,yaw=-27,roll=0));stage='conferenceshot';stage_time=now
+   shot('Unreal_Hallway');stage='afterhallshot';stage_time=now
+  elif stage=='afterhallshot':
+   if now-stage_time<1:return
+   pawn.set_actor_location(u.Vector(650,150,94),False,True);u.GameplayStatics.get_player_controller(world,0).set_control_rotation(u.Rotator(pitch=-4,yaw=-27,roll=0));stage='conferenceshot';stage_time=now
   elif stage=='conferenceshot':
    if now-stage_time<3:return
-   shot('Unreal_Conference');pawn.set_actor_location(u.Vector(365,95,94),False,True);u.GameplayStatics.get_player_controller(world,0).set_control_rotation(u.Rotator(pitch=0,yaw=-130,roll=0));pawn.get_component_by_class(u.CharacterMovementComponent).set_editor_property('max_walk_speed',180)
+   shot('Unreal_Conference');stage='afterconferenceshot';stage_time=now
+  elif stage=='afterconferenceshot':
+   if now-stage_time<1:return
+   pawn.set_actor_location(u.Vector(70,276,94),False,True);u.GameplayStatics.get_player_controller(world,0).set_control_rotation(u.Rotator(pitch=0,yaw=0,roll=0));pawn.get_component_by_class(u.CharacterMovementComponent).set_editor_property('max_walk_speed',180)
    report['status']='passed' if report['floor_support_pass'] and report['wall_collision_pass'] and len(report['routes'])==7 else 'failed';flush();u.unregister_slate_post_tick_callback(handle)
  except Exception:
   report['status']='failed';report['error']=traceback.format_exc();flush();u.unregister_slate_post_tick_callback(handle)

@@ -3,7 +3,7 @@
   "map": "/Game/AirForceOne/Maps/AirForceOne",
   "meshes": 11,
   "materials": 26,
-  "triangles": 227548,
+  "triangles": 227538,
   "player_capsule_radius_cm": 34,
   "player_capsule_half_height_cm": 90,
   "walking_speed_cm_per_s": 180,
