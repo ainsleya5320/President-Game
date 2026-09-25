@@ -4,7 +4,7 @@ Open `OvalOffice.uproject` with Unreal Engine 5.8. The startup map is the furnis
 
 **Air Force One is also available as a native first-person level.** Open `Play Air Force One.cmd` to walk through the aircraft, or `Edit Air Force One.cmd` to edit it. See `AIR FORCE ONE.md` for controls and details.
 
-For the playable presidency game, run the repository's **Play Four Years.cmd**, or serve `Prototype/Four_Years_Prototype.html` in a modern browser. It contains the walkable Oval Office, Air Force One's office/hallway/conference suite and twelve monthly decisions. Use **Board Air Force One** and **Return to Oval Office** to switch locations while keeping the same term. `GAME_CONCEPT.md` explains the gameplay direction and what remains to be built natively in Unreal.
+For the playable presidency game, run the repository's **Play Four Years.cmd**, or serve `Prototype/Four_Years_Prototype.html` in a modern browser. It contains the walkable Oval Office, Air Force One's office/hallway/conference suite and a full four-year political simulation with policies, budgets, voter groups, quarterly dilemmas and elections. Use **Board Air Force One** and **Return to Oval Office** to switch locations while keeping the same term. `GAME_CONCEPT.md` explains the gameplay systems and what remains to be built natively in Unreal.
 
 The playable prototype now includes a Rose Garden-inspired exterior view, framed fireplace artwork, mantel greenery, and clearer door panels and hardware. These additions are in the browser prototype; the original native Unreal level remains an editable room model. Generated image source files and prompts are documented in `Prototype/assets/ASSET_NOTES.md`.
 

@@ -1,44 +1,22 @@
-# Four Years — game concept and first playable slice
+# Four Years — playable political simulation
 
-## The idea
+Four Years is an original fictional presidency game with two walkable 3D locations: the Oval Office and Air Force One's presidential suite. The browser edition runs a full four-year term in sixteen quarterly turns. It draws on the broad idea of interconnected political simulation, but uses original policies, events, voter profiles, rules, writing, and interface.
 
-Play a fictional president through a changing four-year term. Each month begins with a briefing and ends with a choice that costs time, political capital, money, or trust. Some outcomes are uncertain, and some decisions return months later. The Oval Office is a place you inhabit between briefings, with a small number of meaningful interactions rather than a constant 3D interface.
+## Playable systems
 
-This is an original project inspired by the monthly decision-and-fallout structure described in [Fantasy President Career's public guide](https://fantasypresidentcareer.com/career-guide.html) and by the resource pressure and unexpected setbacks of a journey game. It does not use that game's writing, code, interface, or simulation data. All policies and outcomes in the prototype are fictional.
+- **Policy atlas:** 26 adjustable policies across treasury, economy, health, education, housing, justice, environment, foreign affairs, and government. Each has a five-position setting, political-capital cost, budget effect, implementation lag, and links to national conditions.
+- **National conditions:** growth, employment, price stability, health, education, housing, safety, climate resilience, energy reliability, mobility, civil liberties, and institutional trust. Conditions feed into one another and may trigger situations such as recession or a housing emergency.
+- **Budget:** revenue, spending, quarterly balance, interest, and accumulating debt. Tax policy raises revenue but can constrain growth or prices; spending policies create tradeoffs rather than free gains.
+- **Electorate:** ten voter blocs with different priorities, policy stances, population shares, and turnout. Their approval feeds the election forecast.
+- **Quarterly agenda:** a distinct dilemma with three responses each quarter. Effects appear in the next report. The term includes a midterm and a final general election.
+- **3D continuity:** walking, camera views, the desk briefing interaction, the aircraft hallway and conference room, and travel between rooms remain in place. Travel does not advance the term. Save/resume preserves the location and simulation state.
 
-## What is playable today
+Open **Play Four Years.cmd** at the repository root or serve `Prototype/Four_Years_Prototype.html`. Use **Policies**, **Voters**, and **Budget** in the toolbar to inspect the systems, then choose the quarterly response from the Situation screen and advance. Existing monthly saves are migrated into the four-year system and their previous journal entries are archived in the new Record screen; a backup of the original save is also kept locally.
 
-`Prototype/Four_Years_Prototype.html` is a browser-based vertical slice. It contains:
+The native Unreal project still contains the editable Oval Office scene and walkable Air Force One exploration level. The political simulation and location switching currently run in the browser game, not in native Unreal. The models are artistic approximations rather than exact architectural surveys.
 
-- A walkable first-person view of the existing Oval Office model, a separate overview camera, and a desk interaction. Use W/A/S/D, drag to look, and press E near the desk to open a briefing.
-- A second location aboard Air Force One: presidential office, curved windowed passage and conference room. Board or return using the toolbar, with the same briefings, resources and journal in either location. Travel is currently free exploration; it does not spend a month or change the simulation. Save/resume restores the selected location.
-- Twelve original monthly briefings. Each has three choices.
-- Four resources: public trust, political capital, fiscal room, and stamina.
-- Visible immediate effects, uncertain setbacks, delayed effects, a journal, a one-year conclusion, and local save/resume.
+## Development
 
-This gameplay prototype runs in a browser. The native Unreal project contains the editable Oval Office scene and is the intended home for a future native version; the browser game's controls and decision system are not yet Unreal assets. The browser version is deliberately cheap to change while the rules are still fluid.
+The rules and data are in `Prototype/simulation-core.js`, and the strategy interface is in `Prototype/strategy-ui.js` and `Prototype/strategy-ui.css`. `Prototype/office-game.template.html` retains the 3D scene wiring; `Prototype/build_prototype.py` embeds the model assets and these source files into the self-contained playable HTML. Run `node Prototype/test_simulation.cjs` and `node Prototype/test_aircraft_navigation.cjs` after gameplay changes, then rebuild the HTML.
 
-## Core loop for the larger game
-
-1. Walk a room and inspect the day's people and documents.
-2. Read a briefing that asks for a consequential decision.
-3. Choose an action and see its immediate cost.
-4. Advance the calendar; receive delayed consequences and occasional setbacks.
-5. Adjust the administration's route through domestic policy, diplomacy, Congress, and elections.
-
-The important design tension is that a choice can solve today's problem while reducing the resources needed for a later one. A low trust or exhausted administration can fail even if individual policy choices seemed defensible.
-
-## Next implementation steps
-
-1. Playtest the twelve-month slice and decide which choices feel meaningful, which stats are worth keeping, and whether terms should be monthly or weekly.
-2. Add a native Unreal walking character with floor/furniture collision and desk, phone, and adviser interactions.
-3. Move events and consequences into editable Unreal data assets, with a simple briefing interface and save game.
-4. Expand to four years, add an election and cabinet relationships, then create only the 3D scenes that change the decisions: the Oval Office, Situation Room, Cabinet Room, and campaign events.
-
-## Design decisions to revisit
-
-- The prototype uses fixed options for clarity. Free-text policy input would need an explainable, testable interpretation system before it becomes a core mechanic.
-- The four resources are a starting set. Public opinion, Congress, foreign relations, and the economy may become separate systems if playtesting shows that distinction creates interesting decisions.
-- A single twelve-month run currently teaches the rhythm. A full term needs evolving priorities, opponents, advisers, and consequences that cross years.
-
-The event data and rules in `Prototype/office-game.template.html` are meant to be edited freely. Run `Prototype/build_prototype.py` to rebuild the self-contained playable HTML after changes.
+The current simulation is intentionally legible and deterministic. Later work could add advisers, legislative bargaining, donors, regional maps, external shocks, and a more detailed campaign phase after playtesting reveals where extra complexity would improve decisions.

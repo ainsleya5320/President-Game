@@ -1,0 +1,29 @@
+.panel{width:min(620px,calc(100% - 40px));background:#142435ef}
+.strategy-tabs{display:flex;gap:4px;overflow:auto;margin:0 0 16px;border-bottom:1px solid #6e7d85}
+.strategy-tabs button{background:transparent;color:#c7c8c4;border:0;border-bottom:2px solid transparent;padding:10px 8px;font:700 11px system-ui,sans-serif;text-transform:uppercase;white-space:nowrap}
+.strategy-tabs button.selected{color:#f4d99c;border-color:var(--gold)}
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.overview-grid>div{background:#233849;border:1px solid #627381;padding:13px}
+.overview-grid small,.overview-grid strong,.overview-grid .tiny{display:block}
+.overview-grid small,.tiny{font:11px system-ui,sans-serif;color:#bdc1bc}
+.overview-grid strong{font:700 27px system-ui,sans-serif;margin:4px 0}
+.meter{display:block;height:6px;background:#54616a;margin:8px 0}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,#c07464,#d6b66e,#8ab7a5)}
+.bad{color:#ed9d8c!important}.good{color:#9acbb7!important}
+.issue-list{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.situation{background:#754b44;border:1px solid #b4776a;padding:5px 8px;font:11px system-ui,sans-serif}
+.policy-grid{display:grid;grid-template-columns:minmax(180px,.9fr) minmax(220px,1.1fr);gap:12px}
+.policy-list{max-height:47vh;overflow:auto;border:1px solid #596b79}
+.policy-row{display:grid;grid-template-columns:1fr auto;width:100%;text-align:left;background:#1b3040;color:#eee9dc;border:0;border-bottom:1px solid #526473;padding:9px 10px}
+.policy-row:hover,.policy-row.selected{background:#36516a}
+.policy-row small{grid-column:1/-1;color:#b5b9b5;font:10px system-ui,sans-serif;text-transform:uppercase}
+.policy-row strong{font:700 12px system-ui,sans-serif}.policy-row span{font:11px system-ui,sans-serif;color:#dec38a}
+.policy-detail{border:1px solid #687682;background:#1b3040;padding:14px}.policy-detail h3{margin:6px 0;font-size:20px}
+.level-control{display:flex;align-items:center;justify-content:center;gap:15px}.level-control button{width:38px;height:38px;border:1px solid #d4af6c;background:#2d475a;color:#fff;font:24px system-ui,sans-serif}.level-control button:disabled{opacity:.4}
+.impact,.budget-row,.voter-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.impact{border-bottom:1px solid #53606b88;padding:6px 0;font:12px system-ui,sans-serif}.impact span:first-child{font-size:20px}.impact span:nth-child(2){flex:1}
+.voter-card{background:#203546;border:1px solid #526473;padding:12px;margin:8px 0}.voter-card small{display:block;color:#c4c4bd;font:11px system-ui,sans-serif;margin:6px 0}
+.budget-total{display:grid;grid-template-columns:1fr 1fr;gap:7px}.budget-total>div{background:#263d4f;padding:12px;display:flex;justify-content:space-between}.budget-row{padding:9px 0;border-bottom:1px solid #526473;font:12px system-ui,sans-serif}
+.election-note{border-left:3px solid #d4af6c;padding:10px;background:#35434d}
+.controls{max-width:calc(100% - 650px)}
+@media(max-width:1100px){.controls{max-width:calc(100% - 30px)}.panel{top:125px}}
+@media(max-width:760px){.panel{top:auto;max-height:68%;width:auto}.policy-grid{grid-template-columns:1fr}.policy-list{max-height:170px}.controls{max-width:calc(100% - 16px)}.chip{font-size:9px;padding:7px 8px}}
