@@ -19,6 +19,8 @@ Use a Git clone with LFS rather than relying on GitHub's source ZIP for the larg
 
 ### Browser prototype
 
+The strategy screens now include **Calendar**, **Promises**, and **Campaign**. Choose two appointments per quarter, negotiate with four recurring allies, and keep promises before their deadlines. During the two quarters before each election, use Air Force One to plan regional campaign trips with a speech focus and traveling adviser. Press **E** near the Oval Office sitting area for appointments or at the aircraft conference table for campaign planning. Existing four-year saves upgrade automatically without losing progress.
+
 Run **Play Four Years.cmd** on Windows, then choose **Board Air Force One** from the game's toolbar. The Oval Office and the aircraft share a full four-year term, policy choices, quarterly agenda, budget, voter groups, election forecast, and decision journal. **Return to Oval Office** brings you back; location changes do not advance the calendar or spend resources. The aircraft includes walkable office, hallway and conference rooms, room-view shortcuts and a cutaway overview.
 
 Serve the repository with a local web server, for example `python -m http.server 8781`, then open:
