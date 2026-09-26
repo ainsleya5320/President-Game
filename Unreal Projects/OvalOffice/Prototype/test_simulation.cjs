@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
-const source=fs.readFileSync(__dirname+'/simulation-core.js','utf8');
+const source=fs.readFileSync(__dirname+'/executive-systems.js','utf8')+'\n'+fs.readFileSync(__dirname+'/simulation-core.js','utf8');
 const Sim=vm.runInNewContext(source+'\nFourYearsSim');
 
 const initial=Sim.fresh();

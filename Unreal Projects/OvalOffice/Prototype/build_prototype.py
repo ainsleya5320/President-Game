@@ -85,6 +85,8 @@ markup = template.replace('__MODEL_BASE64__', model).replace('__PALETTE__', pale
 markup = markup.replace('__GARDEN_BASE64__', garden).replace('__PORTRAIT_BASE64__', portrait)
 markup = markup.replace('__LANDSCAPE_BASE64__', landscape).replace('__LIBERTY_BASE64__', liberty)
 markup = markup.replace('__ROOM_POLISH__', (here / 'room-polish.js').read_text(encoding='utf-8'))
+markup = markup.replace('__EXECUTIVE_SYSTEMS__', (here / 'executive-systems.js').read_text(encoding='utf-8'))
+markup = markup.replace('__EXECUTIVE_UI__', (here / 'executive-ui.js').read_text(encoding='utf-8'))
 markup = markup.replace('__SIMULATION_CORE__', (here / 'simulation-core.js').read_text(encoding='utf-8'))
 markup = markup.replace('__STRATEGY_UI__', (here / 'strategy-ui.js').read_text(encoding='utf-8'))
 markup = markup.replace('__STRATEGY_CSS__', (here / 'strategy-ui.css').read_text(encoding='utf-8'))

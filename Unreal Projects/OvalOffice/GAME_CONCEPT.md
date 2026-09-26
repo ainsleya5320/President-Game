@@ -18,7 +18,21 @@ Open **Play Four Years.cmd** at the repository root or serve `Prototype/Four_Yea
 
 The native Unreal project still contains the editable Oval Office scene and walkable Air Force One exploration level. The political simulation and location switching currently run in the browser game, not in native Unreal. The models are artistic approximations rather than exact architectural surveys.
 
-## Development
+## The major-bill expansion
+
+The first complete political arc is the **Homes for a New Generation Act**. Introduce it for two political capital, negotiate with four congressional factions, and call a floor vote. The simplified fictional chamber has 100 seats and requires 51 votes. Amendments are binding: local grants broaden delivery and add recurring spending; oversight adds spending while protecting construction from procurement scandal; a revenue amendment raises the progressive-tax setting on passage. Lobbying uses an appointment. Failed bills can be revised, but another vote must wait until the next quarter. Full-strength housing, grid, insurance and teacher policies now need a passed act; existing level-four policies are preserved as inherited authority during save migration.
+
+**Nation** shows four regional electoral blocs, their governors, industries, local conditions, dispatches and support. The map is a schematic, not a detailed geographic map or a model of real US election law. More than 50 of 100 regional electoral points are needed to win; a tie counts as a loss. Visits and project delivery affect local conditions, storms cause damage, and campaign appearances build local goodwill. National approval and regional electoral results are distinct.
+
+**Team** tracks competence and relationships for the existing four government contacts. Competence changes implementation speed. Two quarters below 30 relationship can cause a resignation or withdrawal of cooperation; a warning appears after the first quarter. An acting replacement restores delivery capacity. Opposition leader Adrian Vale attacks the weakest national issue; failed bills, high debt and scandal increase his momentum, which influences approval and congressional support.
+
+**Moments** supplies a storm-watch → landfall → recovery/investigation chain and a separate housing-procurement investigation. Preparation and grid policy change storm damage. Fast relief can produce scrutiny; publishing findings or defending the program carries consequences. Emergency responses are free of appointment costs. Press appearances have two questions, with a follow-up shaped by the first answer. Debates open in the quarter before each election. Their claims are evaluated against the actual record. Media appearances cost an appointment, and leaving one unfinished has a trust cost. These are interactive briefings and broadcast encounters staged using the existing Oval Office and aircraft; there are no new animated people or separate press/Situation Room level models.
+
+**Legacy** lets the player select three measurable promises and a signature project. The platform is fixed after publication, and the final report counts targets reached, projects delivered, and personal promises kept or broken. If the player advances without choosing, housing, health and institutional trust become the default platform.
+
+The new rules live in `Prototype/executive-systems.js`, and the added screens live in `Prototype/executive-ui.js`. The builder embeds both before producing the playable HTML. `test_executive_systems.cjs` covers congressional outcomes, project delivery, crisis branches, cabinet replacement, encounters, migration and electoral ties. The browser tests exercise the integrated storyline and preserve the user's save by using isolated browser profiles.
+
+## Source and validation
 
 The rules and data are in `Prototype/simulation-core.js`, and the strategy interface is in `Prototype/strategy-ui.js` and `Prototype/strategy-ui.css`. `Prototype/office-game.template.html` retains the 3D scene wiring; `Prototype/build_prototype.py` embeds the model assets and these source files into the self-contained playable HTML. Run `node Prototype/test_simulation.cjs` and `node Prototype/test_aircraft_navigation.cjs` after gameplay changes, then rebuild the HTML.
 

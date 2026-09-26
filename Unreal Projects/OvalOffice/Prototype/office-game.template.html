@@ -35,8 +35,10 @@ import {RoomEnvironment} from 'https://esm.sh/three@0.170.0/examples/jsm/environ
 import {OrbitControls} from 'https://esm.sh/three@0.170.0/examples/jsm/controls/OrbitControls.js';
 const $=id=>document.getElementById(id), encoded='__MODEL_BASE64__', palette=__PALETTE__;
 const decorImages={garden:'data:image/jpeg;base64,__GARDEN_BASE64__',portrait:'data:image/jpeg;base64,__PORTRAIT_BASE64__',landscape:'data:image/jpeg;base64,__LANDSCAPE_BASE64__',liberty:'data:image/jpeg;base64,__LIBERTY_BASE64__'};
+__EXECUTIVE_SYSTEMS__
 __SIMULATION_CORE__
 __STRATEGY_UI__
+__EXECUTIVE_UI__
 const canvas=$('scene');
 renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.outputColorSpace=THREE.SRGBColorSpace;

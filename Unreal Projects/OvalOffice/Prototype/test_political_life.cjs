@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-const Sim=vm.runInNewContext(fs.readFileSync(__dirname+'/simulation-core.js','utf8')+'\nFourYearsSim');
+const Sim=vm.runInNewContext(fs.readFileSync(__dirname+'/executive-systems.js','utf8')+'\n'+fs.readFileSync(__dirname+'/simulation-core.js','utf8')+'\nFourYearsSim');
 const turn=s=>{assert.equal(Sim.choose(s,1),true);return Sim.advance(s)};
 const s=Sim.fresh();
 assert.equal(Sim.availableSlots(s),2);
@@ -45,9 +45,9 @@ const election=turn(traveler);assert.equal(election.election.type,'midterm');
 assert.equal(Sim.campaignSeason(traveler),false);
 
 const old=Sim.fresh();old.version=2;old.quarter=7;old.location='aircraft';
-for(const key of ['relationships','appointments','promises','goodwill','campaign'])delete old[key];
+for(const key of ['relationships','appointments','promises','goodwill','campaign','executive'])delete old[key];
 const migrated=Sim.migrate(JSON.parse(JSON.stringify(old)));
-assert.equal(migrated.version,3);assert.equal(migrated.quarter,7);assert.equal(migrated.location,'aircraft');
+assert.equal(migrated.version,4);assert.equal(migrated.quarter,7);assert.equal(migrated.location,'aircraft');
 assert.equal(Sim.availableSlots(migrated),2);
 const late=Sim.fresh();late.quarter=15;Sim.meeting(late,'chen','compromise');
 assert.equal(late.promises[0].due,16);turn(late);assert.equal(late.promises[0].status,'broken');
