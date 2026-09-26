@@ -97,25 +97,31 @@ function setAircraftPose(place){
 }
 
 async function changeLocation(destination){
- if(transitioning||!ready||destination===currentLocation)return;
+ if(transitioning||!ready||destination===currentLocation||!['oval','aircraft','westwing'].includes(destination))return;
  if(mode==='walk')roomPoses[currentLocation]={position:camera.position.toArray(),yaw,pitch};
  transitioning=true;keys.clear();tapKeys.clear();drag=false;$('travel').disabled=true;$('loading-room').hidden=false;
- $('loading-room').textContent=destination==='aircraft'?'Preparing Air Force One…':'Returning to the Oval Office…';
+ if($('westwing'))$('westwing').disabled=true;
+ $('loading-room').textContent=destination==='aircraft'?'Preparing Air Force One…':destination==='westwing'?'Opening the West Wing…':'Returning to the Oval Office…';
  try{
   if(destination==='aircraft')await loadAircraft();
+  if(destination==='westwing')await loadWestWing();
   currentLocation=destination;
-  scene=destination==='aircraft'?aircraftScene:ovalScene;model=destination==='aircraft'?aircraftModel:ovalModel;
+  if(destination!=='westwing'&&currentPage==='westwing-map')currentPage='command';
+  scene=destination==='aircraft'?aircraftScene:destination==='westwing'?westWingScene:ovalScene;model=destination==='aircraft'?aircraftModel:destination==='westwing'?westWingModel:ovalModel;
   $('travel').textContent=destination==='aircraft'?'Return to Oval Office':'Board Air Force One';
-  $('walk').textContent=destination==='aircraft'?'Walk cabin':'Walk office';
-  $('fireplace').textContent=destination==='aircraft'?'Presidential office':'Fireplace wall';
+  if($('westwing'))$('westwing').textContent=destination==='westwing'?'Return to Oval Office':'Explore West Wing';
+  if($('wing-map'))$('wing-map').hidden=destination!=='westwing';
+  if($('wing-room'))$('wing-room').hidden=destination!=='westwing';
+  $('walk').textContent=destination==='aircraft'?'Walk cabin':destination==='westwing'?'Main hallway':'Walk office';
+  $('fireplace').textContent=destination==='aircraft'?'Presidential office':destination==='westwing'?'Press briefing room':'Fireplace wall';
   $('conference').hidden=destination!=='aircraft';
-  $('location-name').textContent=destination==='aircraft'?'Air Force One':'The Oval Office';
-  canvas.setAttribute('aria-label','Walkable 3D '+(destination==='aircraft'?'Air Force One suite':'Oval Office'));
+  $('location-name').textContent=destination==='aircraft'?'Air Force One':destination==='westwing'?'West Wing':'The Oval Office';
+  canvas.setAttribute('aria-label','Walkable 3D '+(destination==='aircraft'?'Air Force One suite':destination==='westwing'?'West Wing':'Oval Office'));
   $('panel').hidden=true;syncDashboardLayout();$('briefing').textContent='Open briefing';$('prompt').style.display='none';
   setMode('walk');
   const pose=roomPoses[destination];if(pose){camera.position.fromArray(pose.position);yaw=pose.yaw;pitch=pose.pitch;camera.rotation.set(pitch,yaw,0)}
   if(state){state.location=destination;save()}
-  toast(destination==='aircraft'?'Welcome aboard. Your briefings and journal travel with you.':'Welcome back to the Oval Office.');
- }catch(error){console.error(error);toast('Air Force One could not load. Your term is safe; try boarding again.')}
- finally{transitioning=false;$('loading-room').hidden=true;$('travel').disabled=false}
+  toast(destination==='aircraft'?'Welcome aboard. Your briefings and journal travel with you.':destination==='westwing'?'Welcome to the West Wing. Follow the galleries, or open the Wing map.':'Welcome back to the Oval Office.');
+ }catch(error){console.error(error);toast('The destination could not load. Your term is safe; please try again.')}
+ finally{transitioning=false;$('loading-room').hidden=true;$('travel').disabled=false;if($('westwing'))$('westwing').disabled=false}
 }

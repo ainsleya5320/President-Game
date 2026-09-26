@@ -1,6 +1,6 @@
 # President Game / Four Years
 
-A presidency-game prototype combining turn-based decisions with explorable 3D locations. The current work includes an Oval Office browser prototype and a native Unreal Engine Air Force One exploration level.
+A presidency-game prototype combining turn-based decisions with explorable 3D locations. The browser game includes the Oval Office, a West Wing expansion and Air Force One; the Unreal project includes the original Oval Office and aircraft levels.
 
 ## Get the files
 
@@ -18,6 +18,8 @@ Use a Git clone with LFS rather than relying on GitHub's source ZIP for the larg
 ## Play
 
 ### Browser prototype
+
+Choose **Explore West Wing**, or press **E** at the Oval Office's west door, to explore the Blender-built main-floor expansion. Connected galleries lead to the Cabinet Room, Roosevelt Room, private study, reception, press briefing room, colonnade and Rose Garden. **Wing map** provides a floor plan and room shortcuts. Staff offices and the upper storey remain closed. The original Oval Office and Air Force One stay available, and travel preserves your term. See [`west-wing`](west-wing/README.md) for the editable Blender scene, renders and public-reference scope.
 
 Open **Dashboard** in the toolbar for a full-screen national overview: a clickable policy web with all 12 conditions, recorded approval history, voter groups, regional electoral support, Congress, finances, urgent briefings, team relationships and legacy progress. Select a policy to trace its positive and negative influences; select a condition to see its policy drivers. Every section links to its detailed screen. **Return to the Oval Office / Air Force One**, or **Escape**, returns to your current room without advancing time. The dashboard adapts to smaller screens with a scrollable card layout.
 
@@ -55,6 +57,7 @@ The aircraft passage includes a curved fuselage ceiling, six recessed oval windo
 | `Unreal Projects/OvalOffice/Prototype` | Browser game, source templates and artwork |
 | `oval-office` | Original Blender scene, portable models, textures, renders and scripts |
 | `air-force-one` | Widened Blender scene, portable model, textures, renders and clearance plan |
+| `west-wing` | Blender main-floor expansion, portable model, navigation data and renders |
 | `validation` | Saved Unreal build and runtime acceptance results |
 
 The source scenes were authored with Blender 5.2. Some historical authoring scripts use local paths and may need adjustment on another computer; the committed game assets do not require rebuilding to open.

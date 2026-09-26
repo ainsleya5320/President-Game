@@ -28,9 +28,9 @@ packed = struct.pack('<III', 0x46546c67, 2, 20+len(chunk)+len(tail))
 packed += struct.pack('<II', len(chunk), 0x4e4f534a) + chunk + tail
 model = base64.b64encode(gzip.compress(packed, compresslevel=7)).decode('ascii')
 
-def browser_aircraft():
+def browser_aircraft(source_file=None, label='aircraft'):
     """Retain the authored meshes while resizing embedded textures for browser use."""
-    raw = (here.parents[2] / 'air-force-one' / 'Air_Force_One.glb').read_bytes()
+    raw = (source_file or here.parents[2] / 'air-force-one' / 'Air_Force_One.glb').read_bytes()
     length = struct.unpack_from('<I', raw, 12)[0]
     doc = json.loads(raw[20:20+length])
     binary = raw[28+length:]
@@ -60,10 +60,12 @@ def browser_aircraft():
     glb = struct.pack('<III', 0x46546c67, 2, 28+len(header)+len(rebuilt))
     glb += struct.pack('<II', len(header), 0x4e4f534a)+header
     glb += struct.pack('<II', len(rebuilt), 0x004e4942)+rebuilt
-    print('Browser aircraft:', round(len(glb)/1e6, 2), 'MB before gzip')
+    print('Browser '+label+':', round(len(glb)/1e6, 2), 'MB before gzip')
     return base64.b64encode(gzip.compress(glb, compresslevel=7)).decode('ascii')
 
 aircraft = browser_aircraft()
+west_wing = browser_aircraft(here.parents[2] / 'west-wing' / 'West_Wing.glb', 'West Wing')
+west_wing_nav = (here.parents[2] / 'west-wing' / 'navigation.json').read_text(encoding='utf-8')
 footprints = json.loads((here.parents[2] / 'air-force-one' / 'collision_footprints.json').read_text())
 collision = json.dumps([p['polygon'] for p in footprints], separators=(',', ':'))
 palette = (source / 'material_palette.json').read_text(encoding='utf-8')
@@ -99,6 +101,8 @@ dashboard = (here / 'dashboard-ui.js').read_text(encoding='utf-8').replace('__CH
 markup = markup.replace('__DASHBOARD_UI__', dashboard)
 markup = markup.replace('__DASHBOARD_CSS__', (here / 'dashboard-ui.css').read_text(encoding='utf-8'))
 markup = markup.replace('__AIRCRAFT_CODE__', (here / 'aircraft-level.js').read_text(encoding='utf-8'))
+markup = markup.replace('__WEST_WING_CODE__', (here / 'west-wing-level.js').read_text(encoding='utf-8'))
+markup = markup.replace('__WEST_WING_BASE64__', west_wing).replace('__WEST_WING_NAV__', west_wing_nav)
 markup = markup.replace('__AIRCRAFT_BASE64__', aircraft).replace('__AIRCRAFT_COLLISION__', collision)
 output.write_text(markup, encoding='utf-8')
 print(output, output.stat().st_size)
