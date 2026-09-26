@@ -111,7 +111,7 @@ async function changeLocation(destination){
   $('conference').hidden=destination!=='aircraft';
   $('location-name').textContent=destination==='aircraft'?'Air Force One':'The Oval Office';
   canvas.setAttribute('aria-label','Walkable 3D '+(destination==='aircraft'?'Air Force One suite':'Oval Office'));
-  $('panel').hidden=true;$('briefing').textContent='Open briefing';$('prompt').style.display='none';
+  $('panel').hidden=true;syncDashboardLayout();$('briefing').textContent='Open briefing';$('prompt').style.display='none';
   setMode('walk');
   const pose=roomPoses[destination];if(pose){camera.position.fromArray(pose.position);yaw=pose.yaw;pitch=pose.pitch;camera.rotation.set(pitch,yaw,0)}
   if(state){state.location=destination;save()}

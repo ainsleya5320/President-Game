@@ -10,3 +10,9 @@ These images were created with Codex's built-in image generation tool for this p
 | Liberty painting | `statue-liberty.png` | An original vertical oil painting of the Statue of Liberty viewed from below against a muted blue sky, with atmospheric brushwork and aged canvas texture; straight-on artwork without frame, wall, text, or watermark. |
 
 The garden image is a fictional inspired view. It should not be described as an accurate photograph of the real Rose Garden.
+
+## Fictional character portraits
+
+Six square editorial-style portraits were created on 2026-09-26 using the **built-in image_gen tool**, with a separate generation for each fictional character. Source PNGs are in `characters/`: `maya-chen.png`, `elena-ruiz.png`, `daniel-brooks.png`, `samira-bell.png`, `adrian-vale.png`, and `jordan-ellis.png`. The full final prompt for each asset is preserved in [characters/generation.json](characters/generation.json). No source photograph was used.
+
+The game embeds a 256-pixel JPEG derivative of each source during its normal asset build. Names identify invented game characters, not real government officials. The portraits share slate backgrounds and soft lighting. The dashboard itself uses native HTML, CSS and SVG charts driven by simulation values, not a generated interface image.

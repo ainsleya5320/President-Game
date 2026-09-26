@@ -90,6 +90,11 @@ markup = markup.replace('__EXECUTIVE_UI__', (here / 'executive-ui.js').read_text
 markup = markup.replace('__SIMULATION_CORE__', (here / 'simulation-core.js').read_text(encoding='utf-8'))
 markup = markup.replace('__STRATEGY_UI__', (here / 'strategy-ui.js').read_text(encoding='utf-8'))
 markup = markup.replace('__STRATEGY_CSS__', (here / 'strategy-ui.css').read_text(encoding='utf-8'))
+cast = json.loads((here / 'assets' / 'characters' / 'generation.json').read_text(encoding='utf-8'))
+portraits = {p['name']: 'data:image/jpeg;base64,' + jpg_data('characters/' + p['file'], (256, 256)) for p in cast['characters']}
+dashboard = (here / 'dashboard-ui.js').read_text(encoding='utf-8').replace('__CHARACTER_PORTRAITS__', json.dumps(portraits))
+markup = markup.replace('__DASHBOARD_UI__', dashboard)
+markup = markup.replace('__DASHBOARD_CSS__', (here / 'dashboard-ui.css').read_text(encoding='utf-8'))
 markup = markup.replace('__AIRCRAFT_CODE__', (here / 'aircraft-level.js').read_text(encoding='utf-8'))
 markup = markup.replace('__AIRCRAFT_BASE64__', aircraft).replace('__AIRCRAFT_COLLISION__', collision)
 output.write_text(markup, encoding='utf-8')

@@ -1,0 +1,41 @@
+{
+  "mode": "Built-in image_gen; six separate generations",
+  "characters": [
+    {
+      "id": "maya-chen",
+      "name": "Maya Chen",
+      "file": "maya-chen.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square character portrait for a fictional presidential strategy game. Subject: Maya Chen, a fictional housing secretary, Chinese American woman in her late forties, shoulder length black hair, navy jacket, ivory blouse, thoughtful friendly expression. Realistic editorial headshot, centered head and upper shoulders, face fills most of the square. Muted deep slate blue studio background, soft warm window light from left and gentle rim light, natural skin texture, subtle smile, welcoming human presence. Elegant consistent official portrait series. No text, no borders, no flags, no seals, no watermark. This is an invented person, do not resemble an identifiable celebrity or politician."
+    },
+    {
+      "id": "elena-ruiz",
+      "name": "Elena Ruiz",
+      "file": "elena-ruiz.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square character portrait for a fictional presidential strategy game. Subject: Elena Ruiz, a fictional governor, Latina woman in her early fifties, wavy dark brown hair, burgundy blazer, assured warm expression. Realistic editorial headshot, centered head and upper shoulders, face fills most of the square. Muted deep slate blue studio background, soft warm window light from left and gentle rim light, natural skin texture, subtle smile, welcoming human presence. Elegant consistent official portrait series. No text, no borders, no flags, no seals, no watermark. This is an invented person, do not resemble an identifiable celebrity or politician."
+    },
+    {
+      "id": "daniel-brooks",
+      "name": "Daniel Brooks",
+      "file": "daniel-brooks.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square character portrait for a fictional presidential strategy game. Subject: Daniel Brooks, a fictional treasury secretary, Black American man in his late fifties, close cropped salt and pepper hair, charcoal suit, blue tie, thoughtful expression. Realistic editorial headshot, centered head and upper shoulders, face fills most of the square. Muted deep slate blue studio background, soft warm window light from left and gentle rim light, natural skin texture, subtle smile, welcoming human presence. Elegant consistent official portrait series. No text, no borders, no flags, no seals, no watermark. This is an invented person, do not resemble an identifiable celebrity or politician."
+    },
+    {
+      "id": "samira-bell",
+      "name": "Samira Bell",
+      "file": "samira-bell.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square character portrait for a fictional presidential strategy game. Subject: Samira Bell, a fictional congressional leader, woman in her forties with brown skin and dark curly shoulder length hair, forest green blazer, confident kind expression. Realistic editorial headshot, centered head and upper shoulders, face fills most of the square. Muted deep slate blue studio background, soft warm window light from left and gentle rim light, natural skin texture, subtle smile, welcoming human presence. Elegant consistent official portrait series. No text, no borders, no flags, no seals, no watermark. This is an invented person, do not resemble an identifiable celebrity or politician."
+    },
+    {
+      "id": "adrian-vale",
+      "name": "Adrian Vale",
+      "file": "adrian-vale.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square character portrait for a fictional presidential strategy game. Subject: Adrian Vale, a fictional opposition senator, white man in his early fifties, swept back brown hair with grey temples, navy suit and burgundy tie, composed competitive expression. Realistic editorial headshot, centered head and upper shoulders, face fills most of the square. Muted deep slate blue studio background, soft warm window light from left and gentle rim light, natural skin texture, subtle smile, welcoming human presence. Elegant consistent official portrait series. No text, no borders, no flags, no seals, no watermark. This is an invented person, do not resemble an identifiable celebrity or politician."
+    },
+    {
+      "id": "jordan-ellis",
+      "name": "Jordan Ellis",
+      "file": "jordan-ellis.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square character portrait for a fictional presidential strategy game. Subject: Jordan Ellis, a fictional political journalist, androgynous white adult in their late thirties, short auburn hair, black jacket, alert approachable expression. Realistic editorial headshot, centered head and upper shoulders, face fills most of the square. Muted deep slate blue studio background, soft warm window light from left and gentle rim light, natural skin texture, subtle smile, welcoming human presence. Elegant consistent official portrait series. No text, no borders, no flags, no seals, no watermark. This is an invented person, do not resemble an identifiable celebrity or politician."
+    }
+  ]
+}
