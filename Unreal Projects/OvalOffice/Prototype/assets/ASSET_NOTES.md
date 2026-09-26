@@ -16,3 +16,9 @@ The garden image is a fictional inspired view. It should not be described as an 
 Six square editorial-style portraits were created on 2026-09-26 using the **built-in image_gen tool**, with a separate generation for each fictional character. Source PNGs are in `characters/`: `maya-chen.png`, `elena-ruiz.png`, `daniel-brooks.png`, `samira-bell.png`, `adrian-vale.png`, and `jordan-ellis.png`. The full final prompt for each asset is preserved in [characters/generation.json](characters/generation.json). No source photograph was used.
 
 The game embeds a 256-pixel JPEG derivative of each source during its normal asset build. Names identify invented game characters, not real government officials. The portraits share slate backgrounds and soft lighting. The dashboard itself uses native HTML, CSS and SVG charts driven by simulation values, not a generated interface image.
+
+## Window-side framed photographs
+
+Four fictional photo textures were generated on 2026-09-26 with the **built-in image_gen tool**, one generation per asset. Originals are saved in `memories/`: `family-garden.png`, `coastal-memory.png`, `volunteer-day.png`, and `family-dog.png`. Their complete final prompts are in [memories/generation.json](memories/generation.json). They depict an invented family, a coastal travel scene, community volunteers, and a golden retriever; they are decorative game memories, not photographs of the player or an actual president's family.
+
+The builder embeds 384-pixel JPEG derivatives. Eight credenza frames use the four images with proportional UV cropping, ivory mounts, and gold or wood rails. Source PNGs remain unchanged. The flag update retains the existing United States and presidential-standard artwork and replaces the browser cloth and staffs with folded geometry, aligned attachments, woven surface detail, and gold fringe.

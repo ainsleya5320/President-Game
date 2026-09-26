@@ -1,0 +1,25 @@
+{
+  "mode": "Built-in image_gen; four separate generations",
+  "photos": [
+    {
+      "id": "family-garden",
+      "file": "family-garden.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square photo texture for a small framed photograph in a 3D presidential office game. A warm candid family photograph of two fictional adults in their forties and two children aged about eight and twelve standing close together in a leafy garden, casual cream and blue clothing, relaxed smiles, natural unstaged expressions. All four faces visible near center. Composition: square image, centered subjects with generous margin for portrait and landscape framing. Photographic realism, gentle film grain, natural colors and camera optics, attractive believable everyday memory. The photo itself fills the entire image: no picture frame, no mat, no text, no border, no watermark. All people are fictional, no identifiable public figures."
+    },
+    {
+      "id": "coastal-memory",
+      "file": "coastal-memory.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square photo texture for a small framed photograph in a 3D presidential office game. A personal travel photograph of a quiet New England lighthouse above a grassy cliff, blue ocean, warm late afternoon sunlight and a few wildflowers. Serene and realistic, main lighthouse centered. Composition: square image, centered subjects with generous margin for portrait and landscape framing. Photographic realism, gentle film grain, natural colors and camera optics, attractive believable everyday memory. The photo itself fills the entire image: no picture frame, no mat, no text, no border, no watermark. All people are fictional, no identifiable public figures."
+    },
+    {
+      "id": "volunteer-day",
+      "file": "volunteer-day.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square photo texture for a small framed photograph in a 3D presidential office game. A candid photograph of three fictional adult volunteers, diverse ages and appearances, smiling together at a community garden, denim and rolled up sleeves, holding a small box of harvested vegetables. Faces close together near center. Composition: square image, centered subjects with generous margin for portrait and landscape framing. Photographic realism, gentle film grain, natural colors and camera optics, attractive believable everyday memory. The photo itself fills the entire image: no picture frame, no mat, no text, no border, no watermark. All people are fictional, no identifiable public figures."
+    },
+    {
+      "id": "family-dog",
+      "file": "family-dog.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: square photo texture for a small framed photograph in a 3D presidential office game. An affectionate personal photograph of a golden retriever sitting on a sunny garden lawn, looking toward camera, rose bushes softly blurred behind, natural fur and warm summer light, dog centered. Composition: square image, centered subjects with generous margin for portrait and landscape framing. Photographic realism, gentle film grain, natural colors and camera optics, attractive believable everyday memory. The photo itself fills the entire image: no picture frame, no mat, no text, no border, no watermark. All people are fictional, no identifiable public figures."
+    }
+  ]
+}

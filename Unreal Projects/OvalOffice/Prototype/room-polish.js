@@ -152,7 +152,7 @@ function fixWindowDetails(){
   if(!o.isMesh)return;
   const name=o.name.replaceAll('_',' '),mats=Array.isArray(o.material)?o.material:[o.material];
   for(const m of mats)originals.set(m.name,m);
-  if(/^(US flag|Presidential standard|Gold flag fringe|Ceremonial cord|Oil on canvas|Gilt picture frame|Framed desk photograph|Small photograph frame|Picture stand)/.test(name))hide.push(o);
+  if(/^(US flag|Presidential standard|Gold flag fringe|Ceremonial cord|Flagpole|Finial spread wing|Oil on canvas|Gilt picture frame|Framed desk photograph|Small photograph frame|Picture stand)/.test(name))hide.push(o);
  });
  hide.forEach(o=>{o.visible=false});
  const gold=new THREE.MeshStandardMaterial({color:0xb39860,metalness:.72,roughness:.34});
@@ -176,24 +176,50 @@ function fixWindowDetails(){
   const artGeometry=new THREE.PlaneGeometry(w,h);const artUV=artGeometry.attributes.uv;for(let i=0;i<artUV.count;i++)artUV.setY(i,1-artUV.getY(i));const art=new THREE.Mesh(artGeometry,material);art.position.z=.024;group.add(art);
   frame(group,w+.01,h+.01,.035,.025,gold);frame(group,w+.085,h+.085,.012,.011,gold);
  }
- // Small frames stand on the rear credenza, with complete backs and a modest lean.
+ // Real photographs replace the procedural green placeholders. Crop in UV space,
+ // preserving faces and proportions while retaining the original source images.
+ const photoTextures=decorImages.deskPhotos.map(url=>{
+  const t=new THREE.TextureLoader().load(url);t.colorSpace=THREE.SRGBColorSpace;
+  t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return t;
+ });
+ const photoOrder=[0,1,2,3,0,2,1,3];
+ // Frames sit on the credenza with ivory mounts, deep rails and easel backs.
  for(let i=0;i<8;i++){
-  const w=.155,h=.16+(i%3)*.025,g=new THREE.Group();g.name='Credenza photograph '+(i+1);
-  g.position.set(-.80+i*.23,.883+h/2,-4.24);g.rotation.x=-.09;g.rotation.y=(i-3.5)*-.015;scene.add(g);
+  const w=i%3===1?.205:.165,h=i%3===1?.165:.215,g=new THREE.Group();g.name='Credenza photograph '+(i+1);
+  g.position.set(-.805+i*.23,.891+h/2,-4.21+(i%2)*.025);g.rotation.x=-.10;g.rotation.y=(i-3.5)*-.025;scene.add(g);
   box(g,w+.025,h+.025,.018,0,0,0,backing);box(g,w,h,.006,0,0,.012,mount);
-  const photoMat=originals.get('Small framed photograph '+i);
-  if(photoMat){const photo=new THREE.Mesh(new THREE.PlaneGeometry(w-.018,h-.020),photoMat.clone());photo.position.z=.016;g.add(photo)}
+  const image=photoTextures[photoOrder[i]],pw=w-.025,ph=h-.027,ratio=pw/ph;
+  const geometry=new THREE.PlaneGeometry(pw,ph),uv=geometry.attributes.uv;
+  for(let n=0;n<uv.count;n++){if(ratio<1)uv.setX(n,.5+(uv.getX(n)-.5)*ratio);else uv.setY(n,.5+(uv.getY(n)-.5)/ratio)}
+  const photo=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({map:image,roughness:.62,metalness:0,emissive:0xffffff,emissiveMap:image,emissiveIntensity:.16}));
+  photo.name='Framed memory '+(photoOrder[i]+1);photo.position.z=.018;g.add(photo);
   frame(g,w,h,.012,.017,i%3===0?backing:gold);
-  box(g,.035,.015,.095,0,-h/2+.004,-.035,backing);
+  box(g,.035,.015,.10,0,-h/2+.004,-.035,backing);
  }
- // Cloth follows the hoist at the staff; the free edge sags rather than stretching its image.
+ // Move the standards clear of the chair and photographs. The two staffs now
+ // match their cloth attachment points instead of leaving fabric floating ahead.
+ const flagPositions=[-2.10,1.28],poleZ=-4.08,top=3.22,hoist=1.52;
+ const textileGold=new THREE.MeshStandardMaterial({color:0xc7a457,roughness:.82,metalness:.08});
+ const weaveCanvas=document.createElement('canvas');weaveCanvas.width=weaveCanvas.height=64;
+ const wc=weaveCanvas.getContext('2d');wc.fillStyle='#999';wc.fillRect(0,0,64,64);wc.fillStyle='#aaa';
+ for(let i=0;i<64;i+=4){wc.fillRect(i,0,1,64);wc.fillRect(0,i,64,1)}
+ const weave=new THREE.CanvasTexture(weaveCanvas);weave.wrapS=weave.wrapT=THREE.RepeatWrapping;weave.repeat.set(24,36);
+ // Gentle hanging folds: a long, gathered silhouette with a soft scalloped hem.
+ // Unlike the old shear, the wave changes through the height of the fabric.
  const points=(kind,u,v)=>{
-  if(kind===0)return new THREE.Vector3(-1.27+.96*u+.07*Math.sin(v*Math.PI)*u,3.34-1.10*v-.92*Math.pow(u,.85),-4.16+.09+Math.sin(u*Math.PI*5.5+.3*v)*.09*u+.055*u*u);
-  return new THREE.Vector3(1.27+1.00*u,3.34-1.35*v-.38*Math.pow(u,1.3),-4.16+.07+Math.sin(u*Math.PI*4.8+.4*v)*.075*u);
+  const fold=u*Math.PI*6+.38*Math.sin(v*Math.PI),gather=Math.sin(u*Math.PI/2);
+  return new THREE.Vector3(flagPositions[kind]+.91*u*(.92+.08*Math.sin(v*Math.PI))+.035*Math.sin(fold)*gather,
+   top-hoist*v-.64*Math.pow(u,.78)+.025*Math.sin(fold)*u*v,
+   poleZ+.022+.21*Math.sin(fold)*gather+.055*u+.035*Math.sin(v*Math.PI)*u);
  };
  for(let kind=0;kind<2;kind++){
+  const poleX=flagPositions[kind],standard=new THREE.Group();standard.name=kind?'Presidential flag staff':'United States flag staff';scene.add(standard);
+  const cylinder=(r1,r2,h,y,mat)=>{const m=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,24),mat);m.position.set(poleX,y,poleZ);m.castShadow=m.receiveShadow=true;standard.add(m);return m};
+  cylinder(.155,.18,.065,.055,gold);cylinder(.10,.15,.045,.106,gold);cylinder(.020,.032,.14,.19,gold);cylinder(.012,.012,3.04,1.74,gold);
+  const finial=new THREE.Mesh(new THREE.SphereGeometry(1,16,12),gold);finial.scale.set(.027,.075,.024);finial.position.set(poleX,3.34,poleZ);standard.add(finial);
+  for(const side of [-1,1]){const wing=new THREE.Mesh(new THREE.SphereGeometry(1,12,8),gold);wing.scale.set(.062,.014,.012);wing.rotation.z=side*.35;wing.position.set(poleX+side*.042,3.36,poleZ);standard.add(wing)}
   const src=originals.get(kind===0?'United States flag | woven silk':'Presidential standard | woven silk');
-  const material=src.clone();material.map=src.map.clone();material.map.flipY=false;material.map.needsUpdate=true;material.side=THREE.DoubleSide;material.metalness=0;material.roughness=.88;material.envMapIntensity=.10;material.color.set('#ffffff');
+  const material=src.clone();material.map=src.map.clone();material.map.flipY=false;material.map.needsUpdate=true;material.side=THREE.DoubleSide;material.metalness=0;material.roughness=.85;material.envMapIntensity=.25;material.color.set('#ffffff');material.bumpMap=weave;material.bumpScale=.0015;
   const nx=64,ny=72,verts=[],uv=[],indices=[];
   for(let j=0;j<=ny;j++)for(let i=0;i<=nx;i++){const p=points(kind,i/nx,j/ny);verts.push(p.x,p.y,p.z);uv.push(i/nx,j/ny)}
   for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const a=j*(nx+1)+i,b=a+1,c=a+nx+1,d=c+1;indices.push(a,c,b,b,c,d)}
@@ -201,8 +227,12 @@ function fixWindowDetails(){
   const flag=new THREE.Mesh(geometry,material);flag.name=kind?'Draped presidential standard':'Draped United States flag';flag.castShadow=true;flag.receiveShadow=true;scene.add(flag);
   const tube=(pts,r,mat)=>{const path=new THREE.CatmullRomCurve3(pts),mesh=new THREE.Mesh(new THREE.TubeGeometry(path,Math.max(8,pts.length*2),r,5,false),mat);mesh.castShadow=true;scene.add(mesh)};
   // Tailored gold binding tracks the actual cloth edge, including the lower hem.
-  const hem=[];for(let j=0;j<=72;j++)hem.push(points(kind,1,j/72));for(let i=63;i>=0;i--)hem.push(points(kind,i/64,1));tube(hem,.008,gold);
-  const poleX=kind?1.27:-1.27;
-  for(const y of [3.34,kind?1.99:2.24])tube([new THREE.Vector3(poleX-.018,y,-4.20),new THREE.Vector3(poleX+.012,y+.01,-4.075),points(kind,0,(3.34-y)/(kind?1.35:1.10))],.006,gold);
+  const hem=[];for(let j=0;j<=72;j++)hem.push(points(kind,1,j/72));for(let i=63;i>=0;i--)hem.push(points(kind,i/64,1));tube(hem,.005,textileGold);
+  const fringe=new THREE.InstancedMesh(new THREE.CylinderGeometry(.0015,.002,.036,5),textileGold,64),transform=new THREE.Object3D();
+  fringe.name=kind?'Presidential standard gold fringe':'United States flag gold fringe';
+  for(let i=0;i<64;i++){const p=i<40?points(kind,1,i/39):points(kind,(i-40)/23,1);transform.position.copy(p);transform.position.y-=.018;transform.rotation.z=.12*Math.sin(i*2.4);transform.updateMatrix();fringe.setMatrixAt(i,transform.matrix)}
+  scene.add(fringe);
+  for(const v of [0,.92]){const y=top-hoist*v;tube([new THREE.Vector3(poleX-.014,y,poleZ),new THREE.Vector3(poleX+.018,y,poleZ+.029),points(kind,0,v)],.004,textileGold)}
+  tube([points(kind,0,0),new THREE.Vector3(poleX+.095,3.01,poleZ+.07),new THREE.Vector3(poleX+.14,2.93,poleZ+.08)],.004,textileGold);
  }
 }
