@@ -18,7 +18,7 @@ Four Years is an original fictional presidency game with two walkable 3D locatio
 
 Open **Play Four Years.cmd** at the repository root or serve `Prototype/Four_Years_Prototype.html`. Use **Policies**, **Voters**, and **Budget** in the toolbar to inspect the systems, then choose the quarterly response from the Situation screen and advance. Existing monthly saves are migrated into the four-year system and their previous journal entries are archived in the new Record screen; a backup of the original save is also kept locally.
 
-The native Unreal project still contains the editable Oval Office scene and walkable Air Force One exploration level. The political simulation and location switching currently run in the browser game, not in native Unreal. The models are artistic approximations rather than exact architectural surveys.
+The whole political simulation also runs natively in Unreal, as a C++ port that matches the JavaScript exactly and is checked by a parity test (see `Source/README.md`). In the Unreal Oval Office you can walk to the Resolute Desk and play the quarterly briefings and reports through a full term. The other strategy screens and location switching are still browser-only. The models are artistic approximations rather than exact architectural surveys.
 
 ## The major-bill expansion
 

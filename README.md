@@ -37,6 +37,10 @@ Serve the repository with a local web server, for example `python -m http.server
 
 This prototype includes the explorable Oval Office and Air Force One, decorative improvements, a garden view, 26 adjustable policies, a 32-event deck of quarterly dilemmas that changes each term, national situations that feed back into the simulation, an electorate of individual voters in overlapping groups, radicalization, and midterm and final elections. It loads Three.js from a CDN, so an internet connection is required. Its models are embedded in the generated HTML; no separate model download is needed. Saves belong to the browser and URL origin, so keep using the same browser and local address to continue an existing term. Earlier monthly saves migrate into the new game with their journal preserved.
 
+### Four Years in Unreal
+
+The simulation now runs natively in Unreal as a C++ port that reads the same data and saves as the browser game. In the Oval Office, walk to the Resolute Desk and press **E** to play the quarterly briefings through a full term. Build the C++ module once, which needs Visual Studio 2022, then run **Play Four Years in Unreal.cmd**. See [`Source/README.md`](Unreal%20Projects/OvalOffice/Source/README.md) for build steps, architecture and the parity test.
+
 ### Air Force One in Unreal
 
 Requires Unreal Engine 5.8 on Windows. Run **Play Air Force One.cmd** at the repository root, or **Edit Air Force One.cmd** to open the native level in the editor. The launcher currently expects Unreal at `C:\Program Files\Epic Games\UE_5.8`; adjust `Scripts/LaunchAirForceOne.ps1` if installed elsewhere.

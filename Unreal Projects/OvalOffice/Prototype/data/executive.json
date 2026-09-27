@@ -1,0 +1,309 @@
+{
+  "blocs": [
+    {
+      "id": "reform",
+      "name": "Reform caucus",
+      "seats": 27,
+      "base": 75,
+      "want": "A full-strength public program"
+    },
+    {
+      "id": "center",
+      "name": "Pragmatic center",
+      "seats": 26,
+      "base": 42,
+      "want": "Independent oversight and a credible rollout"
+    },
+    {
+      "id": "regional",
+      "name": "Regional coalition",
+      "seats": 22,
+      "base": 25,
+      "want": "Grants reaching smaller communities"
+    },
+    {
+      "id": "fiscal",
+      "name": "Budget hawks",
+      "seats": 25,
+      "base": 15,
+      "want": "A revenue source and spending discipline"
+    }
+  ],
+  "bills": [
+    {
+      "id": "housing",
+      "name": "Homes for a New Generation Act",
+      "policy": "housing",
+      "metric": "housing",
+      "sponsor": "chen",
+      "regions": ["coast","lakes"],
+      "cost": 9,
+      "story": "Build affordable homes and unlock stalled local developments."
+    },
+    {
+      "id": "grid",
+      "name": "Reliable Power Act",
+      "policy": "grid",
+      "metric": "energy",
+      "sponsor": "ruiz",
+      "regions": ["plains","sunbelt"],
+      "cost": 8,
+      "story": "Modernize the grid and protect communities from power failures."
+    },
+    {
+      "id": "health",
+      "name": "Healthy Communities Act",
+      "policy": "insurance",
+      "metric": "health",
+      "sponsor": "chen",
+      "regions": ["sunbelt","plains"],
+      "cost": 10,
+      "story": "Expand coverage and bring clinical care to underserved communities."
+    },
+    {
+      "id": "schools",
+      "name": "Opportunity in Every Classroom Act",
+      "policy": "teacher",
+      "metric": "schools",
+      "sponsor": "bell",
+      "regions": ["lakes","coast"],
+      "cost": 7,
+      "story": "Recruit teachers and rebuild aging school facilities."
+    }
+  ],
+  "amendments": [
+    {
+      "id": "local",
+      "name": "Small-community grants",
+      "cost": 3,
+      "detail": "Regional coalition +40 support; reform caucus +5. Adds 3 spending per quarter and extends benefits to every region.",
+      "support": {"regional":40,"reform":5},
+      "allRegions": true
+    },
+    {
+      "id": "audit",
+      "name": "Independent oversight",
+      "cost": 1,
+      "detail": "Pragmatic center +25; budget hawks +10. Adds 1 spending per quarter; protects construction from procurement failures.",
+      "support": {"center":25,"fiscal":10},
+      "preventsInvestigation": true
+    },
+    {
+      "id": "revenue",
+      "name": "Progressive revenue package",
+      "cost": 0,
+      "detail": "Budget hawks +35; center +5; regional coalition −10. Raises the progressive tax setting one step when the bill passes.",
+      "support": {"fiscal":35,"center":5,"regional":-10},
+      "raisesPolicy": "tax"
+    }
+  ],
+  "regions": [
+    {
+      "id": "coast",
+      "name": "Coastal cities",
+      "governor": "Governor Lena Park",
+      "industry": "Technology, ports and services",
+      "points": 30,
+      "groups": ["students","climate","civil"],
+      "offset": {"housing":-8,"jobs":4,"energy":0,"health":1}
+    },
+    {
+      "id": "lakes",
+      "name": "Great Lakes",
+      "governor": "Governor Marcus Reed",
+      "industry": "Manufacturing and freight",
+      "points": 25,
+      "groups": ["workers","business"],
+      "offset": {"housing":1,"jobs":-6,"energy":0,"health":0}
+    },
+    {
+      "id": "plains",
+      "name": "Plains & small towns",
+      "governor": "Governor Elena Ruiz",
+      "industry": "Agriculture and energy",
+      "points": 20,
+      "groups": ["rural","suburban"],
+      "offset": {"housing":5,"jobs":-1,"energy":-4,"health":-4}
+    },
+    {
+      "id": "sunbelt",
+      "name": "Sunbelt communities",
+      "governor": "Governor Isabel Santos",
+      "industry": "Construction, tourism and care",
+      "points": 25,
+      "groups": ["retirees","health","fiscal"],
+      "offset": {"housing":-3,"jobs":1,"energy":-2,"health":-5}
+    }
+  ],
+  "goals": [
+    {"id":"housing","name":"Make homes attainable","metric":"housing","target":52},
+    {"id":"health","name":"Improve public health","metric":"health","target":57},
+    {"id":"energy","name":"Keep the lights on","metric":"energy","target":62},
+    {"id":"schools","name":"Expand opportunity","metric":"schools","target":57},
+    {"id":"trust","name":"Restore public trust","metric":"trust","target":59},
+    {"id":"debt","name":"Control national debt","target":95}
+  ],
+  "team": [
+    {
+      "id": "chen",
+      "competence": 74,
+      "portfolio": "Housing & health",
+      "policies": ["housing","rent","clinic","insurance"],
+      "deputy": "Dr. Nia Patel"
+    },
+    {
+      "id": "ruiz",
+      "competence": 70,
+      "portfolio": "Regional delivery",
+      "policies": ["roads","grid","fossil"],
+      "deputy": "Governor Owen Hale"
+    },
+    {
+      "id": "brooks",
+      "competence": 80,
+      "portfolio": "Treasury",
+      "policies": ["tax","corporate","sales"],
+      "deputy": "Alex Morgan"
+    },
+    {
+      "id": "bell",
+      "competence": 68,
+      "portfolio": "Congress & education",
+      "policies": ["teacher","college","transparency"],
+      "deputy": "Leader Grace Kim"
+    }
+  ],
+  "opposition": {"name":"Senator Adrian Vale","momentum":12,"issue":"housing"},
+  "crises": {
+    "warning": {
+      "title": "Storm watch: the coast",
+      "body": "Forecasters warn of a severe storm next quarter. Grid strength and preparation will determine the damage.",
+      "choices": [
+        {
+          "id": "prepare",
+          "title": "Pre-position crews and supplies",
+          "detail": "Debt +4 · reduce storm damage by 5"
+        },
+        {
+          "id": "watch",
+          "title": "Monitor and conserve funds",
+          "detail": "No new cost · infrastructure must withstand the storm"
+        }
+      ]
+    },
+    "landfall": {
+      "title": "Landfall and power failures",
+      "body": "Damage level {damage}. Governors need a response before the next quarter.",
+      "choices": [
+        {
+          "id": "full",
+          "title": "Order rapid federal relief",
+          "detail": "Debt +8 · recover up to 7 local points · hurried contracts may trigger scrutiny"
+        },
+        {
+          "id": "target",
+          "title": "Coordinate audited state assistance",
+          "detail": "Debt +4 · recover up to 4 local points · lower procurement risk"
+        }
+      ]
+    },
+    "investigation": {
+      "title": "The procurement investigation",
+      "body": "Auditors found irregularities in emergency or construction contracts. Your response will shape trust in the program.",
+      "choices": [
+        {
+          "id": "publish",
+          "title": "Publish findings and replace contractors",
+          "detail": "Debt +2 · trust +2 · sponsor relationship −4"
+        },
+        {
+          "id": "defend",
+          "title": "Defend the current leadership",
+          "detail": "No cost · trust −4 · opposition momentum +6"
+        }
+      ]
+    }
+  },
+  "encounters": {
+    "debate": {
+      "title": "The televised debate",
+      "stages": [
+        {
+          "speaker": "Senator Adrian Vale",
+          "question": "“Your record on {issue} is your weak point. Why should voters give you another term?”",
+          "choices": [
+            {
+              "id": "record",
+              "title": "Defend your measurable record",
+              "detail": "Trust +2 if the issue score is at least 52; otherwise −2"
+            },
+            {
+              "id": "own",
+              "title": "Acknowledge the shortfall",
+              "detail": "Trust +1 · opposition momentum −2"
+            },
+            {
+              "id": "attack",
+              "title": "Challenge your opponent’s credibility",
+              "detail": "Capital +1 · trust −2"
+            }
+          ]
+        },
+        {
+          "speaker": "Moderator: Jordan Ellis",
+          "question": "“You have heard the challenge. What will you put on the record tonight?”",
+          "choices": [
+            {
+              "id": "specific",
+              "title": "Commit to the published platform",
+              "detail": "Momentum −4 if at least two goals are on track; otherwise trust −1"
+            },
+            {
+              "id": "listen",
+              "title": "Promise to work across divisions",
+              "detail": "Trust +1 · momentum −1"
+            }
+          ]
+        }
+      ]
+    },
+    "press": {
+      "title": "The press conference",
+      "stages": [
+        {
+          "speaker": "Correspondent Jordan Ellis",
+          "question": "“You promised results. What evidence can the public see today?”",
+          "choices": [
+            {
+              "id": "timeline",
+              "title": "Publish the implementation timeline",
+              "detail": "Trust +1 · a follow-up question on accountability"
+            },
+            {
+              "id": "victory",
+              "title": "Declare the program a success",
+              "detail": "Trust +2 with a completed project; otherwise −3"
+            }
+          ]
+        },
+        {
+          "speaker": "Correspondent Jordan Ellis",
+          "question": "“Are you claiming success before the results have arrived?”",
+          "questionAfter": {"timeline":"“Will you also publish missed deadlines and cost overruns?”"},
+          "choices": [
+            {
+              "id": "transparent",
+              "title": "Release the complete record",
+              "detail": "Trust +2 · momentum −2"
+            },
+            {
+              "id": "deflect",
+              "title": "Redirect the question to opponents",
+              "detail": "Capital +1 · trust −2 · momentum +2"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
