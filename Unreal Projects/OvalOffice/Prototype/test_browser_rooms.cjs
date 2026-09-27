@@ -36,7 +36,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   await page.locator('#take-trip').click();
   assert.equal(await page.locator('#take-trip').isDisabled(),true);
   const saved=JSON.parse(await page.evaluate(()=>localStorage.getItem('four-years-oval-prototype-v1')));
-  assert.equal(saved.version,5);assert.equal(saved.quarter,6);assert.equal(saved.promises.length,1);assert.equal(saved.campaign.trips.length,1);assert.equal(saved.location,'aircraft');
+  assert.equal(saved.version,6);assert.equal(saved.quarter,6);assert.equal(saved.promises.length,1);assert.equal(saved.campaign.trips.length,1);assert.equal(saved.location,'aircraft');
   await page.screenshot({path:path.join(__dirname,'../Saved/BrowserPrototype/campaign-room.png')});
   await page.locator('#dashboard').click();assert.match(await page.locator('#dashboard-close').innerText(),/Air Force One/);
   await page.locator('#dashboard-close').click();assert.equal(await page.locator('#location-name').textContent(),'Air Force One');

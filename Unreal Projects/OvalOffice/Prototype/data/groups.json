@@ -2,81 +2,106 @@
   {
     "id": "workers",
     "name": "Working families",
-    "share": 19,
+    "share": 42,
+    "traits": {"income":{"low":1.6,"middle":1.1,"high":0.1},"age":{"young":0.9,"middle":1.2,"senior":0.6}},
     "priorities": {"jobs":2,"equality":1.5,"prices":1.4,"housing":1},
     "fav": ["minimum","clinic","housing"],
-    "opp": ["sales"]
+    "opp": ["sales"],
+    "disruption": {"name":"Wildcat strikes","effects":{"growth":-1.2,"jobs":-0.4}}
   },
   {
     "id": "business",
     "name": "Business owners",
-    "share": 12,
+    "share": 11,
+    "traits": {"income":{"low":0.3,"middle":0.8,"high":3},"age":{"young":0.5,"middle":1.3,"senior":0.9}},
     "priorities": {"growth":2,"prices":1.4,"energy":1},
     "fav": ["trade","grid"],
-    "opp": ["corporate","minimum"]
+    "opp": ["corporate","minimum"],
+    "disruption": {"name":"An investment freeze","effects":{"growth":-1.5,"jobs":-0.5}}
   },
   {
     "id": "retirees",
     "name": "Retirees",
-    "share": 15,
+    "share": 22,
+    "turnout": 10,
+    "traits": {"age":{"young":0,"middle":0.15,"senior":3.8}},
     "priorities": {"health":2.3,"prices":1.5,"safety":1},
     "fav": ["insurance","clinic"],
-    "opp": ["sales"]
+    "opp": ["sales"],
+    "disruption": {"name":"Mass marches on the capital","effects":{"trust":-1.2}}
   },
   {
     "id": "students",
     "name": "Students & young adults",
-    "share": 11,
+    "share": 15,
+    "traits": {"age":{"young":3.2,"middle":0.2,"senior":0}},
     "priorities": {"schools":1.6,"housing":1.5,"climate":1.2,"liberty":1},
     "fav": ["college","rent"],
-    "opp": ["surveillance"]
+    "opp": ["surveillance"],
+    "disruption": {"name":"Campus occupations","effects":{"schools":-1,"trust":-0.5}}
   },
   {
     "id": "suburban",
     "name": "Suburban households",
-    "share": 14,
+    "share": 34,
+    "traits": {"place":{"city":0.15,"suburb":2.3,"town":0.3}},
     "priorities": {"schools":1.4,"safety":1.3,"prices":1.3,"trust":1},
     "fav": ["teacher","roads"],
-    "opp": ["carbon"]
+    "opp": ["carbon"],
+    "disruption": {"name":"Recall campaigns","effects":{"trust":-1.2}}
   },
   {
     "id": "rural",
     "name": "Rural communities",
-    "share": 10,
+    "share": 22,
+    "traits": {"place":{"city":0,"suburb":0.12,"town":3.7}},
     "priorities": {"energy":1.6,"jobs":1.5,"health":1.2},
     "fav": ["roads","fossil"],
-    "opp": ["carbon"]
+    "opp": ["carbon"],
+    "disruption": {"name":"Highway blockades","effects":{"prices":-1,"growth":-0.5}}
   },
   {
     "id": "climate",
     "name": "Climate advocates",
-    "share": 7,
+    "share": 12,
+    "traits": {"age":{"young":1.8,"middle":0.9,"senior":0.5},"place":{"city":1.6,"suburb":0.9,"town":0.4}},
+    "drivers": {"climate":-0.8},
     "priorities": {"climate":3,"liberty":1,"trust":0.7},
     "fav": ["renewables","carbon"],
-    "opp": ["fossil"]
+    "opp": ["fossil"],
+    "disruption": {"name":"Direct action at power plants","effects":{"energy":-1.2}}
   },
   {
     "id": "civil",
     "name": "Civil-liberties voters",
-    "share": 5,
+    "share": 8,
+    "traits": {"age":{"young":1.5,"middle":0.9,"senior":0.7},"place":{"city":1.5,"suburb":0.9,"town":0.6}},
+    "drivers": {"liberty":-1},
     "priorities": {"liberty":3,"trust":1.5},
     "fav": ["transparency","elections"],
-    "opp": ["surveillance"]
+    "opp": ["surveillance"],
+    "disruption": {"name":"Sit-ins and court challenges","effects":{"trust":-1,"safety":-0.3}}
   },
   {
     "id": "health",
     "name": "Health-care voters",
-    "share": 4,
+    "share": 13,
+    "traits": {"age":{"young":0.5,"middle":0.9,"senior":1.7}},
+    "drivers": {"health":-0.9},
     "priorities": {"health":3,"equality":1},
     "fav": ["clinic","insurance"],
-    "opp": []
+    "opp": [],
+    "disruption": {"name":"Hospital walkouts","effects":{"health":-1.2}}
   },
   {
     "id": "fiscal",
     "name": "Fiscal conservatives",
-    "share": 3,
+    "share": 12,
+    "traits": {"income":{"low":0.5,"middle":1,"high":1.8},"age":{"young":0.6,"middle":1,"senior":1.3}},
+    "drivers": {"prices":-0.6},
     "priorities": {"growth":1.3,"prices":1.3,"trust":1},
     "fav": ["trade"],
-    "opp": ["stimulus","insurance","rent"]
+    "opp": ["stimulus","insurance","rent"],
+    "disruption": {"name":"A tax revolt","effects":{"trust":-0.6},"revenue":-3}
   }
 ]

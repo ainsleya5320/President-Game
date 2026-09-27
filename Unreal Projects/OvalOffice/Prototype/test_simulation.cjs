@@ -4,7 +4,7 @@ const Sim=loadSimulation();
 
 const initial=Sim.fresh();
 assert.equal(Sim.P.length,26);
-assert.equal(Sim.GROUPS.reduce((n,g)=>n+g.share,0),100);
+assert.ok(Sim.GROUPS.reduce((n,g)=>n+g.share,0)>100,'groups overlap, so memberships add up to more than the whole electorate');
 assert.ok(Sim.EVENTS.length>16,'the deck holds more events than one term can use');
 assert.equal(Sim.currentEvent(initial).id,initial.deck.current,'a new term opens with an event drawn');
 assert.equal(initial.quarter,0);

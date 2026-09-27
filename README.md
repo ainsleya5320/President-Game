@@ -35,7 +35,7 @@ Serve the repository with a local web server, for example `python -m http.server
 
 <http://localhost:8781/Unreal%20Projects/OvalOffice/Prototype/Four_Years_Prototype.html>
 
-This prototype includes the explorable Oval Office and Air Force One, decorative improvements, a garden view, 26 adjustable policies, a 32-event deck of quarterly dilemmas that changes each term, national situations that feed back into the simulation, and midterm and final elections. It loads Three.js from a CDN, so an internet connection is required. Its models are embedded in the generated HTML; no separate model download is needed. Saves belong to the browser and URL origin, so keep using the same browser and local address to continue an existing term. Earlier monthly saves migrate into the new game with their journal preserved.
+This prototype includes the explorable Oval Office and Air Force One, decorative improvements, a garden view, 26 adjustable policies, a 32-event deck of quarterly dilemmas that changes each term, national situations that feed back into the simulation, an electorate of individual voters in overlapping groups, radicalization, and midterm and final elections. It loads Three.js from a CDN, so an internet connection is required. Its models are embedded in the generated HTML; no separate model download is needed. Saves belong to the browser and URL origin, so keep using the same browser and local address to continue an existing term. Earlier monthly saves migrate into the new game with their journal preserved.
 
 ### Air Force One in Unreal
 

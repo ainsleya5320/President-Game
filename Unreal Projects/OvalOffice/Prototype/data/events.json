@@ -433,5 +433,66 @@
       {"label":"Monitor and prepare quietly","effects":{"health":1},"cost":2},
       {"label":"Avoid alarming the public","effects":{"health":-3,"trust":-2},"cost":0}
     ]
+  },
+  {
+    "id": "protests-at-the-gates",
+    "title": "Protests at the gates",
+    "body": "Thousands of demonstrators have gathered outside the White House fence. Their placards name your administration directly.",
+    "weight": 3,
+    "when": {"unrest":25},
+    "choices": [
+      {
+        "label": "Invite their leaders to the Roosevelt Room",
+        "effects": {"trust":1},
+        "cost": 1,
+        "calm": 25
+      },
+      {
+        "label": "Answer their concerns in a televised address",
+        "effects": {"trust":1},
+        "cost": 0,
+        "calm": 12
+      },
+      {"label":"Keep the fence line clear","effects":{"safety":1,"liberty":-1},"cost":2,"calm":-10}
+    ]
+  },
+  {
+    "id": "the-country-grinds-to-a-halt",
+    "title": "The country grinds to a halt",
+    "body": "Organized disruption is spreading from city to city. Supply chains and commuters are feeling it, and governors want to know your plan.",
+    "weight": 4,
+    "when": {"unrest":50},
+    "choices": [
+      {"label":"Offer a national settlement","effects":{"trust":1,"growth":1},"cost":8,"calm":35},
+      {"label":"Appoint a mediator","effects":{"trust":1},"cost":2,"calm":15},
+      {
+        "label": "Deploy federal law enforcement",
+        "effects": {"safety":2,"liberty":-2,"trust":-1},
+        "cost": 4,
+        "calm": -15
+      }
+    ]
+  },
+  {
+    "id": "a-credible-threat",
+    "title": "A credible threat",
+    "body": "The Secret Service reports chatter from an extremist cell that holds you personally responsible. Agents want to cancel public events.",
+    "weight": 5,
+    "when": {"unrest":75},
+    "choices": [
+      {
+        "label": "Cancel public events and tighten security",
+        "effects": {"safety":2,"trust":-1,"liberty":-1},
+        "cost": 3,
+        "calm": 0
+      },
+      {
+        "label": "Meet the grievance head-on with a reform package",
+        "effects": {"trust":2,"equality":1},
+        "cost": 9,
+        "calm": 30
+      },
+      {"label":"Keep the schedule and call for calm","effects":{"trust":1},"cost":0,"calm":10}
+    ]
   }
 ]

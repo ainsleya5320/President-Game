@@ -59,7 +59,7 @@ country.location='aircraft';const before=country.executive.regions.lakes.goodwil
 assert.equal(E.regionalVisit(country,'lakes').ok,true);assert.ok(country.executive.regions.lakes.goodwill>before);
 assert.equal(E.regionalVisit(country,'lakes').ok,false);
 const old=Sim.fresh();old.version=3;old.quarter=5;old.location='aircraft';delete old.executive;
-const migrated=Sim.migrate(JSON.parse(JSON.stringify(old)));assert.equal(migrated.version,5);assert.equal(migrated.quarter,5);assert.equal(migrated.location,'aircraft');assert.ok(migrated.executive.regions.lakes);
+const migrated=Sim.migrate(JSON.parse(JSON.stringify(old)));assert.equal(migrated.version,6);assert.equal(migrated.quarter,5);assert.equal(migrated.location,'aircraft');assert.ok(migrated.executive.regions.lakes);
 const funded=Sim.fresh();funded.version=3;funded.levels.housing=4;funded.implemented.housing=3;delete funded.executive;
 const preserved=Sim.migrate(funded);assert.equal(preserved.executive.bills[0].status,'passed');assert.equal(preserved.executive.bills[0].progress,50);assert.equal(preserved.debt,72,'migration never charges for existing authority');
 Sim.changePolicy(preserved,'housing',3);assert.equal(Sim.changePolicy(preserved,'housing',4).ok,true);

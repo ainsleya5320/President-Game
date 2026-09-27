@@ -41,3 +41,5 @@
 .secondary:disabled{opacity:.4;cursor:not-allowed}.strategy-tabs button{font-size:10px;padding:8px 7px}.panel h3{line-height:1.2}
 @media(max-width:1100px){.controls{max-width:calc(100% - 30px)}.panel{top:125px}}
 @media(max-width:760px){.panel{top:auto;max-height:68%;width:auto}.policy-grid{grid-template-columns:1fr}.policy-list{max-height:170px}.controls{max-width:calc(100% - 16px)}.chip{font-size:9px;padding:7px 8px}}
+.situation.unrest{background:#5c3b57;border-color:#a8739d}
+.anger{height:4px;background:#2b3b48;margin:8px 0 4px}.anger span{display:block;height:100%;background:#c2685a}

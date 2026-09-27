@@ -45,7 +45,7 @@ const saver=Sim.fresh();saver.deck.current='credit-rating-warning';const debt=sa
 // Saves from before the deck keep the event already on the desk, then continue with unused events.
 const old=Sim.fresh();old.version=4;old.quarter=5;old.agendaChoice=1;delete old.deck;
 const migrated=Sim.migrate(JSON.parse(JSON.stringify(old)));
-assert.equal(migrated.version,5);assert.equal(Sim.currentEvent(migrated).id,'housing-cost-surge');
+assert.equal(migrated.version,6);assert.equal(Sim.currentEvent(migrated).id,'housing-cost-surge');
 assert.equal(migrated.deck.used.length,6);const shown=[...migrated.deck.used];Sim.advance(migrated);
 assert.ok(!shown.includes(Sim.currentEvent(migrated).id),'events already seen are not drawn again');
 assert.equal(new Set(migrated.deck.used).size,migrated.deck.used.length);
