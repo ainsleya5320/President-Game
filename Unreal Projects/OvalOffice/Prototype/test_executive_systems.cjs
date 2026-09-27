@@ -1,5 +1,5 @@
-const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-const Sim=vm.runInNewContext(['executive-systems.js','simulation-core.js'].map(f=>fs.readFileSync(__dirname+'/'+f,'utf8')).join('\n')+'\nFourYearsSim'),E=Sim.executive;
+const assert=require('node:assert/strict'),{loadSimulation}=require('./load_simulation.cjs');
+const Sim=loadSimulation(),E=Sim.executive;
 function turn(s){assert.equal(Sim.choose(s,1),true);return Sim.advance(s)}
 const s=Sim.fresh();
 assert.equal(Sim.changePolicy(s,'housing',4).ok,false,'major funding cannot bypass Congress');
@@ -28,7 +28,8 @@ assert.equal(E.vote(fail).ok,false,'one floor vote per quarter');
 turn(fail);E.amend(fail,'local');E.amend(fail,'audit');E.amend(fail,'revenue');
 assert.equal(E.vote(fail).ok,true);assert.equal(fail.executive.bills[0].status,'passed');assert.equal(fail.levels.tax,3);
 
-const weather=Sim.fresh();weather.metrics.energy=40;
+// A clearly failing grid keeps the storm watch independent of which events the deck draws.
+const weather=Sim.fresh();weather.metrics.energy=30;
 turn(weather);turn(weather);
 let storm=weather.executive.crises.find(c=>c.id==='storm');assert.equal(storm.stage,'warning');
 assert.equal(E.respondCrisis(weather,'storm','prepare').ok,true);
@@ -58,7 +59,7 @@ country.location='aircraft';const before=country.executive.regions.lakes.goodwil
 assert.equal(E.regionalVisit(country,'lakes').ok,true);assert.ok(country.executive.regions.lakes.goodwill>before);
 assert.equal(E.regionalVisit(country,'lakes').ok,false);
 const old=Sim.fresh();old.version=3;old.quarter=5;old.location='aircraft';delete old.executive;
-const migrated=Sim.migrate(JSON.parse(JSON.stringify(old)));assert.equal(migrated.version,4);assert.equal(migrated.quarter,5);assert.equal(migrated.location,'aircraft');assert.ok(migrated.executive.regions.lakes);
+const migrated=Sim.migrate(JSON.parse(JSON.stringify(old)));assert.equal(migrated.version,6);assert.equal(migrated.quarter,5);assert.equal(migrated.location,'aircraft');assert.ok(migrated.executive.regions.lakes);
 const funded=Sim.fresh();funded.version=3;funded.levels.housing=4;funded.implemented.housing=3;delete funded.executive;
 const preserved=Sim.migrate(funded);assert.equal(preserved.executive.bills[0].status,'passed');assert.equal(preserved.executive.bills[0].progress,50);assert.equal(preserved.debt,72,'migration never charges for existing authority');
 Sim.changePolicy(preserved,'housing',3);assert.equal(Sim.changePolicy(preserved,'housing',4).ok,true);

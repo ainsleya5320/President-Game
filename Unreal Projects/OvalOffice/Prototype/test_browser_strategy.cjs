@@ -3,6 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const http=require('node:http');
+const {dataScript}=require('./load_simulation.cjs');
 
 // Exercise the real strategy code in a browser without requiring the remote Three.js CDN.
 // 3D movement and aircraft collision have their separate regression check.
@@ -20,6 +21,7 @@ const http=require('node:http');
   await page.setContent(`<!doctype html><style>${css}</style><main class="shell"><header class="mast"><div class="brand">FOUR YEARS<small id="location-name">The Oval Office</small></div><div class="mast-right"><div class="month" id="date"></div><div class="stats" id="stats"></div></div></header><div class="stage"><div class="controls"><button id="briefing" class="chip">Open strategy</button><button id="policies" class="chip">Policies</button><button id="voters" class="chip">Voters</button><button id="budget" class="chip">Budget</button><button id="journal" class="chip">Journal</button></div><aside class="panel" id="panel"></aside><div class="toast" id="toast" hidden></div><div id="start"><button id="begin">Begin</button><button id="continue" hidden>Continue</button></div></div></main>`);
   await page.addScriptTag({content:"const $=id=>document.getElementById(id); function renderWestWingMap(){} function setMode(){} function setAircraftPose(){} function changeLocation(destination){currentLocation=destination;state.location=destination;save()}"});
   await page.addScriptTag({path:path.join(__dirname,'executive-systems.js')});
+  await page.addScriptTag({content:dataScript()});
   await page.addScriptTag({path:path.join(__dirname,'simulation-core.js')});
   await page.addScriptTag({path:path.join(__dirname,'strategy-ui.js')});
   await page.addScriptTag({path:path.join(__dirname,'executive-ui.js')});

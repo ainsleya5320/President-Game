@@ -1,0 +1,10 @@
+{
+  "voters": 2000,
+  "lean": 30,
+  "bar": 51.5,
+  "traits": {
+    "age": {"young":0.3,"middle":0.45,"senior":0.25},
+    "place": {"city":0.35,"suburb":0.4,"town":0.25},
+    "income": {"low":0.3,"middle":0.5,"high":0.2}
+  }
+}

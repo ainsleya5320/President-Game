@@ -1,84 +1,98 @@
-/* Four Years: original, deterministic policy simulation. No browser or 3D dependencies. */
+/* Four Years: original, deterministic policy simulation. No browser or 3D dependencies.
+   Content (policies, voters, people, events, situations) lives in data/*.json and is loaded as FourYearsData. */
 const FourYearsSim=(()=>{
  const bound=(n,a=0,b=100)=>Math.max(a,Math.min(b,n));
- const METRICS={growth:'Economic growth',jobs:'Employment',prices:'Price stability',health:'Public health',schools:'Education',housing:'Housing access',safety:'Public safety',climate:'Climate resilience',energy:'Energy reliability',equality:'Economic mobility',liberty:'Civil liberties',trust:'Institutional trust'};
- const BASE={growth:51,jobs:52,prices:54,health:51,schools:50,housing:45,safety:57,climate:44,energy:56,equality:45,liberty:60,trust:53};
+ if(typeof FourYearsData!=='object'||!FourYearsData)throw new Error('Four Years game data is missing: load data/*.json as FourYearsData before simulation-core.js.');
+ const D=FourYearsData,METRICS=D.metrics.labels,BASE=D.metrics.base;
  // Each policy is a five-position lever. Effects are per quarter, after implementation catches up.
- const P=[
- ['tax','Progressive tax','Treasury',-7,{equality:2.8,housing:1,growth:-1.2,trust:.6}],
- ['corporate','Business tax','Treasury',-6,{equality:1.3,growth:-1.6,jobs:-.7}],
- ['sales','Consumption tax','Treasury',-5,{prices:-1.1,equality:-1.8,growth:-.4}],
- ['stimulus','Small business grants','Economy',7,{growth:2.2,jobs:2.3,prices:-.7}],
- ['roads','Transport investment','Economy',8,{growth:1.5,jobs:1.2,safety:1,climate:-.7}],
- ['trade','Open trade','Economy',-2,{growth:1.6,prices:1.3,jobs:-.8}],
- ['minimum','Wage floor','Economy',1,{equality:2.2,jobs:-.5,prices:-.8}],
- ['clinic','Community clinics','Health',8,{health:2.7,equality:1.1,trust:.7}],
- ['insurance','Health coverage','Health',11,{health:2.4,equality:2,trust:1}],
- ['prevention','Prevention programs','Health',5,{health:1.8,schools:.5}],
- ['teacher','Teacher support','Education',7,{schools:2.6,jobs:.4,equality:.6}],
- ['college','Skills and apprenticeships','Education',6,{schools:1.5,jobs:1.7,equality:.8}],
- ['housing','Affordable construction','Housing',9,{housing:3.1,jobs:1.2,prices:-.3}],
- ['zoning','Local zoning incentives','Housing',3,{housing:2.1,liberty:-.5,trust:-.3}],
- ['rent','Rental assistance','Housing',7,{housing:1.8,equality:1.4,prices:-.6}],
- ['police','Community policing','Justice',6,{safety:2.3,liberty:-.7,trust:.5}],
- ['rehab','Rehabilitation services','Justice',5,{safety:1.4,health:.8,equality:1}],
- ['surveillance','Security surveillance','Justice',5,{safety:2.3,liberty:-2.7,trust:-.8}],
- ['renewables','Clean power','Environment',9,{climate:2.7,energy:1,prices:-.6}],
- ['carbon','Carbon levy','Environment',-6,{climate:2.5,prices:-2,growth:-.7,equality:-.8}],
- ['grid','Grid modernization','Environment',8,{energy:2.8,climate:.7,jobs:.5}],
- ['fossil','Domestic fuel support','Environment',5,{energy:2.2,prices:1.1,climate:-2.8}],
- ['diplomacy','Diplomatic service','Foreign affairs',4,{trust:1.1,growth:.7,safety:.3}],
- ['transparency','Government transparency','Government',3,{trust:2.5,liberty:1.2}],
- ['elections','Election access','Government',4,{liberty:2,trust:1.4}],
- ['research','Public research','Government',6,{growth:1.3,health:.8,energy:.5}]
- ].map(([id,name,department,cost,effects])=>({id,name,department,cost,effects,lag:cost>=8?3:cost>=5?2:1}));
- const GROUPS=[
-  {id:'workers',name:'Working families',share:19,priorities:{jobs:2,equality:1.5,prices:1.4,housing:1},fav:['minimum','clinic','housing'],opp:['sales']},
-  {id:'business',name:'Business owners',share:12,priorities:{growth:2,prices:1.4,energy:1},fav:['trade','grid'],opp:['corporate','minimum']},
-  {id:'retirees',name:'Retirees',share:15,priorities:{health:2.3,prices:1.5,safety:1},fav:['insurance','clinic'],opp:['sales']},
-  {id:'students',name:'Students & young adults',share:11,priorities:{schools:1.6,housing:1.5,climate:1.2,liberty:1},fav:['college','rent'],opp:['surveillance']},
-  {id:'suburban',name:'Suburban households',share:14,priorities:{schools:1.4,safety:1.3,prices:1.3,trust:1},fav:['teacher','roads'],opp:['carbon']},
-  {id:'rural',name:'Rural communities',share:10,priorities:{energy:1.6,jobs:1.5,health:1.2},fav:['roads','fossil'],opp:['carbon']},
-  {id:'climate',name:'Climate advocates',share:7,priorities:{climate:3,liberty:1,trust:.7},fav:['renewables','carbon'],opp:['fossil']},
-  {id:'civil',name:'Civil-liberties voters',share:5,priorities:{liberty:3,trust:1.5},fav:['transparency','elections'],opp:['surveillance']},
-  {id:'health',name:'Health-care voters',share:4,priorities:{health:3,equality:1},fav:['clinic','insurance'],opp:[]},
-  {id:'fiscal',name:'Fiscal conservatives',share:3,priorities:{growth:1.3,prices:1.3,trust:1},fav:['trade'],opp:['stimulus','insurance','rent']}
- ];
- const AGENDA=[
-  {title:'The grid under pressure',body:'A heat wave has strained regional power lines. Governors are asking for immediate federal help.',choices:[['Release emergency funds',{energy:5,trust:2},7],['Coordinate a limited response',{energy:2,trust:1},3],['Ask states to manage it',{energy:-3,trust:-2},0]]},
-  {title:'Factory town layoffs',body:'A major manufacturer plans to close a plant. Workers want an answer before the next news cycle.',choices:[['Fund retraining',{jobs:2,schools:1},6],['Negotiate a bridge loan',{jobs:3,growth:1},9],['Let the market adjust',{jobs:-2,trust:-2},0]]},
-  {title:'School building failures',body:'A national survey finds hundreds of unsafe classrooms. The request for repairs arrives with a large price tag.',choices:[['Launch a repair fund',{schools:4,trust:1},9],['Offer matching grants',{schools:2},5],['Defer to districts',{schools:-2,trust:-1},0]]},
-  {title:'Port congestion',body:'Imports are waiting offshore. Stores warn of higher prices if the bottleneck continues.',choices:[['Expand port capacity',{growth:2,prices:2,climate:-1},7],['Temporarily streamline inspection',{prices:2,safety:-1},2],['Hold current standards',{prices:-2},0]]},
-  {title:'A health system warning',body:'Clinics report understaffing. Medical leaders say waiting will cost more later.',choices:[['Recruit and train clinicians',{health:3,jobs:1},8],['Target the worst regions',{health:2},4],['Request a private-sector plan',{health:-2,trust:-1},0]]},
-  {title:'Housing cost surge',body:'Rents are climbing faster than wages in several cities.',choices:[['Build mixed-income housing',{housing:4,jobs:1},9],['Temporary rent grants',{housing:2,equality:1},6],['Leave action to cities',{housing:-2,trust:-1},0]]},
-  {title:'Storm season',body:'A severe storm has damaged roads and substations. Emergency crews are working at capacity.',choices:[['Full federal mobilization',{energy:3,safety:2,trust:2},9],['Target the worst-hit counties',{energy:2,safety:1},5],['Rely on local reserves',{energy:-3,safety:-2},0]]},
-  {title:'A watchdog report',body:'Auditors find waste in a major contract. The cabinet wants time before releasing the report.',choices:[['Publish and reform',{trust:4,liberty:1},4],['Commission another review',{trust:-1},1],['Defend the program',{trust:-4},0]]},
-  {title:'The midterm aftermath',body:'The new legislature expects a fiscal proposal within weeks.',choices:[['Offer a bipartisan package',{trust:2,growth:1},5],['Push the full agenda',{trust:-1,equality:2},7],['Pause major bills',{trust:-2},0]]},
-  {title:'Energy price spike',body:'Fuel costs are feeding into grocery and commuting bills.',choices:[['Subsidize essential energy',{prices:3,energy:2,climate:-1},8],['Accelerate grid storage',{energy:2,climate:2},7],['Wait for prices to settle',{prices:-3,trust:-1},0]]},
-  {title:'Public safety debate',body:'Mayors demand help with a rise in violent crime. Civil-rights groups warn against a broad crackdown.',choices:[['Fund local prevention',{safety:2,health:1},6],['Expand federal enforcement',{safety:3,liberty:-2},5],['Keep existing strategy',{safety:-2},0]]},
-  {title:'Research breakthrough',body:'A new medical technique could be tested nationally, but the evidence is still preliminary.',choices:[['Fund clinical trials',{health:2,growth:1},7],['Run a small pilot',{health:1},3],['Decline federal support',{trust:-1},0]]},
-  {title:'A trade dispute',body:'A partner country threatens tariffs on domestic exports.',choices:[['Negotiate privately',{growth:1,trust:1},3],['Retaliate with tariffs',{jobs:1,prices:-2,growth:-1},2],['Accept their terms',{growth:-2,trust:-2},0]]},
-  {title:'Cities ask for transit',body:'Urban leaders propose a national transit initiative. Rural representatives say their roads need attention too.',choices:[['Fund transit and rural roads',{growth:2,climate:2,trust:1},9],['Fund targeted transit',{climate:2,growth:1},5],['Delay the decision',{trust:-2},0]]},
-  {title:'A difficult budget',body:'Interest payments are growing. The budget director says every new dollar needs a source.',choices:[['Raise revenue',{equality:2,growth:-1,prices:-1},3],['Trim programs',{growth:-1,equality:-2,trust:-1},0],['Borrow for another year',{growth:1,trust:-1},10]]},
-  {title:'The final address',body:'The country will soon judge the full term. What will you emphasize?',choices:[['Explain the hard tradeoffs',{trust:2},1],['Promise a new agenda',{trust:1,growth:1},3],['Focus on achievements',{trust:1},0]]}
- ];
- const PEOPLE=[
-  {id:'chen',name:'Maya Chen',role:'Housing secretary',initials:'MC',group:'workers',policies:['housing','rent','clinic','teacher'],expertise:['housing','health'],quote:'People need to see progress where they live.'},
-  {id:'ruiz',name:'Elena Ruiz',role:'Governor & regional ally',initials:'ER',group:'rural',policies:['roads','grid','college','fossil'],expertise:['jobs','energy'],quote:'Give my communities a reason to stand with you.'},
-  {id:'brooks',name:'Daniel Brooks',role:'Treasury secretary',initials:'DB',group:'fiscal',policies:['tax','corporate','sales','trade'],expertise:['jobs','health'],quote:'A promise needs a way to pay for it.'},
-  {id:'bell',name:'Samira Bell',role:'Congressional leader',initials:'SB',group:'suburban',policies:['teacher','transparency','police','elections'],expertise:['housing','energy'],quote:'I can bring votes. I need something to take back to them.'}
- ];
- const REGIONS=[
-  {id:'lakes',name:'Great Lakes',groups:['workers','business'],issues:['jobs','housing'],description:'Factory towns and growing cities want secure jobs and affordable homes.'},
-  {id:'coast',name:'Coastal cities',groups:['students','climate','civil'],issues:['housing','energy'],description:'Young renters want housing and a credible clean-energy plan.'},
-  {id:'plains',name:'Plains & small towns',groups:['rural','suburban'],issues:['energy','jobs'],description:'Energy prices, infrastructure and local employers lead the conversation.'},
-  {id:'sunbelt',name:'Sunbelt communities',groups:['retirees','health','fiscal'],issues:['health','housing'],description:'Health care and the cost of living dominate these fast-growing communities.'}
- ];
- const ISSUES={housing:{name:'Homes people can afford',metric:'housing'},jobs:{name:'Good jobs close to home',metric:'jobs'},health:{name:'Reliable health care',metric:'health'},energy:{name:'Affordable, reliable energy',metric:'energy'}};
+ const P=D.policies.map(p=>({...p,lag:p.lag??(p.cost>=8?3:p.cost>=5?2:1)}));
+ const GROUPS=D.groups,PEOPLE=D.people,REGIONS=D.campaign.regions,ISSUES=D.campaign.issues,EVENTS=D.events,SITUATIONS=D.situations,ELECTORATE=D.electorate,UNREST=D.unrest,populations=new Map();
+ validate();
+ // Hand-edited data fails loudly with every problem listed, instead of producing NaN deep inside a quarter.
+ function validate(){const errors=[],metric=k=>k in METRICS,metricOrDebt=k=>metric(k)||k==='debt',policyIds=new Set(P.map(p=>p.id)),groupIds=new Set(GROUPS.map(g=>g.id)),names=new Set(SITUATIONS.map(x=>x.name)),eventIds=new Set(),fixed=new Set();
+  const keys=(where,obj,ok=metric)=>{for(const k of Object.keys(obj||{}))if(!ok(k))errors.push(`${where}: unknown key "${k}"`);};
+  const ids=(where,list,known)=>{for(const id of list||[])if(!known.has(id))errors.push(`${where}: unknown id "${id}"`);};
+  for(const p of P)keys(`policy ${p.id}`,p.effects);
+  if(!(Number.isInteger(ELECTORATE.voters)&&ELECTORATE.voters>0))errors.push('electorate: voters must be a positive whole number');
+  if(typeof ELECTORATE.bar!=='number'||typeof ELECTORATE.lean!=='number')errors.push('electorate: bar and lean must be numbers');
+  for(const [k,dist] of Object.entries(ELECTORATE.traits))if(Math.abs(Object.values(dist).reduce((n,x)=>n+x,0)-1)>.001)errors.push(`electorate trait ${k}: shares must add up to 1`);
+  for(const g of GROUPS){keys(`group ${g.id} priorities`,g.priorities);ids(`group ${g.id}`,[...g.fav,...g.opp],policyIds);keys(`group ${g.id} drivers`,g.drivers);keys(`group ${g.id} disruption`,g.disruption?.effects);
+   if(!(g.share>0&&g.share<=100))errors.push(`group ${g.id}: share must be a percentage of voters above 0`);
+   for(const [k,table] of Object.entries(g.traits||{})){if(!ELECTORATE.traits[k])errors.push(`group ${g.id}: unknown trait "${k}"`);else keys(`group ${g.id} trait ${k}`,table,v=>v in ELECTORATE.traits[k]);}}
+  if(UNREST.stages.some((x,i)=>i&&x.at<=UNREST.stages[i-1].at))errors.push('unrest: stages must be in rising order');
+  for(const x of UNREST.stages)keys(`unrest stage ${x.name}`,x.effects);
+  ids('unrest attempt security',Object.keys(UNREST.attempt.security),policyIds);
+  for(const [id,o] of Object.entries(UNREST.attempt.outcomes))keys(`unrest outcome ${id}`,o.effects);
+  for(const p of PEOPLE){ids(`person ${p.id} policies`,p.policies,policyIds);ids(`person ${p.id} group`,[p.group],groupIds);}
+  for(const r of REGIONS){ids(`region ${r.id} groups`,r.groups,groupIds);keys(`region ${r.id} issues`,Object.fromEntries(r.issues.map(i=>[i,1])),k=>k in ISSUES);}
+  for(const x of SITUATIONS){if(!metricOrDebt(x.metric))errors.push(`situation ${x.name}: unknown metric "${x.metric}"`);
+   if((x.below===undefined)===(x.above===undefined))errors.push(`situation ${x.name}: set exactly one of "below" or "above"`);
+   else if(typeof x.clearsAt!=='number'||(x.below!==undefined?x.clearsAt<x.below:x.clearsAt>x.above))errors.push(`situation ${x.name}: clearsAt must sit on the recovery side of the trigger`);
+   keys(`situation ${x.name} effects`,x.effects);keys(`situation ${x.name} groups`,x.groups,k=>groupIds.has(k));}
+  for(const e of EVENTS){if(eventIds.has(e.id))errors.push(`event ${e.id}: duplicate id`);eventIds.add(e.id);
+   if(e.fixed!==undefined){if(!Number.isInteger(e.fixed)||e.fixed<0||e.fixed>15||fixed.has(e.fixed))errors.push(`event ${e.id}: fixed must be a unique quarter from 0 to 15`);fixed.add(e.fixed);}
+   const w=e.when||{};keys(`event ${e.id} when.below`,w.below,metricOrDebt);keys(`event ${e.id} when.above`,w.above,metricOrDebt);
+   for(const name of [...(w.situations||[]),...(w.absent||[])])if(!names.has(name))errors.push(`event ${e.id}: unknown situation "${name}"`);
+   if(w.unrest!==undefined&&typeof w.unrest!=='number')errors.push(`event ${e.id}: when.unrest must be a number`);
+   if(!e.choices?.length)errors.push(`event ${e.id}: needs at least one choice`);
+   for(const c of e.choices||[]){keys(`event ${e.id} choice "${c.label}"`,c.effects);if(typeof c.cost!=='number')errors.push(`event ${e.id} choice "${c.label}": cost must be a number`);if(c.calm!==undefined&&typeof c.calm!=='number')errors.push(`event ${e.id} choice "${c.label}": calm must be a number`);}}
+  if(errors.length)throw new Error('Four Years data errors:\n'+errors.join('\n'));}
+ function situation(name){return SITUATIONS.find(x=>x.name===name);}
+ function activeSituations(s){return (s.situations||[]).map(situation).filter(Boolean);}
+ function metricValue(s,key){return key==='debt'?s.debt:s.metrics[key];}
+ // A situation starts past its trigger and only clears once the condition recovers past clearsAt, so it cannot flicker.
+ function updateSituations(s){const before=s.situations||[];return SITUATIONS.filter(x=>{const v=metricValue(s,x.metric),on=before.includes(x.name);return x.below!==undefined?v<(on?x.clearsAt:x.below):v>(on?x.clearsAt:x.above);}).map(x=>x.name);}
+ // Event deck: fixed events keep their quarter; the rest are drawn by weight from events whose conditions hold, reproducibly from the save's seed.
+ function eventEligible(s,e){const w=e.when||{},q=s.quarter;if((w.from!==undefined&&q<w.from)||(w.until!==undefined&&q>w.until))return false;
+  if(Object.entries(w.below||{}).some(([k,v])=>!(metricValue(s,k)<v))||Object.entries(w.above||{}).some(([k,v])=>!(metricValue(s,k)>v)))return false;
+  if(w.unrest!==undefined&&!GROUPS.some(g=>(s.unrest?.anger[g.id]||0)>=w.unrest))return false;
+  return (w.situations||[]).every(n=>s.situations.includes(n))&&!(w.absent||[]).some(n=>s.situations.includes(n));}
+ function roll(seed,quarter){let t=(seed^Math.imul(quarter+1,0x9e3779b1))>>>0;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;}
+ function drawEvent(s){const used=new Set(s.deck.used),open=EVENTS.filter(e=>!used.has(e.id)),flexible=open.filter(e=>e.fixed===undefined);
+  let event=open.find(e=>e.fixed===s.quarter);
+  if(!event){const eligible=flexible.filter(e=>eventEligible(s,e)),pool=eligible.length?eligible:flexible.length?flexible:EVENTS.filter(e=>e.fixed===undefined),total=pool.reduce((n,e)=>n+(e.weight??1),0);
+   let r=roll(s.seed,s.quarter)*total;event=pool.find(e=>(r-=(e.weight??1))<0)||pool[pool.length-1];}
+  s.deck.current=event.id;if(!used.has(event.id))s.deck.used.push(event.id);return event;}
+ function currentEvent(s){return EVENTS.find(e=>e.id===s.deck?.current)||null;}
+ // Saves from before the deck continue with the event they were already shown.
+ function legacyDeck(s){return {used:EVENTS.filter(e=>e.legacyQuarter!==undefined&&e.legacyQuarter<=s.quarter).map(e=>e.id),current:s.ended?null:EVENTS.find(e=>e.legacyQuarter===s.quarter)?.id??null};}
+ function newSeed(){return Math.floor(Math.random()*2147483647);}
+ // Electorate: a seeded population of individual voters. Traits decide which groups each voter joins, and groups overlap.
+ function stream(seed){let a=seed>>>0;return ()=>{a=a+0x6d2b79f5>>>0;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};}
+ function population(seed){if(populations.has(seed))return populations.get(seed);const next=stream(seed^0x5bd1e995),pick=dist=>{let x=next();for(const [k,p] of Object.entries(dist))if((x-=p)<0)return k;return Object.keys(dist).at(-1);};
+  const voters=Array.from({length:ELECTORATE.voters},()=>({traits:Object.fromEntries(Object.entries(ELECTORATE.traits).map(([k,dist])=>[k,pick(dist)])),lean:(next()*2-1)*ELECTORATE.lean,draws:GROUPS.map(()=>next())}));
+  // Normalize trait affinity so each group's average membership matches its data share.
+  const affinity=GROUPS.map(g=>voters.map(v=>Object.entries(g.traits||{}).reduce((m,[k,table])=>m*(table[v.traits[k]]??1),1))),norms=affinity.map(a=>a.reduce((n,x)=>n+x,0)/a.length||1);
+  const result={voters,affinity,norms};populations.set(seed,result);return result;}
+ // Membership drifts with conditions: e.g. poor public health turns more people into health-care voters.
+ function membershipFactor(s,g){return bound(1+Object.entries(g.drivers||{}).reduce((n,[k,c])=>n+c*(s.metrics[k]-50)/50,0),.3,2);}
+ function electorate(s){const pop=population(s.seed),moods=groupMoods(s),n=GROUPS.length,count=pop.voters.length,members=new Array(n).fill(0),supporters=new Array(n).fill(0),national=moods.reduce((a,g)=>a+g.approval*g.share,0)/moods.reduce((a,g)=>a+g.share,0);
+  const scale=GROUPS.map((g,j)=>g.share/100/pop.norms[j]*membershipFactor(s,g)),joined=new Array(n);
+  let votes=0,turnout=0,memberships=0;
+  for(let i=0;i<count;i++){const v=pop.voters[i];let k=0,score=0,turn=0;
+   for(let j=0;j<n;j++)if(v.draws[j]<scale[j]*pop.affinity[j][i]){joined[k++]=j;score+=moods[j].approval;turn+=moods[j].turnout;}
+   score=k?score/k:national;turn=k?turn/k:55;const approve=score+v.lean>=ELECTORATE.bar;
+   for(let x=0;x<k;x++){members[joined[x]]++;if(approve)supporters[joined[x]]++;}
+   memberships+=k;turnout+=turn;if(approve)votes+=turn;}
+  return {poll:Math.round(votes/turnout*100),overlap:Math.round(memberships/count*10)/10,groups:moods.map((g,j)=>{const anger=s.unrest?.anger[g.id]||0;return {...g,share:Math.round(members[j]/count*100),support:members[j]?Math.round(supporters[j]/members[j]*100):0,anger:Math.round(anger),stage:unrestStage(anger)?.name||null};})};}
+ // Radicalization: groups that stay far below the unrest threshold build anger, escalating from protests to disruption to extremists.
+ function unrestStage(anger){return UNREST.stages.filter(x=>anger>=x.at).at(-1)||null;}
+ function unrestPressure(s){const out={effects:{},revenue:0};for(const g of GROUPS){const stage=unrestStage(s.unrest?.anger[g.id]||0);if(!stage)continue;const k=bound(g.share/20,.3,1.5),add=fx=>{for(const [m,v] of Object.entries(fx||{}))out.effects[m]=(out.effects[m]||0)+v*k;};add(stage.effects);if(stage.disruption){add(g.disruption?.effects);out.revenue+=(g.disruption?.revenue||0)*k;}}return out;}
+ function unrest(s){return groups(s).filter(g=>g.stage).sort((a,b)=>b.anger-a.anger);}
+ function updateUnrest(s,report){for(const g of groups(s)){const before=s.unrest.anger[g.id]||0,after=Math.round(bound(before*(1-UNREST.decay)+Math.max(0,UNREST.threshold-g.approval)*UNREST.rate)*10)/10,was=unrestStage(before),now=unrestStage(after);s.unrest.anger[g.id]=after;
+   if(now&&now!==was&&after>before){const detail=`${g.name}: ${now.name.toLowerCase()}${now.disruption&&g.disruption?` (${g.disruption.name.toLowerCase()})`:''}.`;report.changes.push(`Unrest rising. ${detail}`);log(s,'unrest','Unrest rising',detail);}
+   if(!now&&was){report.changes.push(`${g.name} unrest has calmed.`);log(s,'unrest','Unrest calmed',g.name);}}
+  const a=UNREST.attempt,angry=GROUPS.filter(g=>s.unrest.anger[g.id]>=a.at).sort((x,y)=>s.unrest.anger[y.id]-s.unrest.anger[x.id]);if(!angry.length)return;
+  // Police and surveillance lower the odds of an attempt; weaker security raises them.
+  const security=bound(1-Object.entries(a.security).reduce((n,[id,c])=>n+c*(s.levels[id]-2),0),.2,1.6),chance=bound(a.chance*security*(1+(angry.length-1)*.25),0,.9);
+  if(roll(s.seed^0x2545f491,s.quarter)>=chance)return;
+  const kind=roll(s.seed^0x68e31da4,s.quarter)<a.foiled?'foiled':'attack',o=a.outcomes[kind];
+  s.effects.push({due:s.quarter+1,delta:o.effects,title:o.title});s.capital=bound(s.capital+(o.capital||0),0,20);s.unrest.incidents.push({quarter:s.quarter,group:angry[0].id,outcome:kind});
+  report.changes.push(`${o.title}. ${o.detail}`);log(s,'security',o.title,`${o.detail} Investigators link it to extremists among ${angry[0].name.toLowerCase()}.`);}
  function politicalDefaults(){return {relationships:Object.fromEntries(PEOPLE.map(p=>[p.id,50])),appointments:[],promises:[],goodwill:{},campaign:{boosts:{},trips:[]}};}
- function upgrade(s){const defaults=politicalDefaults();for(const [k,v] of Object.entries(defaults))if(s[k]===undefined)s[k]=v;s.version=4;return ExecutiveSim.initialize(s);}
- function fresh(){const levels=Object.fromEntries(P.map(p=>[p.id,2]));return ExecutiveSim.initialize({version:4,quarter:0,location:'oval',levels,implemented:{...levels},metrics:{...BASE},capital:12,debt:72,budget:null,agendaChoice:null,history:[],effects:[],situations:[],polls:[],midterm:null,ended:false,legacy:null,seed:6137,...politicalDefaults()});}
- function migrate(old){if(!old||typeof old!=='object')return fresh();if(old.version===2||old.version===3||old.version===4)return upgrade(old);const s=fresh();s.location=old.location==='aircraft'?'aircraft':'oval';s.quarter=bound(Math.floor((old.month||0)/3),0,15);s.metrics.trust=bound(Number(old.trust)||53);s.metrics.growth=bound(Number(old.fiscal)||50);s.capital=bound(Math.round((Number(old.capital)||7)*1.5),0,20);s.legacy={months:old.month||0,history:old.history||[],trust:old.trust,fiscal:old.fiscal};s.history.push({quarter:s.quarter,type:'legacy',title:'First-year record preserved',detail:`${s.legacy.months} monthly briefings from the earlier prototype are archived below.`});return s;}
+ function upgrade(s){const defaults=politicalDefaults();for(const [k,v] of Object.entries(defaults))if(s[k]===undefined)s[k]=v;if(!Number.isInteger(s.seed))s.seed=6137;if(!s.situations)s.situations=[];if(!s.deck)s.deck=legacyDeck(s);if(!s.unrest)s.unrest={anger:{},incidents:[]};s.version=6;return ExecutiveSim.initialize(s);}
+ function fresh(seed=6137){const levels=Object.fromEntries(P.map(p=>[p.id,2]));const s=ExecutiveSim.initialize({version:6,quarter:0,location:'oval',levels,implemented:{...levels},metrics:{...BASE},capital:12,debt:72,budget:null,agendaChoice:null,history:[],effects:[],situations:[],polls:[],midterm:null,ended:false,legacy:null,seed,deck:{used:[],current:null},unrest:{anger:{},incidents:[]},...politicalDefaults()});drawEvent(s);return s;}
+ function migrate(old){if(!old||typeof old!=='object')return fresh();if([2,3,4,5,6].includes(old.version)){const s=upgrade(old);if(!s.ended&&!currentEvent(s)){s.agendaChoice=null;drawEvent(s);}return s;}const s=fresh();s.location=old.location==='aircraft'?'aircraft':'oval';s.quarter=bound(Math.floor((old.month||0)/3),0,15);s.metrics.trust=bound(Number(old.trust)||53);s.metrics.growth=bound(Number(old.fiscal)||50);s.capital=bound(Math.round((Number(old.capital)||7)*1.5),0,20);s.deck=legacyDeck(s);s.legacy={months:old.month||0,history:old.history||[],trust:old.trust,fiscal:old.fiscal};s.history.push({quarter:s.quarter,type:'legacy',title:'First-year record preserved',detail:`${s.legacy.months} monthly briefings from the earlier prototype are archived below.`});return s;}
  function people(s){return PEOPLE.map(p=>ExecutiveSim.person(s,p));}
  function availableSlots(s){return Math.max(0,2-s.appointments.filter(a=>a.quarter===s.quarter).length);}
  function campaignSeason(s){return !s.ended&&[6,7,14,15].includes(s.quarter);}
@@ -102,11 +116,12 @@ const FourYearsSim=(()=>{
  function tripPreview(s,regionId,issueId,personId){const region=REGIONS.find(r=>r.id===regionId),issue=ISSUES[issueId],person=people(s).find(p=>p.id===personId);if(!region||!issue||!person)return null;const relevant=region.issues.includes(issueId),credible=s.metrics[issue.metric]>=55,expert=person.expertise.includes(issueId),trusted=s.relationships[personId]>=60;const strength=Math.max(1,(relevant?2:1)+(credible?1:0)+(expert?1:0)+(trusted?1:0)-Math.min(2,s.promises.filter(p=>p.status==='broken'&&p.person===personId).length));return {region,issue,person,strength,relevant,credible,expert,trusted};}
  function campaignTrip(s,regionId,issueId,personId){const t=tripPreview(s,regionId,issueId,personId);if(!t||s.executive.cabinet[personId]?.status==='resigned')return {ok:false,reason:'Choose a region, a speech and a traveling adviser.'};if(!campaignSeason(s)||s.agendaChoice!==null)return {ok:false,reason:'Campaign flights open in the two quarters before each election, before filing the quarterly decision.'};if(s.location!=='aircraft')return {ok:false,reason:'Board Air Force One to hold your campaign briefing.'};if(!availableSlots(s)||s.campaign.trips.some(x=>x.quarter===s.quarter))return {ok:false,reason:'You need an open appointment slot. One campaign trip is allowed each quarter.'};if(s.capital<2)return {ok:false,reason:'A campaign trip requires 2 political capital.'};s.capital-=2;s.debt=bound(s.debt+2,0,250);s.executive.regions[regionId].goodwill=bound(s.executive.regions[regionId].goodwill+t.strength*.5,-15,15);s.appointments.push({quarter:s.quarter,type:'trip'});s.campaign.trips.push({quarter:s.quarter,region:regionId,issue:issueId,person:personId,strength:t.strength});for(const group of t.region.groups)s.campaign.boosts[group]=bound((s.campaign.boosts[group]||0)+t.strength,0,8);const detail=`${t.person.name} joins you in ${t.region.name}. Speech: ${t.issue.name}. Local voter support +${t.strength}; capital −2; debt +2. Campaign enthusiasm fades by 25% each quarter.`;log(s,'campaign',`On the road: ${t.region.name}`,detail);return {ok:true,detail};}
  function policy(id){return P.find(p=>p.id===id)}
- function budget(s){let revenue=87,spending=85;for(const p of P){const contribution=(s.levels[p.id]-2)*p.cost;if(p.cost<0)revenue-=contribution;else spending+=contribution;}revenue+=(s.metrics.growth-50)*.2;spending+=s.debt*.045+ExecutiveSim.spending(s);return {revenue:Math.round(revenue),spending:Math.round(spending),balance:Math.round(revenue-spending),interest:Math.round(s.debt*.045)};}
- function groups(s){return GROUPS.map(g=>{let weighted=0,total=0;for(const [key,w] of Object.entries(g.priorities)){weighted+=(s.metrics[key]-50)*w;total+=w;}let stance=0;for(const id of g.fav)stance+=(s.levels[id]-2)*1.8;for(const id of g.opp)stance-=(s.levels[id]-2)*1.8;const approval=bound(Math.round(51+weighted/Math.max(1,total)*.85+stance+(s.goodwill?.[g.id]||0)+(s.campaign?.boosts[g.id]||0)+ExecutiveSim.modifier(s,g.id)),5,95);return {...g,approval,turnout:bound(Math.round(58+Math.abs(approval-50)*.3+(g.id==='retirees'?10:0)),40,85)};});}
- function poll(s){const gs=groups(s),total=gs.reduce((a,g)=>a+g.share*g.turnout,0);return Math.round(gs.reduce((a,g)=>a+g.share*g.turnout*g.approval,0)/total);}
+ function budget(s){let revenue=87,spending=85;for(const p of P){const contribution=(s.levels[p.id]-2)*p.cost;if(p.cost<0)revenue-=contribution;else spending+=contribution;}revenue+=(s.metrics.growth-50)*.2+activeSituations(s).reduce((n,x)=>n+(x.revenue||0),0)+unrestPressure(s).revenue;spending+=s.debt*.045+ExecutiveSim.spending(s);return {revenue:Math.round(revenue),spending:Math.round(spending),balance:Math.round(revenue-spending),interest:Math.round(s.debt*.045)};}
+ function groupMoods(s){return GROUPS.map(g=>{let weighted=0,total=0;for(const [key,w] of Object.entries(g.priorities)){weighted+=(s.metrics[key]-50)*w;total+=w;}let stance=0;for(const id of g.fav)stance+=(s.levels[id]-2)*1.8;for(const id of g.opp)stance-=(s.levels[id]-2)*1.8;const approval=bound(Math.round(51+weighted/Math.max(1,total)*.85+stance+(s.goodwill?.[g.id]||0)+(s.campaign?.boosts[g.id]||0)+activeSituations(s).reduce((n,x)=>n+(x.groups?.[g.id]||0),0)+ExecutiveSim.modifier(s,g.id)),5,95);return {...g,approval,turnout:bound(Math.round(58+Math.abs(approval-50)*.3+(g.turnout||0)),40,85)};});}
+ function groups(s){return electorate(s).groups;}
+ function poll(s){return electorate(s).poll;}
  function changePolicy(s,id,level){const p=policy(id);if(!p||s.ended||s.agendaChoice!==null||level<0||level>4||!Number.isInteger(level))return {ok:false,reason:'This policy cannot be changed now.'};if(level===4&&ExecutiveSim.BILLS.some(b=>b.policy===id)&&!s.executive.bills.some(b=>b.status==='passed'&&ExecutiveSim.BILLS.find(d=>d.id===b.id).policy===id))return {ok:false,reason:'Full-strength funding needs an act of Congress. Open Congress to introduce the bill.'};const previous=s.levels[id],steps=Math.abs(level-previous);if(!steps)return {ok:false,reason:'That setting is already in force.'};const cost=steps*(2+(p.lag>1?1:0));if(s.capital<cost)return {ok:false,reason:`Requires ${cost} political capital.`};s.capital-=cost;s.levels[id]=level;s.history.push({quarter:s.quarter,type:'policy',title:p.name,detail:`Set to ${level}/4 · ${cost} political capital`});return {ok:true,cost};}
- function choose(s,index){if(s.ended||s.agendaChoice!==null)return false;const event=AGENDA[s.quarter],choice=event?.choices[index];if(!choice)return false;s.agendaChoice=index;s.effects.push({due:s.quarter+1,delta:choice[1],title:`${event.title}: ${choice[0]}`});s.debt=bound(s.debt+choice[2]*.45,0,250);s.history.push({quarter:s.quarter,type:'agenda',title:event.title,detail:`${choice[0]} · Cost ${choice[2]} budget units; effects arrive next quarter.`});return true;}
+ function choose(s,index){if(s.ended||s.agendaChoice!==null)return false;const event=currentEvent(s),choice=event?.choices[index];if(!choice)return false;s.agendaChoice=index;s.effects.push({due:s.quarter+1,delta:choice.effects,title:`${event.title}: ${choice.label}`});s.debt=bound(s.debt+choice.cost*.45,0,250);if(choice.calm){const top=GROUPS.map(g=>g.id).sort((a,b)=>(s.unrest.anger[b]||0)-(s.unrest.anger[a]||0))[0];s.unrest.anger[top]=bound((s.unrest.anger[top]||0)-choice.calm);}s.history.push({quarter:s.quarter,type:'agenda',event:event.id,title:event.title,detail:`${choice.label} · ${choice.cost<0?`Saves ${-choice.cost}`:`Cost ${choice.cost}`} budget units; effects arrive next quarter.`});return true;}
  function advance(s){if(s.ended||s.agendaChoice===null)return false;upgrade(s);const report={quarter:s.quarter+1,changes:[],situations:[],budget:null,election:null};s.quarter++;
   for(const promise of s.promises.filter(p=>p.status==='open')){if(s.levels[promise.policy]>=promise.target)report.changes.push(resolvePromise(s,promise,true));else if(s.quarter>=promise.due)report.changes.push(resolvePromise(s,promise,false));}
   for(const group of Object.keys(s.campaign.boosts))s.campaign.boosts[group]*=.75;
@@ -115,6 +130,9 @@ const FourYearsSim=(()=>{
   for(const p of P)for(const [key,value] of Object.entries(p.effects))incoming[key]+=(s.implemented[p.id]-2)*value;
   for(const effect of s.effects.filter(e=>e.due===s.quarter)){for(const [key,value] of Object.entries(effect.delta))incoming[key]+=value;report.changes.push(effect.title);s.history.push({quarter:s.quarter,type:'effect',title:effect.title,detail:Object.entries(effect.delta).map(([k,v])=>`${METRICS[k]} ${v>0?'+':''}${v}`).join(' · ')});}
   s.effects=s.effects.filter(e=>e.due>s.quarter);
+  // Active situations are part of the web: they push on conditions until they clear.
+  for(const x of activeSituations(s))for(const [key,value] of Object.entries(x.effects||{}))incoming[key]+=value;
+  for(const [key,value] of Object.entries(unrestPressure(s).effects))incoming[key]+=value;
   // Conditions feed back into each other, while inertia stops a lever from solving a crisis instantly.
   incoming.growth+=(s.metrics.jobs-50)*.018-Math.max(0,s.debt-100)*.025;
   incoming.jobs+=(s.metrics.growth-50)*.025;incoming.housing+=(s.metrics.jobs-50)*.025;incoming.health+=(s.metrics.housing-50)*.015;incoming.energy+=(s.metrics.climate-50)*.018;
@@ -122,12 +140,14 @@ const FourYearsSim=(()=>{
   const previous={...s.metrics};for(const key of Object.keys(BASE))s.metrics[key]=bound(Math.round((s.metrics[key]+(BASE[key]+incoming[key]-s.metrics[key])*.36)*10)/10,0,100);
   report.changes.push(...Object.keys(BASE).filter(k=>Math.abs(s.metrics[k]-previous[k])>=1.4).map(k=>`${METRICS[k]} ${s.metrics[k]>previous[k]?'rose':'fell'} to ${Math.round(s.metrics[k])}`));
   const b=budget(s);s.budget=b;s.debt=bound(Math.round((s.debt-b.balance*.3)*10)/10,0,250);report.budget=b;
-  const definitions=[['Recession','growth',38,'below'],['Housing emergency','housing',36,'below'],['Overloaded clinics','health',37,'below'],['Power instability','energy',38,'below'],['Trust crisis','trust',35,'below'],['Inflation shock','prices',37,'below'],['Clean-energy transition','climate',65,'above'],['Broad job market','jobs',64,'above']];
-  s.situations=definitions.filter(([,k,t,side])=>side==='below'?s.metrics[k]<t:s.metrics[k]>t).map(([name])=>name);if(s.debt>140)s.situations.push('Debt warning');report.situations=[...s.situations];
+  const before=s.situations;s.situations=updateSituations(s);report.situations=[...s.situations];
+  for(const name of s.situations)if(!before.includes(name))report.changes.push(`New situation: ${name}`);
+  for(const name of before)if(!s.situations.includes(name)&&situation(name))report.changes.push(`Situation eased: ${name}`);
   ExecutiveSim.quarter(s,report);
-  const currentPoll=poll(s);s.polls.push({quarter:s.quarter,approval:currentPoll});s.capital=bound(s.capital+(currentPoll>=55?4:currentPoll>=42?3:2)+(s.situations.includes('Trust crisis')?-1:0),0,20);
+  updateUnrest(s,report);
+  const currentPoll=poll(s);s.polls.push({quarter:s.quarter,approval:currentPoll});s.capital=bound(s.capital+(currentPoll>=55?4:currentPoll>=42?3:2)+activeSituations(s).reduce((n,x)=>n+(x.capital||0),0),0,20);
   if(s.quarter===8){const regional=ExecutiveSim.election(s,currentPoll);s.midterm={vote:currentPoll,majority:regional.won,regional};s.executive.mandate=regional.won?5:-5;if(!s.midterm.majority)s.capital=bound(s.capital-3,0,20);report.election={type:'midterm',...s.midterm};}
   if(s.quarter===16){s.ended=true;report.election={type:'general',vote:currentPoll,...ExecutiveSim.election(s,currentPoll)};s.executive.finalElection=report.election;}
-  s.agendaChoice=null;s.history.push({quarter:s.quarter,type:'report',title:`Quarter ${s.quarter} report`,detail:`Polling ${currentPoll}% · budget ${b.balance>=0?'+':''}${b.balance} · debt ${Math.round(s.debt)}`});return report;}
- return {executive:ExecutiveSim,people,METRICS,BASE,P,GROUPS,AGENDA,PEOPLE,REGIONS,ISSUES,fresh,migrate,policy,budget,groups,poll,changePolicy,choose,advance,bound,availableSlots,campaignSeason,request,meeting,tripPreview,campaignTrip};
+  s.agendaChoice=null;if(!s.ended)drawEvent(s);s.history.push({quarter:s.quarter,type:'report',title:`Quarter ${s.quarter} report`,detail:`Polling ${currentPoll}% · budget ${b.balance>=0?'+':''}${b.balance} · debt ${Math.round(s.debt)}`});return report;}
+ return {executive:ExecutiveSim,people,METRICS,BASE,P,GROUPS,EVENTS,SITUATIONS,PEOPLE,REGIONS,ISSUES,situation,updateSituations,ELECTORATE,UNREST,electorate,unrest,unrestStage,currentEvent,eventEligible,newSeed,fresh,migrate,policy,budget,groups,poll,changePolicy,choose,advance,bound,availableSlots,campaignSeason,request,meeting,tripPreview,campaignTrip};
 })();

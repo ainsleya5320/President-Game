@@ -41,7 +41,7 @@ function dashboardAttention(){
  const unfinished=state.executive.encounters.find(e=>e.quarter===state.quarter&&!e.done);
  if(unfinished)items.push({page:'moments',tag:'On air',text:'Finish your media appearance',urgent:true});
  for(const person of FourYearsSim.people(state))if(state.executive.cabinet[person.id].status==='resigned')items.push({page:'team',tag:'Vacancy',text:person.role,urgent:true});
- if(!state.ended)items.push({page:'command',tag:state.agendaChoice===null?'Decision waiting':'Ready to advance',text:FourYearsSim.AGENDA[state.quarter].title});
+ if(!state.ended)items.push({page:'command',tag:state.agendaChoice===null?'Decision waiting':'Ready to advance',text:FourYearsSim.currentEvent(state)?.title||'Term complete'});
  if(!state.executive.platform&&!state.ended)items.push({page:'legacy',tag:'Your mandate',text:'Choose your three campaign promises'});
  return items;
 }

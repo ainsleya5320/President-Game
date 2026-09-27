@@ -1,0 +1,498 @@
+[
+  {
+    "id": "the-grid-under-pressure",
+    "title": "The grid under pressure",
+    "body": "A heat wave has strained regional power lines. Governors are asking for immediate federal help.",
+    "legacyQuarter": 0,
+    "weight": 2,
+    "when": {"below":{"energy":58}},
+    "choices": [
+      {"label":"Release emergency funds","effects":{"energy":5,"trust":2},"cost":7},
+      {"label":"Coordinate a limited response","effects":{"energy":2,"trust":1},"cost":3},
+      {"label":"Ask states to manage it","effects":{"energy":-3,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "factory-town-layoffs",
+    "title": "Factory town layoffs",
+    "body": "A major manufacturer plans to close a plant. Workers want an answer before the next news cycle.",
+    "legacyQuarter": 1,
+    "when": {"below":{"jobs":56}},
+    "choices": [
+      {"label":"Fund retraining","effects":{"jobs":2,"schools":1},"cost":6},
+      {"label":"Negotiate a bridge loan","effects":{"jobs":3,"growth":1},"cost":9},
+      {"label":"Let the market adjust","effects":{"jobs":-2,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "school-building-failures",
+    "title": "School building failures",
+    "body": "A national survey finds hundreds of unsafe classrooms. The request for repairs arrives with a large price tag.",
+    "legacyQuarter": 2,
+    "when": {"below":{"schools":55}},
+    "choices": [
+      {"label":"Launch a repair fund","effects":{"schools":4,"trust":1},"cost":9},
+      {"label":"Offer matching grants","effects":{"schools":2},"cost":5},
+      {"label":"Defer to districts","effects":{"schools":-2,"trust":-1},"cost":0}
+    ]
+  },
+  {
+    "id": "port-congestion",
+    "title": "Port congestion",
+    "body": "Imports are waiting offshore. Stores warn of higher prices if the bottleneck continues.",
+    "legacyQuarter": 3,
+    "when": {"from":1},
+    "choices": [
+      {"label":"Expand port capacity","effects":{"growth":2,"prices":2,"climate":-1},"cost":7},
+      {"label":"Temporarily streamline inspection","effects":{"prices":2,"safety":-1},"cost":2},
+      {"label":"Hold current standards","effects":{"prices":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "a-health-system-warning",
+    "title": "A health system warning",
+    "body": "Clinics report understaffing. Medical leaders say waiting will cost more later.",
+    "legacyQuarter": 4,
+    "when": {"below":{"health":55}},
+    "choices": [
+      {"label":"Recruit and train clinicians","effects":{"health":3,"jobs":1},"cost":8},
+      {"label":"Target the worst regions","effects":{"health":2},"cost":4},
+      {"label":"Request a private-sector plan","effects":{"health":-2,"trust":-1},"cost":0}
+    ]
+  },
+  {
+    "id": "housing-cost-surge",
+    "title": "Housing cost surge",
+    "body": "Rents are climbing faster than wages in several cities.",
+    "legacyQuarter": 5,
+    "weight": 2,
+    "when": {"below":{"housing":50}},
+    "choices": [
+      {"label":"Build mixed-income housing","effects":{"housing":4,"jobs":1},"cost":9},
+      {"label":"Temporary rent grants","effects":{"housing":2,"equality":1},"cost":6},
+      {"label":"Leave action to cities","effects":{"housing":-2,"trust":-1},"cost":0}
+    ]
+  },
+  {
+    "id": "storm-season",
+    "title": "Storm season",
+    "body": "A severe storm has damaged roads and substations. Emergency crews are working at capacity.",
+    "legacyQuarter": 6,
+    "weight": 2,
+    "choices": [
+      {"label":"Full federal mobilization","effects":{"energy":3,"safety":2,"trust":2},"cost":9},
+      {"label":"Target the worst-hit counties","effects":{"energy":2,"safety":1},"cost":5},
+      {"label":"Rely on local reserves","effects":{"energy":-3,"safety":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "a-watchdog-report",
+    "title": "A watchdog report",
+    "body": "Auditors find waste in a major contract. The cabinet wants time before releasing the report.",
+    "legacyQuarter": 7,
+    "when": {"from":2},
+    "choices": [
+      {"label":"Publish and reform","effects":{"trust":4,"liberty":1},"cost":4},
+      {"label":"Commission another review","effects":{"trust":-1},"cost":1},
+      {"label":"Defend the program","effects":{"trust":-4},"cost":0}
+    ]
+  },
+  {
+    "id": "the-midterm-aftermath",
+    "title": "The midterm aftermath",
+    "body": "The new legislature expects a fiscal proposal within weeks.",
+    "legacyQuarter": 8,
+    "fixed": 8,
+    "choices": [
+      {"label":"Offer a bipartisan package","effects":{"trust":2,"growth":1},"cost":5},
+      {"label":"Push the full agenda","effects":{"trust":-1,"equality":2},"cost":7},
+      {"label":"Pause major bills","effects":{"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "energy-price-spike",
+    "title": "Energy price spike",
+    "body": "Fuel costs are feeding into grocery and commuting bills.",
+    "legacyQuarter": 9,
+    "when": {"below":{"prices":58}},
+    "choices": [
+      {"label":"Subsidize essential energy","effects":{"prices":3,"energy":2,"climate":-1},"cost":8},
+      {"label":"Accelerate grid storage","effects":{"energy":2,"climate":2},"cost":7},
+      {"label":"Wait for prices to settle","effects":{"prices":-3,"trust":-1},"cost":0}
+    ]
+  },
+  {
+    "id": "public-safety-debate",
+    "title": "Public safety debate",
+    "body": "Mayors demand help with a rise in violent crime. Civil-rights groups warn against a broad crackdown.",
+    "legacyQuarter": 10,
+    "when": {"below":{"safety":60},"absent":["Crime wave"]},
+    "choices": [
+      {"label":"Fund local prevention","effects":{"safety":2,"health":1},"cost":6},
+      {"label":"Expand federal enforcement","effects":{"safety":3,"liberty":-2},"cost":5},
+      {"label":"Keep existing strategy","effects":{"safety":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "research-breakthrough",
+    "title": "Research breakthrough",
+    "body": "A new medical technique could be tested nationally, but the evidence is still preliminary.",
+    "legacyQuarter": 11,
+    "choices": [
+      {"label":"Fund clinical trials","effects":{"health":2,"growth":1},"cost":7},
+      {"label":"Run a small pilot","effects":{"health":1},"cost":3},
+      {"label":"Decline federal support","effects":{"trust":-1},"cost":0}
+    ]
+  },
+  {
+    "id": "a-trade-dispute",
+    "title": "A trade dispute",
+    "body": "A partner country threatens tariffs on domestic exports.",
+    "legacyQuarter": 12,
+    "choices": [
+      {"label":"Negotiate privately","effects":{"growth":1,"trust":1},"cost":3},
+      {"label":"Retaliate with tariffs","effects":{"jobs":1,"prices":-2,"growth":-1},"cost":2},
+      {"label":"Accept their terms","effects":{"growth":-2,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "cities-ask-for-transit",
+    "title": "Cities ask for transit",
+    "body": "Urban leaders propose a national transit initiative. Rural representatives say their roads need attention too.",
+    "legacyQuarter": 13,
+    "when": {"from":3},
+    "choices": [
+      {"label":"Fund transit and rural roads","effects":{"growth":2,"climate":2,"trust":1},"cost":9},
+      {"label":"Fund targeted transit","effects":{"climate":2,"growth":1},"cost":5},
+      {"label":"Delay the decision","effects":{"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "a-difficult-budget",
+    "title": "A difficult budget",
+    "body": "Interest payments are growing. The budget director says every new dollar needs a source.",
+    "legacyQuarter": 14,
+    "weight": 2,
+    "when": {"from":4,"above":{"debt":85},"absent":["Debt warning"]},
+    "choices": [
+      {"label":"Raise revenue","effects":{"equality":2,"growth":-1,"prices":-1},"cost":3},
+      {"label":"Trim programs","effects":{"growth":-1,"equality":-2,"trust":-1},"cost":0},
+      {"label":"Borrow for another year","effects":{"growth":1,"trust":-1},"cost":10}
+    ]
+  },
+  {
+    "id": "the-final-address",
+    "title": "The final address",
+    "body": "The country will soon judge the full term. What will you emphasize?",
+    "legacyQuarter": 15,
+    "fixed": 15,
+    "choices": [
+      {"label":"Explain the hard tradeoffs","effects":{"trust":2},"cost":1},
+      {"label":"Promise a new agenda","effects":{"trust":1,"growth":1},"cost":3},
+      {"label":"Focus on achievements","effects":{"trust":1},"cost":0}
+    ]
+  },
+  {
+    "id": "recession-rescue",
+    "title": "Two quarters of contraction",
+    "body": "Economists confirm the economy has shrunk for two straight quarters. Congressional leaders want a rescue plan before layoffs spread.",
+    "weight": 4,
+    "when": {"situations":["Recession"]},
+    "choices": [
+      {"label":"Pass a broad stimulus","effects":{"growth":4,"jobs":3,"prices":-1},"cost":10},
+      {"label":"Extend unemployment support","effects":{"jobs":1,"equality":2,"trust":1},"cost":6},
+      {"label":"Hold the line on spending","effects":{"growth":-2,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "families-without-homes",
+    "title": "Families without homes",
+    "body": "Families priced out of apartments are sleeping in cars and parks. City shelters are full and mayors are asking for federal help.",
+    "weight": 4,
+    "when": {"situations":["Housing emergency"]},
+    "choices": [
+      {
+        "label": "Fund shelters and building conversions",
+        "effects": {"housing":3,"health":1,"trust":1},
+        "cost": 8
+      },
+      {
+        "label": "Pay landlords to pause evictions",
+        "effects": {"housing":2,"equality":1,"prices":-1},
+        "cost": 6
+      },
+      {"label":"Leave it to the cities","effects":{"housing":-2,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "ambulances-turned-away",
+    "title": "Ambulances turned away",
+    "body": "Emergency rooms in several states are diverting ambulances. Hospital leaders say staff are exhausted and beds have run out.",
+    "weight": 4,
+    "when": {"situations":["Overloaded clinics"]},
+    "choices": [
+      {"label":"Deploy federal medical teams","effects":{"health":4,"trust":1},"cost":8},
+      {
+        "label": "Fast-track licences for foreign-trained nurses",
+        "effects": {"health":3,"trust":-1},
+        "cost": 3
+      },
+      {"label":"Ask hospitals to triage harder","effects":{"health":-2,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "rolling-blackouts",
+    "title": "Rolling blackouts",
+    "body": "Utilities have started cutting power by neighborhood during peak hours. Factories are idling shifts and hospitals are running on generators.",
+    "weight": 4,
+    "when": {"situations":["Power instability"]},
+    "choices": [
+      {"label":"Lease emergency generation","effects":{"energy":4,"climate":-2},"cost":7},
+      {"label":"Pay industry to cut peak demand","effects":{"energy":2,"growth":-1},"cost":3},
+      {
+        "label": "Let utilities ration supply",
+        "effects": {"energy":-2,"growth":-1,"trust":-2},
+        "cost": 0
+      }
+    ]
+  },
+  {
+    "id": "calls-to-resign",
+    "title": "Calls to resign",
+    "body": "A leaked memo suggests senior officials misled the public. Columnists on every side are demanding resignations.",
+    "weight": 4,
+    "when": {"situations":["Trust crisis"]},
+    "choices": [
+      {"label":"Appoint an independent inquiry","effects":{"trust":4,"liberty":1},"cost":2},
+      {"label":"Give a televised apology","effects":{"trust":2},"cost":0},
+      {"label":"Go after the leakers","effects":{"trust":-3,"liberty":-2,"safety":1},"cost":0}
+    ]
+  },
+  {
+    "id": "checkout-sticker-shock",
+    "title": "Sticker shock at the checkout",
+    "body": "Grocery and rent increases are outpacing paychecks. Voters blame whoever is in charge.",
+    "weight": 4,
+    "when": {"situations":["Inflation shock"]},
+    "choices": [
+      {
+        "label": "Suspend consumption taxes on essentials",
+        "effects": {"prices":3,"equality":1},
+        "cost": 8
+      },
+      {"label":"Crack down on price gouging","effects":{"prices":1,"trust":1,"growth":-1},"cost":2},
+      {
+        "label": "Back the central bank's rate rises",
+        "effects": {"prices":3,"growth":-2,"jobs":-2},
+        "cost": 0
+      }
+    ]
+  },
+  {
+    "id": "credit-rating-warning",
+    "title": "A credit rating warning",
+    "body": "A major ratings agency warns that national debt is on an unsustainable path. Borrowing costs are starting to climb.",
+    "weight": 4,
+    "when": {"situations":["Debt warning"]},
+    "choices": [
+      {"label":"Announce spending cuts","effects":{"growth":-1,"equality":-2,"trust":1},"cost":-6},
+      {"label":"Raise revenue from top earners","effects":{"equality":2,"growth":-1},"cost":-5},
+      {"label":"Reassure markets and wait","effects":{"trust":-2,"growth":-1},"cost":0}
+    ]
+  },
+  {
+    "id": "help-wanted-everywhere",
+    "title": "Help wanted everywhere",
+    "body": "Employers cannot fill openings fast enough. Business groups say shortages are holding back growth.",
+    "weight": 3,
+    "when": {"situations":["Broad job market"]},
+    "choices": [
+      {"label":"Expand apprenticeships","effects":{"jobs":1,"schools":2},"cost":5},
+      {
+        "label": "Raise visa quotas for shortage jobs",
+        "effects": {"growth":2,"prices":1,"trust":-1},
+        "cost": 0
+      },
+      {"label":"Let wages rise","effects":{"equality":2,"prices":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "energy-towns-left-behind",
+    "title": "Energy towns left behind",
+    "body": "Communities built around fuel extraction say the clean-power transition is leaving them with shuttered plants and empty main streets.",
+    "weight": 3,
+    "when": {"situations":["Clean-energy transition"]},
+    "choices": [
+      {
+        "label": "Create a transition fund for energy towns",
+        "effects": {"jobs":2,"equality":1,"trust":1},
+        "cost": 7
+      },
+      {"label":"Slow the phase-out","effects":{"jobs":1,"energy":1,"climate":-2},"cost":0},
+      {"label":"Stay the course","effects":{"climate":1,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "violent-summer",
+    "title": "A violent summer",
+    "body": "A spike in shootings and carjackings dominates local news. Police chiefs and community groups disagree about what would help.",
+    "weight": 4,
+    "when": {"situations":["Crime wave"]},
+    "choices": [
+      {"label":"Surge federal agents","effects":{"safety":3,"liberty":-2},"cost":6},
+      {"label":"Fund violence-interruption programs","effects":{"safety":2,"health":1},"cost":5},
+      {"label":"Call it a local matter","effects":{"safety":-2,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "surveillance-whistleblower",
+    "title": "A surveillance whistleblower",
+    "body": "A contractor leaks documents showing a federal data program collected records on millions of ordinary citizens.",
+    "weight": 2,
+    "when": {"from":2,"below":{"liberty":55}},
+    "choices": [
+      {
+        "label": "Order a public review and new limits",
+        "effects": {"liberty":3,"trust":2,"safety":-1},
+        "cost": 2
+      },
+      {
+        "label": "Defend the program as lawful",
+        "effects": {"trust":-2,"liberty":-1,"safety":1},
+        "cost": 0
+      },
+      {
+        "label": "Prosecute the whistleblower",
+        "effects": {"liberty":-3,"trust":-3,"safety":1},
+        "cost": 1
+      }
+    ]
+  },
+  {
+    "id": "wildfire-season",
+    "title": "Wildfire season",
+    "body": "Fires are burning across the west earlier than ever. Smoke is closing schools hundreds of miles away.",
+    "when": {"from":1,"below":{"climate":50}},
+    "choices": [
+      {
+        "label": "Fund firefighting and forest management",
+        "effects": {"climate":2,"safety":2,"health":1},
+        "cost": 8
+      },
+      {"label":"Provide emergency aid only","effects":{"safety":1},"cost":4},
+      {"label":"Leave it to the states","effects":{"safety":-2,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "water-utility-ransomware",
+    "title": "Ransomware at the water plant",
+    "body": "Hackers have locked the control systems of a regional water utility. Residents are boiling tap water while engineers work manually.",
+    "choices": [
+      {
+        "label": "Mandate security standards for utilities",
+        "effects": {"safety":2,"trust":1,"growth":-1},
+        "cost": 4
+      },
+      {"label":"Pay for an emergency recovery","effects":{"safety":1,"trust":1},"cost":5},
+      {"label":"Leave it to the utility","effects":{"safety":-2,"health":-1,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "teachers-walk-out",
+    "title": "Teachers walk out",
+    "body": "Teachers in several states strike over pay and class sizes. Parents are scrambling for childcare.",
+    "when": {"below":{"schools":52}},
+    "choices": [
+      {"label":"Offer a federal pay supplement","effects":{"schools":3,"jobs":1},"cost":8},
+      {"label":"Broker negotiations","effects":{"schools":1,"trust":1},"cost":1},
+      {"label":"Stay out of it","effects":{"schools":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "plains-drought",
+    "title": "Drought on the plains",
+    "body": "A second dry season has withered crops and drained reservoirs. Farm families are facing foreclosure.",
+    "when": {"below":{"climate":48}},
+    "choices": [
+      {"label":"Send emergency farm aid","effects":{"jobs":1,"prices":1,"equality":1},"cost":7},
+      {"label":"Invest in water infrastructure","effects":{"climate":2,"growth":1},"cost":8},
+      {"label":"Rely on crop insurance","effects":{"jobs":-1,"trust":-1},"cost":2}
+    ]
+  },
+  {
+    "id": "outbreak-overseas",
+    "title": "An outbreak overseas",
+    "body": "Health agencies are tracking an unusual respiratory virus abroad. Scientists say the next month matters most.",
+    "when": {"from":2},
+    "choices": [
+      {
+        "label": "Stockpile supplies and scale up testing now",
+        "effects": {"health":3,"trust":1},
+        "cost": 6
+      },
+      {"label":"Monitor and prepare quietly","effects":{"health":1},"cost":2},
+      {"label":"Avoid alarming the public","effects":{"health":-3,"trust":-2},"cost":0}
+    ]
+  },
+  {
+    "id": "protests-at-the-gates",
+    "title": "Protests at the gates",
+    "body": "Thousands of demonstrators have gathered outside the White House fence. Their placards name your administration directly.",
+    "weight": 3,
+    "when": {"unrest":25},
+    "choices": [
+      {
+        "label": "Invite their leaders to the Roosevelt Room",
+        "effects": {"trust":1},
+        "cost": 1,
+        "calm": 25
+      },
+      {
+        "label": "Answer their concerns in a televised address",
+        "effects": {"trust":1},
+        "cost": 0,
+        "calm": 12
+      },
+      {"label":"Keep the fence line clear","effects":{"safety":1,"liberty":-1},"cost":2,"calm":-10}
+    ]
+  },
+  {
+    "id": "the-country-grinds-to-a-halt",
+    "title": "The country grinds to a halt",
+    "body": "Organized disruption is spreading from city to city. Supply chains and commuters are feeling it, and governors want to know your plan.",
+    "weight": 4,
+    "when": {"unrest":50},
+    "choices": [
+      {"label":"Offer a national settlement","effects":{"trust":1,"growth":1},"cost":8,"calm":35},
+      {"label":"Appoint a mediator","effects":{"trust":1},"cost":2,"calm":15},
+      {
+        "label": "Deploy federal law enforcement",
+        "effects": {"safety":2,"liberty":-2,"trust":-1},
+        "cost": 4,
+        "calm": -15
+      }
+    ]
+  },
+  {
+    "id": "a-credible-threat",
+    "title": "A credible threat",
+    "body": "The Secret Service reports chatter from an extremist cell that holds you personally responsible. Agents want to cancel public events.",
+    "weight": 5,
+    "when": {"unrest":75},
+    "choices": [
+      {
+        "label": "Cancel public events and tighten security",
+        "effects": {"safety":2,"trust":-1,"liberty":-1},
+        "cost": 3,
+        "calm": 0
+      },
+      {
+        "label": "Meet the grievance head-on with a reform package",
+        "effects": {"trust":2,"equality":1},
+        "cost": 9,
+        "calm": 30
+      },
+      {"label":"Keep the schedule and call for calm","effects":{"trust":1},"cost":0,"calm":10}
+    ]
+  }
+]

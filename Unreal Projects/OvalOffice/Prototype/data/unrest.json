@@ -1,0 +1,30 @@
+{
+  "threshold": 36,
+  "rate": 2,
+  "decay": 0.2,
+  "stages": [
+    {"at":25,"name":"Protests","effects":{"trust":-0.4}},
+    {"at":50,"name":"Disruption","disruption":true,"effects":{"trust":-0.6}},
+    {"at":75,"name":"Extremists","disruption":true,"effects":{"safety":-1,"trust":-0.8}}
+  ],
+  "attempt": {
+    "at": 75,
+    "chance": 0.2,
+    "security": {"police":0.12,"surveillance":0.18},
+    "foiled": 0.7,
+    "outcomes": {
+      "foiled": {
+        "title": "Plot against the president foiled",
+        "detail": "Federal agents disrupt a plot days before a public appearance. The country rallies, but the anger behind it has not gone away.",
+        "effects": {"trust":2,"safety":-1},
+        "capital": 1
+      },
+      "attack": {
+        "title": "Attack on the motorcade",
+        "detail": "The president is injured when the motorcade is attacked. Recovery takes weeks and the administration loses momentum.",
+        "effects": {"trust":-2,"safety":-2},
+        "capital": -4
+      }
+    }
+  }
+}

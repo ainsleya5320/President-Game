@@ -1,0 +1,30 @@
+{
+  "labels": {
+    "growth": "Economic growth",
+    "jobs": "Employment",
+    "prices": "Price stability",
+    "health": "Public health",
+    "schools": "Education",
+    "housing": "Housing access",
+    "safety": "Public safety",
+    "climate": "Climate resilience",
+    "energy": "Energy reliability",
+    "equality": "Economic mobility",
+    "liberty": "Civil liberties",
+    "trust": "Institutional trust"
+  },
+  "base": {
+    "growth": 51,
+    "jobs": 52,
+    "prices": 54,
+    "health": 51,
+    "schools": 50,
+    "housing": 45,
+    "safety": 57,
+    "climate": 44,
+    "energy": 56,
+    "equality": 45,
+    "liberty": 60,
+    "trust": 53
+  }
+}
