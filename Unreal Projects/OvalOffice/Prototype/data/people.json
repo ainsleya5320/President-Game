@@ -1,0 +1,42 @@
+[
+  {
+    "id": "chen",
+    "name": "Maya Chen",
+    "role": "Housing secretary",
+    "initials": "MC",
+    "group": "workers",
+    "policies": ["housing","rent","clinic","teacher"],
+    "expertise": ["housing","health"],
+    "quote": "People need to see progress where they live."
+  },
+  {
+    "id": "ruiz",
+    "name": "Elena Ruiz",
+    "role": "Governor & regional ally",
+    "initials": "ER",
+    "group": "rural",
+    "policies": ["roads","grid","college","fossil"],
+    "expertise": ["jobs","energy"],
+    "quote": "Give my communities a reason to stand with you."
+  },
+  {
+    "id": "brooks",
+    "name": "Daniel Brooks",
+    "role": "Treasury secretary",
+    "initials": "DB",
+    "group": "fiscal",
+    "policies": ["tax","corporate","sales","trade"],
+    "expertise": ["jobs","health"],
+    "quote": "A promise needs a way to pay for it."
+  },
+  {
+    "id": "bell",
+    "name": "Samira Bell",
+    "role": "Congressional leader",
+    "initials": "SB",
+    "group": "suburban",
+    "policies": ["teacher","transparency","police","elections"],
+    "expertise": ["housing","energy"],
+    "quote": "I can bring votes. I need something to take back to them."
+  }
+]

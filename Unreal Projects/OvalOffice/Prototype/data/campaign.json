@@ -1,0 +1,38 @@
+{
+  "regions": [
+    {
+      "id": "lakes",
+      "name": "Great Lakes",
+      "groups": ["workers","business"],
+      "issues": ["jobs","housing"],
+      "description": "Factory towns and growing cities want secure jobs and affordable homes."
+    },
+    {
+      "id": "coast",
+      "name": "Coastal cities",
+      "groups": ["students","climate","civil"],
+      "issues": ["housing","energy"],
+      "description": "Young renters want housing and a credible clean-energy plan."
+    },
+    {
+      "id": "plains",
+      "name": "Plains & small towns",
+      "groups": ["rural","suburban"],
+      "issues": ["energy","jobs"],
+      "description": "Energy prices, infrastructure and local employers lead the conversation."
+    },
+    {
+      "id": "sunbelt",
+      "name": "Sunbelt communities",
+      "groups": ["retirees","health","fiscal"],
+      "issues": ["health","housing"],
+      "description": "Health care and the cost of living dominate these fast-growing communities."
+    }
+  ],
+  "issues": {
+    "housing": {"name":"Homes people can afford","metric":"housing"},
+    "jobs": {"name":"Good jobs close to home","metric":"jobs"},
+    "health": {"name":"Reliable health care","metric":"health"},
+    "energy": {"name":"Affordable, reliable energy","metric":"energy"}
+  }
+}

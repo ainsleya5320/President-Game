@@ -1,5 +1,5 @@
 // Full production-page smoke check. Requires internet for the game's Three.js imports.
-const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http'),vm=require('node:vm');
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http'),{loadSimulation}=require('./load_simulation.cjs');
 (async()=>{
  const html=fs.readFileSync(path.join(__dirname,'Four_Years_Prototype.html'));
  const server=http.createServer((req,res)=>{res.writeHead(200,{'Content-Type':'text/html'});res.end(html)});
@@ -9,7 +9,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   browser=await chromium.launch({headless:true,executablePath:'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
   const context=await browser.newContext({viewport:{width:1450,height:950}}),page=await context.newPage(),errors=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('requestfailed',r=>console.log('Request failed:',r.url(),r.failure()?.errorText));
-  const Sim=vm.runInNewContext(fs.readFileSync(path.join(__dirname,'executive-systems.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'simulation-core.js'),'utf8')+'\nFourYearsSim');
+  const Sim=loadSimulation();
   const old=Sim.fresh();old.version=2;old.quarter=6;for(const key of ['relationships','appointments','promises','goodwill','campaign','executive'])delete old[key];
   await context.addInitScript(save=>{if(!localStorage.getItem('four-years-oval-prototype-v1'))localStorage.setItem('four-years-oval-prototype-v1',save)},JSON.stringify(old));
   await page.goto(`http://127.0.0.1:${server.address().port}/`,{waitUntil:'domcontentloaded'});
@@ -36,7 +36,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   await page.locator('#take-trip').click();
   assert.equal(await page.locator('#take-trip').isDisabled(),true);
   const saved=JSON.parse(await page.evaluate(()=>localStorage.getItem('four-years-oval-prototype-v1')));
-  assert.equal(saved.version,4);assert.equal(saved.quarter,6);assert.equal(saved.promises.length,1);assert.equal(saved.campaign.trips.length,1);assert.equal(saved.location,'aircraft');
+  assert.equal(saved.version,5);assert.equal(saved.quarter,6);assert.equal(saved.promises.length,1);assert.equal(saved.campaign.trips.length,1);assert.equal(saved.location,'aircraft');
   await page.screenshot({path:path.join(__dirname,'../Saved/BrowserPrototype/campaign-room.png')});
   await page.locator('#dashboard').click();assert.match(await page.locator('#dashboard-close').innerText(),/Air Force One/);
   await page.locator('#dashboard-close').click();assert.equal(await page.locator('#location-name').textContent(),'Air Force One');

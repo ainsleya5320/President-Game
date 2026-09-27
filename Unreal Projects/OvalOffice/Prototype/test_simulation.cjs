@@ -1,13 +1,12 @@
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const vm=require('node:vm');
-const source=fs.readFileSync(__dirname+'/executive-systems.js','utf8')+'\n'+fs.readFileSync(__dirname+'/simulation-core.js','utf8');
-const Sim=vm.runInNewContext(source+'\nFourYearsSim');
+const {loadSimulation}=require('./load_simulation.cjs');
+const Sim=loadSimulation();
 
 const initial=Sim.fresh();
 assert.equal(Sim.P.length,26);
 assert.equal(Sim.GROUPS.reduce((n,g)=>n+g.share,0),100);
-assert.equal(Sim.AGENDA.length,16);
+assert.ok(Sim.EVENTS.length>16,'the deck holds more events than one term can use');
+assert.equal(Sim.currentEvent(initial).id,initial.deck.current,'a new term opens with an event drawn');
 assert.equal(initial.quarter,0);
 
 const fiscal=Sim.fresh(),baseBudget=Sim.budget(fiscal);

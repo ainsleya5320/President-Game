@@ -1,0 +1,103 @@
+[
+  {
+    "name": "Recession",
+    "metric": "growth",
+    "below": 38,
+    "clearsAt": 42,
+    "description": "Falling output shrinks tax receipts and pushes layoffs through the economy.",
+    "effects": {"jobs":-2,"trust":-1},
+    "groups": {"workers":-3,"business":-3},
+    "revenue": -4
+  },
+  {
+    "name": "Housing emergency",
+    "metric": "housing",
+    "below": 36,
+    "clearsAt": 40,
+    "description": "Unaffordable homes strain family budgets and public health.",
+    "effects": {"health":-1,"equality":-1.5,"trust":-1},
+    "groups": {"students":-3,"workers":-2}
+  },
+  {
+    "name": "Overloaded clinics",
+    "metric": "health",
+    "below": 37,
+    "clearsAt": 41,
+    "description": "Long waits keep people out of work and erode faith in public services.",
+    "effects": {"jobs":-0.5,"trust":-1},
+    "groups": {"retirees":-3,"health":-4}
+  },
+  {
+    "name": "Power instability",
+    "metric": "energy",
+    "below": 38,
+    "clearsAt": 42,
+    "description": "Unreliable power slows businesses and makes streets less safe after dark.",
+    "effects": {"growth":-1.5,"safety":-1,"trust":-1},
+    "groups": {"business":-3,"rural":-2}
+  },
+  {
+    "name": "Trust crisis",
+    "metric": "trust",
+    "below": 35,
+    "clearsAt": 39,
+    "description": "Allies hesitate to spend political capital on an administration the public doubts.",
+    "effects": {"growth":-0.5},
+    "groups": {"suburban":-2,"civil":-2},
+    "capital": -1
+  },
+  {
+    "name": "Inflation shock",
+    "metric": "prices",
+    "below": 37,
+    "clearsAt": 41,
+    "description": "Rising prices eat into wages and savings, hurting fixed-income households most.",
+    "effects": {"equality":-1.5,"trust":-1.5,"growth":-1},
+    "groups": {"retirees":-3,"workers":-3,"fiscal":-3}
+  },
+  {
+    "name": "Crime wave",
+    "metric": "safety",
+    "below": 40,
+    "clearsAt": 44,
+    "description": "Fear of crime drives people off main streets and dominates local news.",
+    "effects": {"growth":-0.5,"trust":-1},
+    "groups": {"suburban":-3,"retirees":-2}
+  },
+  {
+    "name": "Civil-liberties backlash",
+    "metric": "liberty",
+    "below": 45,
+    "clearsAt": 49,
+    "description": "Activists and courts push back against government overreach.",
+    "effects": {"trust":-1.5},
+    "groups": {"civil":-5,"students":-2}
+  },
+  {
+    "name": "Debt warning",
+    "metric": "debt",
+    "above": 140,
+    "clearsAt": 130,
+    "description": "Lenders demand higher returns and fiscal conservatives lose patience.",
+    "effects": {"growth":-1,"trust":-1},
+    "groups": {"fiscal":-5,"business":-2}
+  },
+  {
+    "name": "Clean-energy transition",
+    "metric": "climate",
+    "above": 65,
+    "clearsAt": 61,
+    "description": "New clean-power industries hire workers while fossil-fuel regions feel the squeeze.",
+    "effects": {"energy":1,"jobs":0.5},
+    "groups": {"climate":4,"rural":-2}
+  },
+  {
+    "name": "Broad job market",
+    "metric": "jobs",
+    "above": 64,
+    "clearsAt": 60,
+    "description": "Plentiful jobs lift wages and confidence, but employers struggle to hire.",
+    "effects": {"growth":1,"equality":1,"prices":-1},
+    "groups": {"workers":3,"business":2}
+  }
+]

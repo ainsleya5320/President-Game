@@ -1,0 +1,184 @@
+[
+  {
+    "id": "tax",
+    "name": "Progressive tax",
+    "department": "Treasury",
+    "cost": -7,
+    "effects": {"equality":2.8,"housing":1,"growth":-1.2,"trust":0.6}
+  },
+  {
+    "id": "corporate",
+    "name": "Business tax",
+    "department": "Treasury",
+    "cost": -6,
+    "effects": {"equality":1.3,"growth":-1.6,"jobs":-0.7}
+  },
+  {
+    "id": "sales",
+    "name": "Consumption tax",
+    "department": "Treasury",
+    "cost": -5,
+    "effects": {"prices":-1.1,"equality":-1.8,"growth":-0.4}
+  },
+  {
+    "id": "stimulus",
+    "name": "Small business grants",
+    "department": "Economy",
+    "cost": 7,
+    "effects": {"growth":2.2,"jobs":2.3,"prices":-0.7}
+  },
+  {
+    "id": "roads",
+    "name": "Transport investment",
+    "department": "Economy",
+    "cost": 8,
+    "effects": {"growth":1.5,"jobs":1.2,"safety":1,"climate":-0.7}
+  },
+  {
+    "id": "trade",
+    "name": "Open trade",
+    "department": "Economy",
+    "cost": -2,
+    "effects": {"growth":1.6,"prices":1.3,"jobs":-0.8}
+  },
+  {
+    "id": "minimum",
+    "name": "Wage floor",
+    "department": "Economy",
+    "cost": 1,
+    "effects": {"equality":2.2,"jobs":-0.5,"prices":-0.8}
+  },
+  {
+    "id": "clinic",
+    "name": "Community clinics",
+    "department": "Health",
+    "cost": 8,
+    "effects": {"health":2.7,"equality":1.1,"trust":0.7}
+  },
+  {
+    "id": "insurance",
+    "name": "Health coverage",
+    "department": "Health",
+    "cost": 11,
+    "effects": {"health":2.4,"equality":2,"trust":1}
+  },
+  {
+    "id": "prevention",
+    "name": "Prevention programs",
+    "department": "Health",
+    "cost": 5,
+    "effects": {"health":1.8,"schools":0.5}
+  },
+  {
+    "id": "teacher",
+    "name": "Teacher support",
+    "department": "Education",
+    "cost": 7,
+    "effects": {"schools":2.6,"jobs":0.4,"equality":0.6}
+  },
+  {
+    "id": "college",
+    "name": "Skills and apprenticeships",
+    "department": "Education",
+    "cost": 6,
+    "effects": {"schools":1.5,"jobs":1.7,"equality":0.8}
+  },
+  {
+    "id": "housing",
+    "name": "Affordable construction",
+    "department": "Housing",
+    "cost": 9,
+    "effects": {"housing":3.1,"jobs":1.2,"prices":-0.3}
+  },
+  {
+    "id": "zoning",
+    "name": "Local zoning incentives",
+    "department": "Housing",
+    "cost": 3,
+    "effects": {"housing":2.1,"liberty":-0.5,"trust":-0.3}
+  },
+  {
+    "id": "rent",
+    "name": "Rental assistance",
+    "department": "Housing",
+    "cost": 7,
+    "effects": {"housing":1.8,"equality":1.4,"prices":-0.6}
+  },
+  {
+    "id": "police",
+    "name": "Community policing",
+    "department": "Justice",
+    "cost": 6,
+    "effects": {"safety":2.3,"liberty":-0.7,"trust":0.5}
+  },
+  {
+    "id": "rehab",
+    "name": "Rehabilitation services",
+    "department": "Justice",
+    "cost": 5,
+    "effects": {"safety":1.4,"health":0.8,"equality":1}
+  },
+  {
+    "id": "surveillance",
+    "name": "Security surveillance",
+    "department": "Justice",
+    "cost": 5,
+    "effects": {"safety":2.3,"liberty":-2.7,"trust":-0.8}
+  },
+  {
+    "id": "renewables",
+    "name": "Clean power",
+    "department": "Environment",
+    "cost": 9,
+    "effects": {"climate":2.7,"energy":1,"prices":-0.6}
+  },
+  {
+    "id": "carbon",
+    "name": "Carbon levy",
+    "department": "Environment",
+    "cost": -6,
+    "effects": {"climate":2.5,"prices":-2,"growth":-0.7,"equality":-0.8}
+  },
+  {
+    "id": "grid",
+    "name": "Grid modernization",
+    "department": "Environment",
+    "cost": 8,
+    "effects": {"energy":2.8,"climate":0.7,"jobs":0.5}
+  },
+  {
+    "id": "fossil",
+    "name": "Domestic fuel support",
+    "department": "Environment",
+    "cost": 5,
+    "effects": {"energy":2.2,"prices":1.1,"climate":-2.8}
+  },
+  {
+    "id": "diplomacy",
+    "name": "Diplomatic service",
+    "department": "Foreign affairs",
+    "cost": 4,
+    "effects": {"trust":1.1,"growth":0.7,"safety":0.3}
+  },
+  {
+    "id": "transparency",
+    "name": "Government transparency",
+    "department": "Government",
+    "cost": 3,
+    "effects": {"trust":2.5,"liberty":1.2}
+  },
+  {
+    "id": "elections",
+    "name": "Election access",
+    "department": "Government",
+    "cost": 4,
+    "effects": {"liberty":2,"trust":1.4}
+  },
+  {
+    "id": "research",
+    "name": "Public research",
+    "department": "Government",
+    "cost": 6,
+    "effects": {"growth":1.3,"health":0.8,"energy":0.5}
+  }
+]

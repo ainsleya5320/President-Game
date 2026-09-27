@@ -2,6 +2,7 @@ from pathlib import Path
 from io import BytesIO
 import base64, gzip, json, struct
 from PIL import Image, ImageFilter
+from game_data import data_script
 
 here = Path(__file__).resolve().parent
 source = here.parents[2] / 'oval-office'
@@ -92,6 +93,7 @@ markup = markup.replace('__DESK_PHOTOS__', json.dumps(desk_photos))
 markup = markup.replace('__ROOM_POLISH__', (here / 'room-polish.js').read_text(encoding='utf-8'))
 markup = markup.replace('__EXECUTIVE_SYSTEMS__', (here / 'executive-systems.js').read_text(encoding='utf-8'))
 markup = markup.replace('__EXECUTIVE_UI__', (here / 'executive-ui.js').read_text(encoding='utf-8'))
+markup = markup.replace('__GAME_DATA__', data_script(here / 'data'))
 markup = markup.replace('__SIMULATION_CORE__', (here / 'simulation-core.js').read_text(encoding='utf-8'))
 markup = markup.replace('__STRATEGY_UI__', (here / 'strategy-ui.js').read_text(encoding='utf-8'))
 markup = markup.replace('__STRATEGY_CSS__', (here / 'strategy-ui.css').read_text(encoding='utf-8'))

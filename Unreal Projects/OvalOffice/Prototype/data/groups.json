@@ -1,0 +1,82 @@
+[
+  {
+    "id": "workers",
+    "name": "Working families",
+    "share": 19,
+    "priorities": {"jobs":2,"equality":1.5,"prices":1.4,"housing":1},
+    "fav": ["minimum","clinic","housing"],
+    "opp": ["sales"]
+  },
+  {
+    "id": "business",
+    "name": "Business owners",
+    "share": 12,
+    "priorities": {"growth":2,"prices":1.4,"energy":1},
+    "fav": ["trade","grid"],
+    "opp": ["corporate","minimum"]
+  },
+  {
+    "id": "retirees",
+    "name": "Retirees",
+    "share": 15,
+    "priorities": {"health":2.3,"prices":1.5,"safety":1},
+    "fav": ["insurance","clinic"],
+    "opp": ["sales"]
+  },
+  {
+    "id": "students",
+    "name": "Students & young adults",
+    "share": 11,
+    "priorities": {"schools":1.6,"housing":1.5,"climate":1.2,"liberty":1},
+    "fav": ["college","rent"],
+    "opp": ["surveillance"]
+  },
+  {
+    "id": "suburban",
+    "name": "Suburban households",
+    "share": 14,
+    "priorities": {"schools":1.4,"safety":1.3,"prices":1.3,"trust":1},
+    "fav": ["teacher","roads"],
+    "opp": ["carbon"]
+  },
+  {
+    "id": "rural",
+    "name": "Rural communities",
+    "share": 10,
+    "priorities": {"energy":1.6,"jobs":1.5,"health":1.2},
+    "fav": ["roads","fossil"],
+    "opp": ["carbon"]
+  },
+  {
+    "id": "climate",
+    "name": "Climate advocates",
+    "share": 7,
+    "priorities": {"climate":3,"liberty":1,"trust":0.7},
+    "fav": ["renewables","carbon"],
+    "opp": ["fossil"]
+  },
+  {
+    "id": "civil",
+    "name": "Civil-liberties voters",
+    "share": 5,
+    "priorities": {"liberty":3,"trust":1.5},
+    "fav": ["transparency","elections"],
+    "opp": ["surveillance"]
+  },
+  {
+    "id": "health",
+    "name": "Health-care voters",
+    "share": 4,
+    "priorities": {"health":3,"equality":1},
+    "fav": ["clinic","insurance"],
+    "opp": []
+  },
+  {
+    "id": "fiscal",
+    "name": "Fiscal conservatives",
+    "share": 3,
+    "priorities": {"growth":1.3,"prices":1.3,"trust":1},
+    "fav": ["trade"],
+    "opp": ["stimulus","insurance","rent"]
+  }
+]
