@@ -21,6 +21,10 @@ The other strategy screens are still browser-only for now: policies, Congress, m
 
 Unreal needs to compile the new C++ module once.
 
+The Windows helper `Scripts/BuildFourYearsUnreal.ps1` builds `OvalOfficeEditor` with the installed bundled runtime, including an x64 fallback when an ARM Windows installation lacks the ARM .NET bundle. This preview was compiled successfully with Unreal 5.8.3, Visual Studio 2026/MSVC 14.51 and Windows SDK 10.0.26100.0.
+
+After building, **Edit Four Years in Unreal.cmd** opens the editor and runs `Scripts/configure_four_years.py`. The imported Oval map has an explicit `GameModeBase` override, which must be changed to `FourYearsGameMode` for Play in Editor. The setup script changes and saves only that map's game-mode setting. **Play Four Years in Unreal.cmd** also explicitly selects the native game mode when launching.
+
 1. Install **Visual Studio 2022** with the **Game development with C++** workload. On a Snapdragon (ARM) PC, also install the MSVC ARM64/x64 build tools the Unreal installer asks for.
 2. Right-click `OvalOffice.uproject` and choose **Generate Visual Studio project files**.
 3. Open the project in Unreal Engine 5.8 and accept the prompt to rebuild the `OvalOffice` module. Alternatively, build the `OvalOfficeEditor` target in Visual Studio.
