@@ -1,0 +1,774 @@
+{
+  "materials": [
+    {
+      "id": "DR_Flag_Bullion",
+      "color": [
+        0.61,
+        0.39,
+        0.105
+      ],
+      "roughness": 0.64,
+      "metallic": 0.22,
+      "texture": null
+    },
+    {
+      "id": "DR_Phone_Graphite",
+      "color": [
+        0.023,
+        0.029,
+        0.033
+      ],
+      "roughness": 0.39,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "DR_Phone_Rubber",
+      "color": [
+        0.012,
+        0.013,
+        0.016
+      ],
+      "roughness": 0.8,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "DR_Phone_Buttons",
+      "color": [
+        0.11,
+        0.13,
+        0.14
+      ],
+      "roughness": 0.47,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "DR_Phone_Legends",
+      "color": [
+        0.77,
+        0.79,
+        0.73
+      ],
+      "roughness": 0.6,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "DR_Phone_LCD",
+      "color": [
+        0.11,
+        0.22,
+        0.23
+      ],
+      "roughness": 0.33,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "DR_Memory_0",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "family-beach.png"
+    },
+    {
+      "id": "DR_Memory_1",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "family-garden.png"
+    },
+    {
+      "id": "DR_Memory_2",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "family-dog.png"
+    },
+    {
+      "id": "DR_Memory_3",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "coastal-memory.png"
+    },
+    {
+      "id": "DR_Memory_4",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "volunteer-day.png"
+    },
+    {
+      "id": "DR_Memory_5",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_121377.jpg"
+    },
+    {
+      "id": "DR_Memory_6",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_71971.jpg"
+    },
+    {
+      "id": "DR_Memory_7",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_152747.jpg"
+    },
+    {
+      "id": "DR_Oval_Washington",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "washington_portrait.png"
+    },
+    {
+      "id": "DR_Gilded_Frame",
+      "color": [
+        0.58,
+        0.37,
+        0.11
+      ],
+      "roughness": 0.31,
+      "metallic": 0.67,
+      "texture": null
+    },
+    {
+      "id": "DR_Frame_Recess",
+      "color": [
+        0.045,
+        0.025,
+        0.012
+      ],
+      "roughness": 0.7,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "DR_Art_146701",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_146701.jpg"
+    },
+    {
+      "id": "DR_Art_90048",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_90048.jpg"
+    },
+    {
+      "id": "DR_Art_3294",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_3294.jpg"
+    },
+    {
+      "id": "DR_Art_68792",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_68792.jpg"
+    },
+    {
+      "id": "DR_Art_120163",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_120163.jpg"
+    },
+    {
+      "id": "DR_Art_64715",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_64715.jpg"
+    },
+    {
+      "id": "DR_Art_57163",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_57163.jpg"
+    },
+    {
+      "id": "DR_Art_68388",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_68388.jpg"
+    },
+    {
+      "id": "DR_Art_30701",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_30701.jpg"
+    },
+    {
+      "id": "DR_Art_129639",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_129639.jpg"
+    },
+    {
+      "id": "DR_Art_100489",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_100489.jpg"
+    },
+    {
+      "id": "DR_Art_94127",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_94127.jpg"
+    },
+    {
+      "id": "DR_Art_14309",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_14309.jpg"
+    },
+    {
+      "id": "DR_Art_81564",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_81564.jpg"
+    },
+    {
+      "id": "DR_Art_152747",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_152747.jpg"
+    },
+    {
+      "id": "DR_Art_71971",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_71971.jpg"
+    },
+    {
+      "id": "DR_Art_121377",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_121377.jpg"
+    },
+    {
+      "id": "DR_Art_49356",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_49356.jpg"
+    },
+    {
+      "id": "DR_Art_59455",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_59455.jpg"
+    },
+    {
+      "id": "DR_Art_151108",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_151108.jpg"
+    },
+    {
+      "id": "DR_Art_72398",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.65,
+      "metallic": 0,
+      "texture": "art_72398.jpg"
+    }
+  ],
+  "groups": [
+    {
+      "name": "Oval_Flag_United_States",
+      "scene": "Oval",
+      "replace_group": "Flag_United_States",
+      "materials": {
+        "M55_United_States_flag_woven_silk": "/Game/OvalOffice/Materials/MI_M55_United_States_flag_woven_silk",
+        "DR_Flag_Bullion": "/Game/DecorRefresh/Materials/DR_Flag_Bullion",
+        "M02_Burnished_brass": "/Game/OvalOffice/Materials/MI_M02_Burnished_brass",
+        "M00_Aged_gilt_bronze": "/Game/OvalOffice/Materials/MI_M00_Aged_gilt_bronze"
+      },
+      "triangles": 31800
+    },
+    {
+      "name": "Oval_Flag_Presidential",
+      "scene": "Oval",
+      "replace_group": "Flag_Presidential",
+      "materials": {
+        "M41_Presidential_standard_woven_silk": "/Game/OvalOffice/Materials/MI_M41_Presidential_standard_woven_silk",
+        "DR_Flag_Bullion": "/Game/DecorRefresh/Materials/DR_Flag_Bullion",
+        "M02_Burnished_brass": "/Game/OvalOffice/Materials/MI_M02_Burnished_brass",
+        "M00_Aged_gilt_bronze": "/Game/OvalOffice/Materials/MI_M00_Aged_gilt_bronze"
+      },
+      "triangles": 31800
+    },
+    {
+      "name": "Oval_Desk_Accessories",
+      "scene": "Oval",
+      "replace_group": "Desk_Accessories",
+      "materials": {
+        "DR_Phone_Graphite": "/Game/DecorRefresh/Materials/DR_Phone_Graphite",
+        "DR_Phone_Legends": "/Game/DecorRefresh/Materials/DR_Phone_Legends",
+        "DR_Phone_Rubber": "/Game/DecorRefresh/Materials/DR_Phone_Rubber",
+        "DR_Phone_LCD": "/Game/DecorRefresh/Materials/DR_Phone_LCD",
+        "DR_Phone_Buttons": "/Game/DecorRefresh/Materials/DR_Phone_Buttons",
+        "M06_Dark_cordovan_leather_blotter": "/Game/OvalOffice/Materials/MI_M06_Dark_cordovan_leather_blotter",
+        "M54_Uncoated_cream_stationery": "/Game/OvalOffice/Materials/MI_M54_Uncoated_cream_stationery",
+        "M07_Ebony": "/Game/OvalOffice/Materials/MI_M07_Ebony",
+        "M38_Oak_recessed_panels": "/Game/OvalOffice/Materials/MI_M38_Oak_recessed_panels"
+      },
+      "triangles": 17868
+    },
+    {
+      "name": "Oval_Fireplace_Paintings",
+      "scene": "Oval",
+      "replace_group": "Fireplace_Paintings",
+      "materials": {
+        "DR_Oval_Washington": "/Game/DecorRefresh/Materials/DR_Oval_Washington",
+        "DR_Art_146701": "/Game/DecorRefresh/Materials/DR_Art_146701",
+        "DR_Art_90048": "/Game/DecorRefresh/Materials/DR_Art_90048",
+        "DR_Frame_Recess": "/Game/DecorRefresh/Materials/DR_Frame_Recess",
+        "DR_Gilded_Frame": "/Game/DecorRefresh/Materials/DR_Gilded_Frame"
+      },
+      "triangles": 2826
+    },
+    {
+      "name": "Oval_Rear_Credenza_and_Frames",
+      "scene": "Oval",
+      "replace_group": "Rear_Credenza_and_Frames",
+      "materials": {
+        "M01_Antique_mahogany": "/Game/OvalOffice/Materials/MI_M01_Antique_mahogany",
+        "M43_Resolute_aged_English_oak": "/Game/OvalOffice/Materials/MI_M43_Resolute_aged_English_oak",
+        "DR_Memory_0": "/Game/DecorRefresh/Materials/DR_Memory_0",
+        "M02_Burnished_brass": "/Game/OvalOffice/Materials/MI_M02_Burnished_brass",
+        "M07_Ebony": "/Game/OvalOffice/Materials/MI_M07_Ebony",
+        "DR_Memory_1": "/Game/DecorRefresh/Materials/DR_Memory_1",
+        "DR_Memory_2": "/Game/DecorRefresh/Materials/DR_Memory_2",
+        "DR_Memory_3": "/Game/DecorRefresh/Materials/DR_Memory_3",
+        "DR_Memory_4": "/Game/DecorRefresh/Materials/DR_Memory_4",
+        "DR_Memory_5": "/Game/DecorRefresh/Materials/DR_Memory_5",
+        "DR_Memory_6": "/Game/DecorRefresh/Materials/DR_Memory_6",
+        "DR_Memory_7": "/Game/DecorRefresh/Materials/DR_Memory_7"
+      },
+      "triangles": 7912
+    },
+    {
+      "name": "AirForceOne_06_Desk_objects_and_cabin_details",
+      "scene": "AirForceOne",
+      "replace_group": "06_Desk_objects_and_cabin_details",
+      "materials": {
+        "DR_Phone_Graphite": "/Game/DecorRefresh/Materials/DR_Phone_Graphite",
+        "DR_Phone_Legends": "/Game/DecorRefresh/Materials/DR_Phone_Legends",
+        "DR_Phone_Rubber": "/Game/DecorRefresh/Materials/DR_Phone_Rubber",
+        "DR_Phone_LCD": "/Game/DecorRefresh/Materials/DR_Phone_LCD",
+        "DR_Phone_Buttons": "/Game/DecorRefresh/Materials/DR_Phone_Buttons",
+        "AF04_Champagne_satin_metal": "/Game/AirForceOne/Materials/M_AF04_Champagne_satin_metal",
+        "AF25_Window_surround_enamel": "/Game/AirForceOne/Materials/M_AF25_Window_surround_enamel",
+        "AF12_Linen_lamp_shade": "/Game/AirForceOne/Materials/M_AF12_Linen_lamp_shade",
+        "AF20_Saddle_stitching": "/Game/AirForceOne/Materials/M_AF20_Saddle_stitching",
+        "AF13_Linen_lamp_shade_001": "/Game/AirForceOne/Materials/M_AF13_Linen_lamp_shade_001",
+        "AF14_Linen_lamp_shade_002": "/Game/AirForceOne/Materials/M_AF14_Linen_lamp_shade_002",
+        "AF16_Navy_textile": "/Game/AirForceOne/Materials/M_AF16_Navy_textile",
+        "AF23_Warm_stationery": "/Game/AirForceOne/Materials/M_AF23_Warm_stationery",
+        "AF07_Dark_bronze_reveals": "/Game/AirForceOne/Materials/M_AF07_Dark_bronze_reveals",
+        "AF02_Bookmatched_walnut_veneer": "/Game/AirForceOne/Materials/M_AF02_Bookmatched_walnut_veneer",
+        "AF17_Presidential_seal_emblem": "/Game/AirForceOne/Materials/M_AF17_Presidential_seal_emblem"
+      },
+      "triangles": 51244
+    },
+    {
+      "name": "AirForceOne_10_Presidential_seals_and_gallery",
+      "scene": "AirForceOne",
+      "replace_group": "10_Presidential_seals_and_gallery",
+      "materials": {
+        "AF02_Bookmatched_walnut_veneer": "/Game/AirForceOne/Materials/M_AF02_Bookmatched_walnut_veneer",
+        "AF23_Warm_stationery": "/Game/AirForceOne/Materials/M_AF23_Warm_stationery",
+        "AF04_Champagne_satin_metal": "/Game/AirForceOne/Materials/M_AF04_Champagne_satin_metal",
+        "DR_Art_94127": "/Game/DecorRefresh/Materials/DR_Art_94127",
+        "DR_Art_14309": "/Game/DecorRefresh/Materials/DR_Art_14309",
+        "DR_Art_81564": "/Game/DecorRefresh/Materials/DR_Art_81564",
+        "DR_Art_152747": "/Game/DecorRefresh/Materials/DR_Art_152747",
+        "DR_Art_71971": "/Game/DecorRefresh/Materials/DR_Art_71971",
+        "DR_Art_121377": "/Game/DecorRefresh/Materials/DR_Art_121377",
+        "AF16_Navy_textile": "/Game/AirForceOne/Materials/M_AF16_Navy_textile",
+        "AF18_Presidential_seal_gallery_plaque": "/Game/AirForceOne/Materials/M_AF18_Presidential_seal_gallery_plaque",
+        "DR_Art_100489": "/Game/DecorRefresh/Materials/DR_Art_100489",
+        "DR_Art_68388": "/Game/DecorRefresh/Materials/DR_Art_68388",
+        "DR_Art_57163": "/Game/DecorRefresh/Materials/DR_Art_57163",
+        "DR_Art_30701": "/Game/DecorRefresh/Materials/DR_Art_30701",
+        "DR_Art_129639": "/Game/DecorRefresh/Materials/DR_Art_129639",
+        "DR_Art_3294": "/Game/DecorRefresh/Materials/DR_Art_3294",
+        "DR_Art_68792": "/Game/DecorRefresh/Materials/DR_Art_68792",
+        "DR_Art_64715": "/Game/DecorRefresh/Materials/DR_Art_64715",
+        "DR_Art_120163": "/Game/DecorRefresh/Materials/DR_Art_120163"
+      },
+      "triangles": 25782
+    },
+    {
+      "name": "CabinetRoom_Fireplace_and_Art",
+      "scene": "CabinetRoom",
+      "replace_group": "Fireplace_and_Art",
+      "materials": {
+        "Hearth_Marble": "/Game/CabinetRoom/Materials/MI_Hearth_Marble",
+        "Microphone": "/Game/CabinetRoom/Materials/MI_Microphone",
+        "Painted_Ivory": "/Game/CabinetRoom/Materials/MI_Painted_Ivory",
+        "Dark_Mahogany": "/Game/CabinetRoom/Materials/MI_Dark_Mahogany",
+        "Antique_Brass": "/Game/CabinetRoom/Materials/MI_Antique_Brass",
+        "DR_Art_49356": "/Game/DecorRefresh/Materials/DR_Art_49356",
+        "DR_Art_59455": "/Game/DecorRefresh/Materials/DR_Art_59455",
+        "DR_Art_151108": "/Game/DecorRefresh/Materials/DR_Art_151108",
+        "DR_Art_72398": "/Game/DecorRefresh/Materials/DR_Art_72398",
+        "Mahogany": "/Game/CabinetRoom/Materials/MI_Mahogany",
+        "Ivory_Damask": "/Game/CabinetRoom/Materials/MI_Ivory_Damask",
+        "US_Flag": "/Game/CabinetRoom/Materials/MI_US_Flag",
+        "DR_Flag_Bullion": "/Game/DecorRefresh/Materials/DR_Flag_Bullion",
+        "Presidential_Flag": "/Game/CabinetRoom/Materials/MI_Presidential_Flag"
+      },
+      "triangles": 71192
+    }
+  ],
+  "placements": [
+    {
+      "scene": "Oval",
+      "kind": "indoor_flag",
+      "pole": [
+        -1.27,
+        4.2
+      ],
+      "top": 3.38,
+      "fly_width": 0.55,
+      "lowest": 0.8619999999999999
+    },
+    {
+      "scene": "Oval",
+      "kind": "indoor_flag",
+      "pole": [
+        1.27,
+        4.2
+      ],
+      "top": 3.38,
+      "fly_width": 0.55,
+      "lowest": 0.8619999999999999
+    },
+    {
+      "scene": "Oval",
+      "kind": "telephone",
+      "center": [
+        -0.68,
+        2.71,
+        0.923
+      ],
+      "front": [
+        1.2246467991473532e-16,
+        1.0,
+        0
+      ]
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "telephone",
+      "center": [
+        -1.77,
+        1.27,
+        0.8
+      ],
+      "front": [
+        0.6048276465777923,
+        -0.7963564013274265,
+        0
+      ]
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "telephone",
+      "center": [
+        0.23,
+        9.02,
+        0.812
+      ],
+      "front": [
+        1.0,
+        -6.123233995736766e-17,
+        0
+      ]
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Conference American landscape | artwork",
+      "title": "South American Landscape"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Conference Liberty | artwork",
+      "title": "A Marine"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Conference gallery American landscape | artwork",
+      "title": "Capture of the Tripoli by the Enterprise"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Conference gallery Washington | artwork",
+      "title": "After a Summer Shower"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Office Liberty | artwork",
+      "title": "New England Scenery"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Office landscape | artwork",
+      "title": "Catskill Mountains"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Office lounge American landscape | artwork",
+      "title": "The Old Mill"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Office lounge Liberty | artwork",
+      "title": "Blasted Tree"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Office presidential portrait | artwork",
+      "title": "The Coast of Labrador"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Passage gallery 1 | artwork",
+      "title": "Crossing the Ford"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Passage gallery 2 | artwork",
+      "title": "Coast Scene, Bathers"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Passage gallery 3 | artwork",
+      "title": "Husking Bee, Island of Nantucket"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Passage gallery 4 | artwork",
+      "title": "York Harbor, Coast of Maine"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Passage gallery 5 | artwork",
+      "title": "Mist Rising at Sunset in the Catskills"
+    },
+    {
+      "scene": "AirForceOne",
+      "kind": "painting",
+      "object": "Passage gallery 6 | artwork",
+      "title": "Boats at Rest"
+    },
+    {
+      "scene": "CabinetRoom",
+      "kind": "indoor_flag",
+      "pole": [
+        5.87,
+        -2.7
+      ],
+      "top": 3.01,
+      "fly_width": 0.55,
+      "lowest": 0.49199999999999977
+    },
+    {
+      "scene": "CabinetRoom",
+      "kind": "indoor_flag",
+      "pole": [
+        5.87,
+        2.7
+      ],
+      "top": 3.01,
+      "fly_width": 0.55,
+      "lowest": 0.49199999999999977
+    },
+    {
+      "scene": "CabinetRoom",
+      "kind": "painting",
+      "object": "Washington above the mantel",
+      "title": "Abraham Lincoln, Springfield, Illinois"
+    },
+    {
+      "scene": "CabinetRoom",
+      "kind": "painting",
+      "object": "American landscape",
+      "title": "Meetinghouse Hill, Roxbury, Massachusetts"
+    },
+    {
+      "scene": "CabinetRoom",
+      "kind": "painting",
+      "object": "Liberty portrait",
+      "title": "The Mill Pond"
+    },
+    {
+      "scene": "CabinetRoom",
+      "kind": "painting",
+      "object": "River valley",
+      "title": "Cows in a Pond at Sunset"
+    }
+  ]
+}
