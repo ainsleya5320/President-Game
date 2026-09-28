@@ -23,6 +23,9 @@ public:
 	// Within reach of the Resolute Desk, where the quarterly briefing opens.
 	bool IsNearDesk() const;
 
+	// By the sofas and the fireplace, where advisers meet the president.
+	bool IsNearSittingArea() const;
+
 	// Movement pauses while a screen is open.
 	void SetMovementEnabled(bool bEnabled) { bMovementEnabled = bEnabled; }
 
@@ -48,6 +51,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Four Years")
 	float DeskReach = 210.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Four Years")
+	FVector2D SittingAreaPosition = FVector2D(-315.f, 0.f);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Four Years")
+	float SittingAreaReach = 170.f;
 
 	// Furniture footprints the walker cannot enter.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Four Years")

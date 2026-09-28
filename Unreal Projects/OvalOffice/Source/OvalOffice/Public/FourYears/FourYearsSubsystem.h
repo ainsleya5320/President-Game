@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "FourYears/Core/FourYearsSim.h"
+#include "Engine/Texture2D.h"
 #include "FourYearsSubsystem.generated.h"
 
 USTRUCT(BlueprintType)
@@ -53,6 +54,87 @@ struct FFourYearsReport
 	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Election;
 };
 
+USTRUCT(BlueprintType)
+struct FFourYearsActionResult
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bOk = false;
+	// What happened, or why the action was refused.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Message;
+};
+
+// Capital, appointments and whether this quarter's decision is already filed.
+USTRUCT(BlueprintType)
+struct FFourYearsStatus
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Capital = 0;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 AppointmentsLeft = 0;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Approval = 0;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 BudgetBalance = 0;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bDecisionFiled = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bTermOver = false;
+};
+
+USTRUCT(BlueprintType)
+struct FFourYearsPolicy
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Id;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Name;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Department;
+	// Setting from 0 to 4; 2 is the starting level.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Level = 2;
+	// How far implementation has caught up with the setting.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") float Implemented = 2.f;
+	// Budget units per level above 2: spending when positive, revenue when negative.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 BudgetPerLevel = 0;
+	// Political capital for each one-step change.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 CapitalPerStep = 2;
+	// Quarters for a change to take full effect.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Lag = 1;
+	// Full strength (level 4) needs an act of Congress that has not passed yet.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bNeedsAct = false;
+	// Per-level effects, e.g. "Public health +2.7 · Economic mobility +1.1".
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Effects;
+};
+
+USTRUCT(BlueprintType)
+struct FFourYearsMeetingOption
+{
+	GENERATED_BODY()
+
+	// The response id the simulation expects: promise, compromise, listen, reassure, extend or withdraw.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Response;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Label;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Detail;
+};
+
+USTRUCT(BlueprintType)
+struct FFourYearsAdviser
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Id;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Name;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Role;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Initials;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Quote;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Relationship = 50;
+	// Resigned advisers cannot meet until an acting replacement is appointed; acting replacements use their own name.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bResigned = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bActing = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bMetThisQuarter = false;
+	// What they want this quarter, e.g. "Affordable construction at 3/4 (now 2/4)".
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Request;
+	// Their open promise, if any, e.g. "Affordable construction at 3/4 by quarter 4".
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Promise;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") TArray<FFourYearsMeetingOption> Options;
+};
+
 UCLASS()
 class OVALOFFICE_API UFourYearsSubsystem : public UGameInstanceSubsystem
 {
@@ -85,6 +167,35 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	bool SaveTerm() const;
 
+	UFUNCTION(BlueprintPure, Category = "Four Years")
+	FFourYearsStatus GetStatus() const;
+
+	UFUNCTION(BlueprintPure, Category = "Four Years")
+	TArray<FFourYearsPolicy> GetPolicies() const;
+
+	// Moves a policy to a new level (0-4), spending political capital. Saves on success.
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	FFourYearsActionResult SetPolicyLevel(const FString& PolicyId, int32 Level);
+
+	UFUNCTION(BlueprintPure, Category = "Four Years")
+	TArray<FFourYearsAdviser> GetAdvisers() const;
+
+	// Holds a meeting in the Oval Office. Uses one of the quarter's two appointments. Saves on success.
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	FFourYearsActionResult MeetAdviser(const FString& AdviserId, const FString& Response);
+
+	// Every promise made this term, newest first, e.g. "Kept · Affordable construction at 3/4 for Maya Chen".
+	UFUNCTION(BlueprintPure, Category = "Four Years")
+	TArray<FString> GetPromiseRecord() const;
+
+	// The adviser's portrait from Prototype/assets/characters, or null (acting replacements have none).
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	UTexture2D* GetPortrait(const FString& AdviserName);
+
+	// Where the president is: "oval" or "aircraft". Meetings need the Oval Office.
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	void SetLocation(const FString& Location);
+
 	// Saves live in Saved/FourYears/Term.json using the browser game's format.
 	UFUNCTION(BlueprintPure, Category = "Four Years")
 	FString GetSavePath() const;
@@ -97,6 +208,11 @@ private:
 	bool LoadGameData();
 	bool LoadTerm();
 	FString QuarterLabel(int32 Quarter) const;
+
+	FFourYearsActionResult ToResult(const FourYears::JsonValue& Result);
+
+	UPROPERTY(Transient)
+	TMap<FString, TObjectPtr<UTexture2D>> Portraits;
 
 	FourYears::Simulation Core;
 	FourYears::JsonValue State;

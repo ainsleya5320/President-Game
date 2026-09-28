@@ -58,6 +58,11 @@ bool AFourYearsWalker::IsNearDesk() const
 	return FVector2D::Distance(FVector2D(GetActorLocation().X, GetActorLocation().Y), DeskPosition) < DeskReach;
 }
 
+bool AFourYearsWalker::IsNearSittingArea() const
+{
+	return FVector2D::Distance(FVector2D(GetActorLocation().X, GetActorLocation().Y), SittingAreaPosition) < SittingAreaReach;
+}
+
 void AFourYearsWalker::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);

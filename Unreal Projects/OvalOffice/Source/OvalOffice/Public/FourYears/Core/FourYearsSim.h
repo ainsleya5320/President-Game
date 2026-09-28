@@ -75,6 +75,11 @@ public:
 	bool CampaignSeason(const JsonValue& S) const;
 	bool EventEligible(const JsonValue& S, const JsonValue& Event) const;
 	std::vector<std::string> UpdateSituations(const JsonValue& S) const;
+	// What an adviser asks for this quarter: {person, policy, active?, target, done}, or undefined for an
+	// unknown adviser. ActivePromise receives the index of their open promise in S.promises, or -1.
+	JsonValue Request(const JsonValue& S, const std::string& PersonId, int& ActivePromise) const;
+	// data/policies.json with each policy's implementation lag filled in.
+	const JsonValue& Policies() const { return PolicyList; }
 
 private:
 	struct FPopulation;
@@ -102,7 +107,6 @@ private:
 	void Upgrade(JsonValue& S) const;
 	void Initialize(JsonValue& S) const;
 	std::string ResolvePromise(JsonValue& S, std::size_t PromiseIndex, bool bKept) const;
-	JsonValue Request(const JsonValue& S, const std::string& PersonId, int& ActivePromise) const;
 	double Modifier(const JsonValue& S, const std::string& GroupId) const;
 	double Spending(const JsonValue& S) const;
 	double StaffFactor(const JsonValue& S, const std::string& PolicyId) const;
