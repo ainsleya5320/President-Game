@@ -7,7 +7,7 @@
 #include "FourYears/FourYearsSubsystem.h"
 #include "FourYears/FourYearsWalker.h"
 #include "InputCoreTypes.h"
-#include "SFourYearsBriefing.h"
+#include "SFourYearsScreen.h"
 #include "Styling/CoreStyle.h"
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/Layout/SBox.h"
@@ -19,6 +19,14 @@ void AFourYearsPlayerController::BeginPlay()
 	if (!IsLocalController())
 	{
 		return;
+	}
+	// This map is the Oval Office, where meetings and appointments happen.
+	if (UGameInstance* Instance = GetGameInstance())
+	{
+		if (UFourYearsSubsystem* Game = Instance->GetSubsystem<UFourYearsSubsystem>())
+		{
+			Game->SetLocation(TEXT("oval"));
+		}
 	}
 	SetInputMode(FInputModeGameOnly());
 	SetShowMouseCursor(false);
@@ -51,17 +59,17 @@ void AFourYearsPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReaso
 	if (UGameViewportClient* Viewport = GetWorld() ? GetWorld()->GetGameViewport() : nullptr)
 	{
 		if (Prompt.IsValid()) Viewport->RemoveViewportWidgetContent(Prompt.ToSharedRef());
-		if (Briefing.IsValid()) Viewport->RemoveViewportWidgetContent(Briefing.ToSharedRef());
+		if (Screen.IsValid()) Viewport->RemoveViewportWidgetContent(Screen.ToSharedRef());
 	}
 	Prompt.Reset();
-	Briefing.Reset();
+	Screen.Reset();
 	Super::EndPlay(EndPlayReason);
 }
 
 void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
-	if (!IsLocalController() || IsBriefingOpen())
+	if (!IsLocalController() || IsScreenOpen())
 	{
 		return;
 	}
@@ -76,48 +84,68 @@ void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 	}
 	const AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn());
 	const bool bAtDesk = Walker && Walker->IsNearDesk();
+	const bool bAtSofas = Walker && !bAtDesk && Walker->IsNearSittingArea();
 	if (PromptText.IsValid())
 	{
-		PromptText->SetText(FText::FromString(bAtDesk ? TEXT("Press E at the Resolute Desk to read your quarterly briefing") : TEXT("W/A/S/D to walk · mouse to look · walk to the Resolute Desk")));
+		const TCHAR* Text = bAtDesk ? TEXT("Press E at the Resolute Desk to read your quarterly briefing")
+			: bAtSofas ? TEXT("Press E by the sofas to meet your advisers")
+			: TEXT("W/A/S/D to walk · mouse to look · P for policies · the desk for briefings · the sofas for advisers");
+		PromptText->SetText(FText::FromString(Text));
 	}
-	if (bAtDesk && WasInputKeyJustPressed(EKeys::E))
+	if (WasInputKeyJustPressed(EKeys::E))
 	{
-		OpenBriefing();
+		if (bAtDesk) OpenBriefing();
+		else if (bAtSofas) OpenAdvisers();
+	}
+	if (WasInputKeyJustPressed(EKeys::P))
+	{
+		OpenPolicies();
 	}
 }
 
-void AFourYearsPlayerController::OpenBriefing()
+void AFourYearsPlayerController::OpenBriefing() { OpenScreen(static_cast<uint8>(EFourYearsPage::Briefing)); }
+void AFourYearsPlayerController::OpenPolicies() { OpenScreen(static_cast<uint8>(EFourYearsPage::Policies)); }
+void AFourYearsPlayerController::OpenAdvisers() { OpenScreen(static_cast<uint8>(EFourYearsPage::Advisers)); }
+
+void AFourYearsPlayerController::OpenScreen(uint8 Page)
 {
+	const EFourYearsPage Target = static_cast<EFourYearsPage>(Page);
+	if (IsScreenOpen())
+	{
+		Screen->ShowPage(Target);
+		return;
+	}
 	UGameViewportClient* Viewport = GetWorld() ? GetWorld()->GetGameViewport() : nullptr;
 	UGameInstance* Instance = GetGameInstance();
-	if (IsBriefingOpen() || !Viewport || !Instance)
+	if (!Viewport || !Instance)
 	{
 		return;
 	}
-	Briefing = SNew(SFourYearsBriefing)
+	Screen = SNew(SFourYearsScreen)
 		.Subsystem(Instance->GetSubsystem<UFourYearsSubsystem>())
-		.OnClose(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::CloseBriefing));
-	Viewport->AddViewportWidgetContent(Briefing.ToSharedRef(), 10);
+		.Page(Target)
+		.OnClose(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::CloseScreen));
+	Viewport->AddViewportWidgetContent(Screen.ToSharedRef(), 10);
 	if (Prompt.IsValid()) Prompt->SetVisibility(EVisibility::Collapsed);
 	if (AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn())) Walker->SetMovementEnabled(false);
 	FInputModeUIOnly Mode;
-	Mode.SetWidgetToFocus(Briefing);
+	Mode.SetWidgetToFocus(Screen);
 	Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	SetInputMode(Mode);
 	SetShowMouseCursor(true);
 }
 
-void AFourYearsPlayerController::CloseBriefing()
+void AFourYearsPlayerController::CloseScreen()
 {
-	if (!IsBriefingOpen())
+	if (!IsScreenOpen())
 	{
 		return;
 	}
 	if (UGameViewportClient* Viewport = GetWorld() ? GetWorld()->GetGameViewport() : nullptr)
 	{
-		Viewport->RemoveViewportWidgetContent(Briefing.ToSharedRef());
+		Viewport->RemoveViewportWidgetContent(Screen.ToSharedRef());
 	}
-	Briefing.Reset();
+	Screen.Reset();
 	if (Prompt.IsValid()) Prompt->SetVisibility(EVisibility::HitTestInvisible);
 	if (AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn())) Walker->SetMovementEnabled(true);
 	SetInputMode(FInputModeGameOnly());

@@ -1,6 +1,7 @@
 #include "FourYears/FourYearsSubsystem.h"
 
 #include "HAL/FileManager.h"
+#include "ImageUtils.h"
 #include "Misc/DateTime.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -257,4 +258,225 @@ FFourYearsReport UFourYearsSubsystem::AdvanceQuarter()
 			*ToFString(FourYears::FormatNumber(Election.Get("vote").AsNumber())), *ToFString(FourYears::FormatNumber(Points.AsNumber())));
 	}
 	return Report;
+}
+
+FFourYearsActionResult UFourYearsSubsystem::ToResult(const JsonValue& Result)
+{
+	FFourYearsActionResult Out;
+	Out.bOk = Result.Get("ok").Truthy();
+	Out.Message = ToFString(Result.Get(Out.bOk ? "detail" : "reason").AsString());
+	if (Out.bOk)
+	{
+		SaveTerm();
+	}
+	return Out;
+}
+
+void UFourYearsSubsystem::SetLocation(const FString& Location)
+{
+	if (bReady && (Location == TEXT("oval") || Location == TEXT("aircraft")))
+	{
+		State.Set("location", JsonValue::String(ToUtf8(Location)));
+	}
+}
+
+FFourYearsStatus UFourYearsSubsystem::GetStatus() const
+{
+	FFourYearsStatus Status;
+	if (!bReady)
+	{
+		return Status;
+	}
+	Status.Capital = static_cast<int32>(State.Get("capital").AsNumber());
+	Status.AppointmentsLeft = Core.AvailableSlots(State);
+	Status.Approval = static_cast<int32>(Core.Poll(State));
+	Status.BudgetBalance = static_cast<int32>(Core.Budget(State).Get("balance").AsNumber());
+	Status.bDecisionFiled = !State.Get("agendaChoice").IsNull();
+	Status.bTermOver = State.Get("ended").Truthy();
+	return Status;
+}
+
+TArray<FFourYearsPolicy> UFourYearsSubsystem::GetPolicies() const
+{
+	TArray<FFourYearsPolicy> Out;
+	if (!bReady)
+	{
+		return Out;
+	}
+	const JsonValue& Labels = Core.Data().Get("metrics").Get("labels");
+	for (const JsonValue& Policy : Core.Policies().Items())
+	{
+		const std::string Id = Policy.Get("id").AsString();
+		FFourYearsPolicy Row;
+		Row.Id = ToFString(Id);
+		Row.Name = ToFString(Policy.Get("name").AsString());
+		Row.Department = ToFString(Policy.Get("department").AsString());
+		Row.Level = static_cast<int32>(State.Get("levels").Get(Id).AsNumber());
+		Row.Implemented = static_cast<float>(State.Get("implemented").Get(Id).AsNumber());
+		Row.BudgetPerLevel = static_cast<int32>(Policy.Get("cost").AsNumber());
+		Row.Lag = static_cast<int32>(Policy.Get("lag").AsNumber());
+		Row.CapitalPerStep = Row.Lag > 1 ? 3 : 2;
+		// Mirrors changePolicy: full strength needs a passed act when a bill covers this policy.
+		bool bCoveredByBill = false, bAuthorized = false;
+		for (const JsonValue& Bill : Core.Data().Get("executive").Get("bills").Items())
+		{
+			if (Bill.Get("policy").AsString() != Id) continue;
+			bCoveredByBill = true;
+			for (const JsonValue& Passed : State.Get("executive").Get("bills").Items())
+			{
+				if (Passed.Get("id").AsString() == Bill.Get("id").AsString() && Passed.Get("status").AsString() == "passed") bAuthorized = true;
+			}
+		}
+		Row.bNeedsAct = bCoveredByBill && !bAuthorized;
+		const JsonValue& Effects = Policy.Get("effects");
+		TArray<FString> Parts;
+		for (size_t Index = 0; Index < Effects.Keys().size(); ++Index)
+		{
+			Parts.Add(ToFString(Labels.Get(Effects.Keys()[Index]).AsString()) + TEXT(" ") + Signed(Effects.Values()[Index].AsNumber()));
+		}
+		Row.Effects = FString::Join(Parts, TEXT(" · "));
+		Out.Add(Row);
+	}
+	return Out;
+}
+
+FFourYearsActionResult UFourYearsSubsystem::SetPolicyLevel(const FString& PolicyId, int32 Level)
+{
+	if (!bReady)
+	{
+		return FFourYearsActionResult();
+	}
+	const JsonValue Result = Core.ChangePolicy(State, ToUtf8(PolicyId), Level);
+	FFourYearsActionResult Out = ToResult(Result);
+	if (Out.bOk)
+	{
+		const JsonValue* Policy = nullptr;
+		for (const JsonValue& Candidate : Core.Policies().Items())
+		{
+			if (Candidate.Get("id").AsString() == ToUtf8(PolicyId)) Policy = &Candidate;
+		}
+		Out.Message = FString::Printf(TEXT("%s set to %d/4 for %s political capital. Effects build over the coming quarters."),
+			Policy ? *ToFString(Policy->Get("name").AsString()) : *PolicyId, Level, *ToFString(FourYears::FormatNumber(Result.Get("cost").AsNumber())));
+	}
+	return Out;
+}
+
+TArray<FFourYearsAdviser> UFourYearsSubsystem::GetAdvisers() const
+{
+	TArray<FFourYearsAdviser> Out;
+	if (!bReady)
+	{
+		return Out;
+	}
+	const JsonValue People = Core.People(State);
+	for (const JsonValue& Person : People.Items())
+	{
+		const std::string Id = Person.Get("id").AsString();
+		int32 Active = -1;
+		const JsonValue Request = Core.Request(State, Id, Active);
+		const JsonValue& Cabinet = State.Get("executive").Get("cabinet").Get(Id);
+		FFourYearsAdviser Adviser;
+		Adviser.Id = ToFString(Id);
+		Adviser.Name = ToFString(Person.Get("name").AsString());
+		Adviser.Role = ToFString(Person.Get("role").AsString());
+		Adviser.Initials = ToFString(Person.Get("initials").AsString());
+		Adviser.Quote = ToFString(Person.Get("quote").AsString());
+		Adviser.Relationship = static_cast<int32>(FourYears::JsRound(State.Get("relationships").Get(Id).AsNumber()));
+		Adviser.bResigned = Cabinet.Get("status").AsString() == "resigned";
+		Adviser.bActing = Cabinet.Get("acting").Truthy();
+		Adviser.bMetThisQuarter = Request.Get("done").Truthy();
+		const JsonValue& Wanted = Request.Get("policy");
+		const std::string WantedId = Wanted.Get("id").AsString();
+		const int32 Now = static_cast<int32>(State.Get("levels").Get(WantedId).AsNumber());
+		const int32 Target = static_cast<int32>(Request.Get("target").AsNumber());
+		Adviser.Request = FString::Printf(TEXT("%s at %d/4 (now %d/4)"), *ToFString(Wanted.Get("name").AsString()), Target, Now);
+		if (Active >= 0)
+		{
+			const JsonValue& Promise = State.Get("promises")[static_cast<size_t>(Active)];
+			Adviser.Promise = FString::Printf(TEXT("%s at %d/4 by quarter %d%s"), *ToFString(Wanted.Get("name").AsString()),
+				static_cast<int32>(Promise.Get("target").AsNumber()), static_cast<int32>(Promise.Get("due").AsNumber()), Promise.Get("extended").Truthy() ? TEXT(" (already extended)") : TEXT(""));
+			const auto Add = [&Adviser](const TCHAR* Response, const TCHAR* Label, const TCHAR* Detail) {
+				FFourYearsMeetingOption Option;
+				Option.Response = Response;
+				Option.Label = Label;
+				Option.Detail = Detail;
+				Adviser.Options.Add(Option);
+			};
+			Add(TEXT("reassure"), TEXT("Reassure them"), TEXT("Costs 1 political capital · relationship +3 · the deadline stands"));
+			if (!Promise.Get("extended").Truthy() && Promise.Get("due").AsNumber() < 16) Add(TEXT("extend"), TEXT("Ask for more time"), TEXT("One more quarter · relationship −3 · only once"));
+			Add(TEXT("withdraw"), TEXT("Withdraw the promise"), TEXT("Counts as a broken promise: trust and relationship suffer"));
+		}
+		else
+		{
+			const bool bFull = Now >= 4;
+			const auto Add = [&Adviser](const TCHAR* Response, const TCHAR* Label, const FString& Detail) {
+				FFourYearsMeetingOption Option;
+				Option.Response = Response;
+				Option.Label = Label;
+				Option.Detail = Detail;
+				Adviser.Options.Add(Option);
+			};
+			if (!bFull)
+			{
+				Add(TEXT("promise"), TEXT("Promise to deliver"), FString::Printf(TEXT("Commit to %d/4 within 2 quarters · capital +3 · relationship +4"), Target));
+				Add(TEXT("compromise"), TEXT("Offer a compromise"), FString::Printf(TEXT("Commit to %d/4 within 3 quarters · capital +1 · relationship +2"), Target));
+			}
+			Add(TEXT("listen"), TEXT("Listen without committing"), TEXT("Relationship +1 · no promise, no support"));
+		}
+		Out.Add(Adviser);
+	}
+	return Out;
+}
+
+FFourYearsActionResult UFourYearsSubsystem::MeetAdviser(const FString& AdviserId, const FString& Response)
+{
+	if (!bReady)
+	{
+		return FFourYearsActionResult();
+	}
+	return ToResult(Core.Meeting(State, ToUtf8(AdviserId), ToUtf8(Response)));
+}
+
+TArray<FString> UFourYearsSubsystem::GetPromiseRecord() const
+{
+	TArray<FString> Out;
+	if (!bReady)
+	{
+		return Out;
+	}
+	const JsonValue People = Core.People(State);
+	const JsonValue& Promises = State.Get("promises");
+	for (size_t Index = Promises.Size(); Index-- > 0;)
+	{
+		const JsonValue& Promise = Promises[Index];
+		FString Who = ToFString(Promise.Get("person").AsString());
+		for (const JsonValue& Person : People.Items())
+		{
+			if (Person.Get("id").AsString() == Promise.Get("person").AsString()) Who = ToFString(Person.Get("name").AsString());
+		}
+		FString PolicyName = ToFString(Promise.Get("policy").AsString());
+		for (const JsonValue& Policy : Core.Policies().Items())
+		{
+			if (Policy.Get("id").AsString() == Promise.Get("policy").AsString()) PolicyName = ToFString(Policy.Get("name").AsString());
+		}
+		const std::string Status = Promise.Get("status").AsString();
+		const FString Label = Status == "kept" ? TEXT("Kept") : Status == "broken" ? TEXT("Broken") : TEXT("Open");
+		Out.Add(FString::Printf(TEXT("%s · %s at %d/4 for %s · due quarter %d"), *Label, *PolicyName,
+			static_cast<int32>(Promise.Get("target").AsNumber()), *Who, static_cast<int32>(Promise.Get("due").AsNumber())));
+	}
+	return Out;
+}
+
+UTexture2D* UFourYearsSubsystem::GetPortrait(const FString& AdviserName)
+{
+	if (const TObjectPtr<UTexture2D>* Cached = Portraits.Find(AdviserName))
+	{
+		return Cached->Get();
+	}
+	// Portraits are named after the person: "Maya Chen" -> maya-chen.png.
+	const FString File = AdviserName.ToLower().Replace(TEXT(" "), TEXT("-")) + TEXT(".png");
+	const FString Path = FPaths::Combine(FPaths::ProjectDir(), TEXT("Prototype"), TEXT("assets"), TEXT("characters"), File);
+	UTexture2D* Texture = FPaths::FileExists(Path) ? FImageUtils::ImportFileAsTexture2D(Path) : nullptr;
+	Portraits.Add(AdviserName, Texture);
+	return Texture;
 }

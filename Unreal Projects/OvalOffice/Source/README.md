@@ -4,18 +4,28 @@ The presidency simulation now runs natively in Unreal Engine 5.8, sharing its co
 
 ## What is playable
 
-Open the Oval Office map, walk to the Resolute Desk and press **E** to open the quarterly briefing. From there you can:
+Open the Oval Office map and walk around with W/A/S/D and the mouse. The president's screen has three tabs.
 
-- Read the quarter's event.
-- Choose a response.
+**Briefing** (press **E** at the Resolute Desk):
+- Read the quarter's event and choose a response.
 - Advance the quarter and read the report, including midterm and general election results.
-- Play all 16 quarters of a term, then start a new one.
+- Play all 16 quarters, then start a new term.
 
-**Controls:** W/A/S/D walks, the mouse looks around, and Esc or E closes the briefing.
+**Policies** (press **P** anywhere):
+- All 26 policy levers, grouped by department.
+- Each shows its effects, budget cost or revenue, political capital per step, and how long it takes to take effect.
+- Full-strength levels that need an act of Congress are marked.
 
-The term saves automatically to `Saved/FourYears/Term.json`.
+**Advisers** (press **E** by the sofas):
+- Meet Maya Chen, Elena Ruiz, Daniel Brooks and Samira Bell, with their portraits.
+- See what each one asks for and your relationship with them.
+- Promise, compromise or listen. With an open promise, you can reassure them, ask for more time or withdraw it.
+- Meetings use the quarter's two appointments.
+- A promise record shows kept, broken and open promises.
 
-The other strategy screens are still browser-only for now: policies, Congress, meetings, campaign trips, the dashboard and the rest. The C++ simulation already implements all of their rules; they only need screens.
+Policies and meetings close once the quarter's decision is filed, as in the browser game. Esc or E closes the screen. The term saves automatically to `Saved/FourYears/Term.json`.
+
+Still browser-only: Congress, the government team, campaign trips, crises and press conferences, the dashboard, and the West Wing and Air Force One travel. The C++ simulation already implements all of their rules; they only need screens.
 
 ## Build
 
@@ -37,9 +47,9 @@ The Oval Office map now uses `FourYearsGameMode`, set in `Config/DefaultEngine.i
 | Path | What it is |
 | --- | --- |
 | `OvalOffice/Public/FourYears/Core`, `Private/FourYears/Core` | The simulation core: standard C++17 with no Unreal headers, exceptions or RTTI. `FourYearsSim` ports `simulation-core.js` and `executive-systems.js` line for line. `FourYearsJson` is a small JSON value type with JavaScript semantics. |
-| `FourYearsSubsystem` | A game-instance subsystem. It loads `Prototype/data/*.json`, owns the current term, and saves it. It also exposes Blueprint-callable functions (`GetBriefing`, `ChooseResponse`, `AdvanceQuarter`, `StartNewTerm`) for future UMG screens. |
+| `FourYearsSubsystem` | A game-instance subsystem. It loads `Prototype/data/*.json`, owns the current term, and saves it. It also exposes Blueprint-callable functions for future UMG screens: `GetBriefing`, `ChooseResponse`, `AdvanceQuarter`, `StartNewTerm`, `GetStatus`, `GetPolicies`, `SetPolicyLevel`, `GetAdvisers`, `MeetAdviser`, `GetPromiseRecord` and `GetPortrait`. |
 | `FourYearsGameMode`, `FourYearsWalker`, `FourYearsPlayerController` | Walking the Oval Office. The walker uses the browser game's walkable area and furniture footprints, because the imported room meshes have no collision. |
-| `SFourYearsBriefing` | The Slate briefing screen at the desk. |
+| `SFourYearsScreen` | The Slate screen with the Briefing, Policies and Advisers tabs. Portraits load at runtime from `Prototype/assets/characters`. |
 
 **One copy of the rules and content.** Both games read `Prototype/data/*.json`. That includes `executive.json`, which holds Congress, regions, goals, the government team, and the crisis and press dialogue. The game state is a JSON object with the browser save's exact shape, so a save can be copied between the two. To move a browser save into Unreal, export it from the browser's local storage (`four-years-oval-prototype-v1`) into `Saved/FourYears/Term.json`; `Migrate` upgrades it on load.
 
