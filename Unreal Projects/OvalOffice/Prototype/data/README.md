@@ -1,9 +1,11 @@
 # Four Years game data
 
-All of the simulation's content lives in these JSON files. `simulation-core.js` reads them as a single `FourYearsData` object, keyed by file name (`events.json` becomes `FourYearsData.events`). The rules code contains no content, so another engine can load the same files later.
+All of the simulation's content lives in these JSON files. Both the browser game and the Unreal game read them.
 
+- `simulation-core.js` and `executive-systems.js` read them as a single `FourYearsData` object, keyed by file name (`events.json` becomes `FourYearsData.events`).
 - `build_prototype.py` bundles the files into the playable HTML through `game_data.py`.
 - The Node tests load them through `load_simulation.cjs`.
+- The Unreal C++ core loads the same files (see `../../Source/README.md`).
 
 The data is validated whenever the simulation loads. A typo such as an unknown metric, policy, voter group or situation name stops the game with a list of every problem it found, rather than quietly producing broken numbers. Run `node test_event_deck.cjs` after editing.
 
@@ -22,6 +24,14 @@ Metric keys used throughout: `growth`, `jobs`, `prices`, `health`, `schools`, `h
 | `campaign.json` | Campaign `regions` (voter groups and issues) and speech `issues` |
 | `events.json` | The quarterly event deck (below) |
 | `situations.json` | National situations (below) |
+| `executive.json` | Congress (`blocs`, `bills`, `amendments`), election `regions`, platform `goals`, the government `team`, the `opposition`, and the storm and procurement `crises` and press and debate `encounters` with their dialogue |
+
+## Executive data
+
+- **`amendments`:** `support` adds whip-count support per bloc. The flags `allRegions` (delivery reaches every region), `preventsInvestigation` (no procurement inquiry) and `raisesPolicy` (steps a policy up one level when the bill passes) replace rules that used to be hard-coded.
+- **`crises`:** keyed by stage (`warning`, `landfall`, `investigation`). Each has a `title`, a `body` (where `{damage}` is replaced with the storm damage) and `choices`.
+- **`encounters`:** `debate` and `press` each have two `stages`. In a question, `{issue}` is the opposition's attack issue. `questionAfter` picks the follow-up question from the first answer.
+- **Where the logic lives:** the crisis stages and the effect of each response are still in code (`executive-systems.js`, and the C++ port). Keep choice ids unchanged when editing the text.
 
 ## Electorate and groups
 

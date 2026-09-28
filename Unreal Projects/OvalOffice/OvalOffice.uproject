@@ -2,9 +2,22 @@
   "FileVersion": 3,
   "EngineAssociation": "5.8",
   "Category": "Architecture",
-  "Description": "Obama-era Oval Office reconstruction imported from the authored Blender scene.",
+  "Description": "Oval Office reconstruction and the Four Years presidency game, with the simulation running natively in C++.",
+  "Modules": [
+    {
+      "Name": "OvalOffice",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ],
   "Plugins": [
-    {"Name": "PythonScriptPlugin", "Enabled": true},
-    {"Name": "EditorScriptingUtilities", "Enabled": true}
+    {
+      "Name": "PythonScriptPlugin",
+      "Enabled": true
+    },
+    {
+      "Name": "EditorScriptingUtilities",
+      "Enabled": true
+    }
   ]
 }

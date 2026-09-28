@@ -3,7 +3,7 @@ const {chromium}=require('playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
 (async()=>{
  const html=fs.readFileSync(path.join(__dirname,'Four_Years_Prototype.html'),'utf8');
- const ui=html.slice(html.indexOf('const ExecutiveSim='),html.indexOf("const canvas=$('scene');"));
+ const ui=html.slice(html.indexOf('const FourYearsData='),html.indexOf("const canvas=$('scene');"));
  assert.ok(ui.length>10000);
  const pageHtml=html.slice(0,html.indexOf('<script type="module">'))+'<script>const $=id=>document.getElementById(id);function renderWestWingMap(){}function setMode(){}function setAircraftPose(){}function changeLocation(destination){currentLocation=destination;state.location=destination;save()}\n'+ui+'</script></body></html>';
  const server=http.createServer((req,res)=>{res.writeHead(200,{'Content-Type':'text/html'});res.end(pageHtml)});
