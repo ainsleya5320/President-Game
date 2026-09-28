@@ -1,8 +1,10 @@
 #include "SFourYearsScreen.h"
 
 #include "Engine/Texture2D.h"
+#include "Brushes/SlateColorBrush.h"
 #include "Styling/CoreStyle.h"
 #include "Widgets/Images/SImage.h"
+#include "Widgets/Notifications/SProgressBar.h"
 #include "Widgets/Input/SButton.h"
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/Layout/SBox.h"
@@ -19,6 +21,16 @@ const FLinearColor Alert(0.93f, 0.55f, 0.47f);
 const FLinearColor Good(0.58f, 0.82f, 0.62f);
 const FLinearColor Card(0.10f, 0.15f, 0.21f, 1.f);
 
+const FButtonStyle& ConversationButton()
+{
+	static const FButtonStyle Style = FButtonStyle()
+		.SetNormal(FSlateColorBrush(FLinearColor(0.10f, 0.16f, 0.23f)))
+		.SetHovered(FSlateColorBrush(FLinearColor(0.19f, 0.28f, 0.36f)))
+		.SetPressed(FSlateColorBrush(FLinearColor(0.27f, 0.23f, 0.15f)))
+		.SetDisabled(FSlateColorBrush(FLinearColor(0.09f, 0.10f, 0.12f)));
+	return Style;
+}
+
 FSlateFontInfo Font(int32 Size, bool bBold = false)
 {
 	return FCoreStyle::GetDefaultFontStyle(bBold ? "Bold" : "Regular", Size);
@@ -32,9 +44,9 @@ TSharedRef<STextBlock> Label(const FString& Text, int32 Size, const FLinearColor
 FString Dots(int32 Level)
 {
 	FString Out;
-	for (int32 Index = 0; Index < 5; ++Index)
+	for (int32 Index = 0; Index < 4; ++Index)
 	{
-		Out += Index <= Level ? TEXT("●") : TEXT("○");
+		Out += Index < Level ? TEXT("●") : TEXT("○");
 	}
 	return Out;
 }
@@ -54,18 +66,24 @@ void SFourYearsScreen::Construct(const FArguments& InArgs)
 		.VAlign(VAlign_Center)
 		[
 			SNew(SBox)
-			.WidthOverride(940.f)
-			.MaxDesiredHeight(820.f)
+			.WidthOverride(1180.f)
+			.MaxDesiredHeight(1000.f)
 			[
 				SNew(SBorder)
 				.BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
-				.BorderBackgroundColor(FLinearColor(0.07f, 0.11f, 0.16f, 0.97f))
-				.Padding(FMargin(36.f, 24.f))
+				.BorderBackgroundColor(Gold)
+				.Padding(2.f)
 				[
-					SNew(SScrollBox)
+					SNew(SBorder)
+					.BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
+					.BorderBackgroundColor(FLinearColor(0.025f, 0.045f, 0.075f, 1.f))
+					.Padding(FMargin(28.f, 22.f))
+					[
+					SAssignNew(Scroll, SScrollBox)
 					+ SScrollBox::Slot()
 					[
 						SAssignNew(Content, SVerticalBox)
+					]
 					]
 				]
 			]
@@ -77,6 +95,7 @@ void SFourYearsScreen::ShowPage(EFourYearsPage NewPage)
 {
 	Page = NewPage;
 	Message.Reset();
+	bResetScroll = true;
 	bNeedsRebuild = true;
 }
 
@@ -89,18 +108,35 @@ void SFourYearsScreen::Tick(const FGeometry& AllottedGeometry, const double InCu
 		bNeedsRebuild = false;
 		Rebuild();
 	}
+	if (Speech.IsValid() && RevealedCharacters < DialogueText.Len())
+	{
+		RevealedCharacters = FMath::Min(static_cast<float>(DialogueText.Len()), RevealedCharacters + InDeltaTime * 58.f);
+		Speech->SetText(FText::FromString(DialogueText.Left(static_cast<int32>(RevealedCharacters))));
+	}
 }
 
 FReply SFourYearsScreen::OnKeyDown(const FGeometry& MyGeometry, const FKeyEvent& InKeyEvent)
 {
 	const FKey Key = InKeyEvent.GetKey();
+	if (InKeyEvent.IsRepeat()) return FReply::Handled();
+	if (Page == EFourYearsPage::Advisers)
+	{
+		if (Key == EKeys::SpaceBar || Key == EKeys::Enter) return FinishDialogue();
+		if (Key == EKeys::BackSpace) return AdviserRoster();
+		const int32 Number = Key == EKeys::One ? 0 : Key == EKeys::Two ? 1 : Key == EKeys::Three ? 2 : Key == EKeys::Four ? 3 : -1;
+		if (Number >= 0)
+		{
+			if (SelectedAdviser.IsEmpty() && RosterIds.IsValidIndex(Number)) return TalkTo(RosterIds[Number]);
+			return Respond(Number);
+		}
+	}
 	if (Key == EKeys::Escape || Key == EKeys::E)
 	{
 		return Close();
 	}
 	if (Key == EKeys::P)
 	{
-		return SelectPage(EFourYearsPage::Policies);
+		return AllPolicies();
 	}
 	if (Key == EKeys::C)
 	{
@@ -116,14 +152,14 @@ void SFourYearsScreen::AddText(const FString& Text, int32 Size, const FLinearCol
 
 void SFourYearsScreen::AddButton(const FString& Text, const FString& Detail, FOnClicked OnClicked)
 {
-	TSharedRef<SVerticalBox> Face = SNew(SVerticalBox) + SVerticalBox::Slot().AutoHeight()[Label(Text, 13, FLinearColor(0.08f, 0.08f, 0.08f), true)];
+	TSharedRef<SVerticalBox> Face = SNew(SVerticalBox) + SVerticalBox::Slot().AutoHeight()[Label(Text, 16, Ink, true)];
 	if (!Detail.IsEmpty())
 	{
-		Face->AddSlot().AutoHeight().Padding(FMargin(0.f, 3.f, 0.f, 0.f))[Label(Detail, 10, FLinearColor(0.2f, 0.2f, 0.2f))];
+		Face->AddSlot().AutoHeight().Padding(FMargin(0.f, 3.f, 0.f, 0.f))[Label(Detail, 12, Muted)];
 	}
 	Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 4.f))
 	[
-		SNew(SButton).ContentPadding(FMargin(14.f, 9.f)).OnClicked(OnClicked)[Face]
+		SNew(SButton).ButtonStyle(&ConversationButton()).IsFocusable(false).ContentPadding(FMargin(14.f, 9.f)).OnClicked(OnClicked)[Face]
 	];
 }
 
@@ -133,14 +169,14 @@ void SFourYearsScreen::BuildTabs()
 	const auto Tab = [this, &Tabs](const TCHAR* Text, EFourYearsPage Target) {
 		Tabs->AddSlot().AutoWidth().Padding(FMargin(0.f, 0.f, 8.f, 0.f))
 		[
-			SNew(SButton)
+			SNew(SButton).ButtonStyle(&ConversationButton()).IsFocusable(false)
 			.ContentPadding(FMargin(14.f, 6.f))
 			.OnClicked(FOnClicked::CreateSP(this, &SFourYearsScreen::SelectPage, Target))
 			[
 				SNew(STextBlock)
 				.Text(FText::FromString(Text))
 				.Font(Font(12, Page == Target))
-				.ColorAndOpacity(FSlateColor(Page == Target ? FLinearColor(0.45f, 0.3f, 0.05f) : FLinearColor(0.1f, 0.1f, 0.1f)))
+				.ColorAndOpacity(FSlateColor(Page == Target ? Gold : Ink))
 			]
 		];
 	};
@@ -162,6 +198,9 @@ void SFourYearsScreen::BuildMessage()
 
 void SFourYearsScreen::Rebuild()
 {
+	Speech.Reset();
+	DialogueOptions.Reset();
+	RosterIds.Reset();
 	Content->ClearChildren();
 	UFourYearsSubsystem* Game = Subsystem.Get();
 	if (!Game)
@@ -177,6 +216,8 @@ void SFourYearsScreen::Rebuild()
 	case EFourYearsPage::Congress: BuildCongress(*Game); break;
 	default: BuildBriefing(*Game); break;
 	}
+	if (bResetScroll && Scroll.IsValid()) Scroll->ScrollToStart();
+	bResetScroll = false;
 }
 
 void SFourYearsScreen::BuildBriefing(UFourYearsSubsystem& Game)
@@ -242,9 +283,16 @@ void SFourYearsScreen::BuildPolicies(UFourYearsSubsystem& Game)
 		AddText(Status.bTermOver ? TEXT("The term is over.") : TEXT("This quarter's decision is filed. Policy changes open again next quarter."), 12, Alert, true);
 	}
 	BuildMessage();
+	if (!FocusPolicyId.IsEmpty())
+	{
+		AddText(TEXT("FOLLOWING UP ON YOUR CONVERSATION"), 11, Gold, true);
+		AddButton(TEXT("All policies"), TEXT("Return to the full policy atlas"), FOnClicked::CreateSP(this, &SFourYearsScreen::AllPolicies));
+		AddButton(TEXT("Return to the conversation"), TEXT("Review your adviser's request and your promise"), FOnClicked::CreateSP(this, &SFourYearsScreen::SelectPage, EFourYearsPage::Advisers));
+	}
 	FString Department;
 	for (const FFourYearsPolicy& Policy : Game.GetPolicies())
 	{
+		if (!FocusPolicyId.IsEmpty() && Policy.Id != FocusPolicyId) continue;
 		if (Policy.Department != Department)
 		{
 			Department = Policy.Department;
@@ -272,13 +320,13 @@ void SFourYearsScreen::BuildPolicies(UFourYearsSubsystem& Game)
 					SNew(SVerticalBox)
 					+ SVerticalBox::Slot().AutoHeight()[Label(Policy.Name, 13, Ink, true)]
 					+ SVerticalBox::Slot().AutoHeight()[Label(Policy.Effects, 10, Muted)]
-					+ SVerticalBox::Slot().AutoHeight()[Label(Detail, 10, Muted)]
+					+ SVerticalBox::Slot().AutoHeight()[Label(Detail, 12, Muted)]
 				]
 				+ SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center).Padding(FMargin(8.f, 0.f))
 				[
-					SNew(SButton).ContentPadding(FMargin(10.f, 4.f)).IsEnabled(Policy.Level > 0)
+					SNew(SButton).ButtonStyle(&ConversationButton()).IsFocusable(false).ContentPadding(FMargin(10.f, 4.f)).IsEnabled(Policy.Level > 0 && !Status.bDecisionFiled && !Status.bTermOver)
 					.OnClicked(FOnClicked::CreateSP(this, &SFourYearsScreen::ChangePolicy, Policy.Id, Policy.Level - 1))
-					[Label(TEXT("−"), 14, FLinearColor(0.08f, 0.08f, 0.08f), true)]
+					[Label(TEXT("−"), 14, Ink, true)]
 				]
 				+ SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center)
 				[
@@ -291,16 +339,16 @@ void SFourYearsScreen::BuildPolicies(UFourYearsSubsystem& Game)
 				]
 				+ SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center).Padding(FMargin(8.f, 0.f, 0.f, 0.f))
 				[
-					SNew(SButton).ContentPadding(FMargin(10.f, 4.f)).IsEnabled(Policy.Level < 4)
+					SNew(SButton).ButtonStyle(&ConversationButton()).IsFocusable(false).ContentPadding(FMargin(10.f, 4.f)).IsEnabled(Policy.Level < 4 && !Status.bDecisionFiled && !Status.bTermOver)
 					.OnClicked(FOnClicked::CreateSP(this, &SFourYearsScreen::ChangePolicy, Policy.Id, Policy.Level + 1))
-					[Label(TEXT("+"), 14, FLinearColor(0.08f, 0.08f, 0.08f), true)]
+					[Label(TEXT("+"), 14, Ink, true)]
 				]
 			]
 		];
 	}
 }
 
-TSharedRef<SWidget> SFourYearsScreen::Portrait(UFourYearsSubsystem& Game, const FFourYearsAdviser& Adviser)
+TSharedRef<SWidget> SFourYearsScreen::Portrait(UFourYearsSubsystem& Game, const FFourYearsAdviser& Adviser, float Size)
 {
 	UTexture2D* Texture = Adviser.bActing ? nullptr : Game.GetPortrait(Adviser.Name);
 	if (Texture)
@@ -313,10 +361,11 @@ TSharedRef<SWidget> SFourYearsScreen::Portrait(UFourYearsSubsystem& Game, const 
 			Brush->SetImageSize(FVector2D(84.f, 84.f));
 			Brush->DrawAs = ESlateBrushDrawType::Image;
 		}
-		return SNew(SBox).WidthOverride(84.f).HeightOverride(84.f)[SNew(SImage).Image(Brush.Get())];
+		return SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush")).BorderBackgroundColor(Gold).Padding(2.f)
+		[SNew(SBox).WidthOverride(Size).HeightOverride(Size)[SNew(SImage).Image(Brush.Get())]];
 	}
 	// Acting replacements have no portrait yet; show their initials instead.
-	return SNew(SBox).WidthOverride(84.f).HeightOverride(84.f)
+	return SNew(SBox).WidthOverride(Size).HeightOverride(Size)
 	[
 		SNew(SBorder)
 		.BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
@@ -329,73 +378,202 @@ TSharedRef<SWidget> SFourYearsScreen::Portrait(UFourYearsSubsystem& Game, const 
 
 void SFourYearsScreen::BuildAdvisers(UFourYearsSubsystem& Game)
 {
-	const FFourYearsStatus Status = Game.GetStatus();
-	AddText(TEXT("THE SITTING AREA"), 11, Gold, true);
-	AddText(TEXT("Your advisers"), 26, Ink, true);
-	AddText(FString::Printf(TEXT("Appointments left this quarter: %d of 2   ·   Political capital %d/20"), Status.AppointmentsLeft, Status.Capital), 12, Muted);
-	AddText(TEXT("Each meeting uses an appointment. Promises earn support now, but a missed deadline costs trust and the relationship. Keep a promise by raising the policy to its target level in time."), 11, Muted);
-	if (Status.bDecisionFiled || Status.bTermOver)
-	{
-		AddText(Status.bTermOver ? TEXT("The term is over.") : TEXT("This quarter's decision is filed. Meetings open again next quarter."), 12, Alert, true);
-	}
-	BuildMessage();
-	for (const FFourYearsAdviser& Adviser : Game.GetAdvisers())
-	{
-		TSharedRef<SVerticalBox> Body = SNew(SVerticalBox)
-			+ SVerticalBox::Slot().AutoHeight()[Label(Adviser.Name + TEXT("  ·  ") + Adviser.Role, 15, Ink, true)]
-			+ SVerticalBox::Slot().AutoHeight()[Label(FString::Printf(TEXT("Relationship %d/100%s"), Adviser.Relationship, Adviser.bActing ? TEXT(" · acting replacement") : TEXT("")), 11, Adviser.Relationship < 30 ? Alert : Muted)]
-			+ SVerticalBox::Slot().AutoHeight().Padding(FMargin(0.f, 4.f))[Label(TEXT("“") + Adviser.Quote + TEXT("”"), 12, Ink)];
-		if (Adviser.bResigned)
-		{
-			Body->AddSlot().AutoHeight()[Label(TEXT("Has resigned. Appoint an acting replacement (a Team action in the browser edition for now)."), 12, Alert, true)];
-		}
-		else
-		{
-			Body->AddSlot().AutoHeight()[Label(Adviser.Promise.IsEmpty() ? TEXT("Asks for: ") + Adviser.Request : TEXT("Your promise: ") + Adviser.Promise, 12, Gold, true)];
-			if (Adviser.bMetThisQuarter)
-			{
-				Body->AddSlot().AutoHeight().Padding(FMargin(0.f, 4.f))[Label(TEXT("You have already met this quarter."), 11, Muted)];
-			}
-			else
-			{
-				for (const FFourYearsMeetingOption& Option : Adviser.Options)
-				{
-					Body->AddSlot().AutoHeight().Padding(FMargin(0.f, 4.f, 0.f, 0.f))
-					[
-						SNew(SButton)
-						.ContentPadding(FMargin(12.f, 6.f))
-						.OnClicked(FOnClicked::CreateSP(this, &SFourYearsScreen::Meet, Adviser.Id, Option.Response))
-						[
-							SNew(SVerticalBox)
-							+ SVerticalBox::Slot().AutoHeight()[Label(Option.Label, 12, FLinearColor(0.08f, 0.08f, 0.08f), true)]
-							+ SVerticalBox::Slot().AutoHeight()[Label(Option.Detail, 10, FLinearColor(0.2f, 0.2f, 0.2f))]
-						]
-					];
-				}
-			}
-		}
-		Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 6.f))
-		[
-			SNew(SBorder)
-			.BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
-			.BorderBackgroundColor(Card)
-			.Padding(FMargin(14.f, 12.f))
-			[
-				SNew(SHorizontalBox)
-				+ SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Top).Padding(FMargin(0.f, 0.f, 14.f, 0.f))[Portrait(Game, Adviser)]
-				+ SHorizontalBox::Slot().FillWidth(1.f)[Body]
-			]
-		];
-	}
-	const TArray<FString> Record = Game.GetPromiseRecord();
-	if (Record.Num() > 0)
-	{
-		Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 14.f, 0.f, 2.f))[Label(TEXT("PROMISE RECORD"), 11, Gold, true)];
-		for (const FString& Line : Record)
-		{
-			AddText(Line, 11, Line.StartsWith(TEXT("Broken")) ? Alert : Line.StartsWith(TEXT("Kept")) ? Good : Ink);
-		}
-	}
+    const FFourYearsStatus Status = Game.GetStatus();
+    const TArray<FFourYearsAdviser> Advisers = Game.GetAdvisers();
+    AddText(TEXT("FOUR YEARS  /  THE OVAL OFFICE  /  PRIVATE AUDIENCE"), 11, Gold, true);
+    if (!SelectedAdviser.IsEmpty())
+    {
+        for (const FFourYearsAdviser& Adviser : Advisers)
+        {
+            if (Adviser.Id == SelectedAdviser) { BuildConversation(Game, Adviser); return; }
+        }
+        SelectedAdviser.Reset();
+    }
+    AddText(TEXT("The people in your corner"), 30, Ink, true);
+    AddText(FString::Printf(TEXT("%d appointments remaining   /   %d political capital   /   Quarter %d of 16"),
+        Status.AppointmentsLeft, Status.Capital, FMath::Min(Game.GetBriefing().Quarter + 1, 16)), 14, Muted);
+    AddText(TEXT("Choose a face to begin a conversation. Reading costs nothing. Committing to a response uses one appointment."), 14, Muted);
+    TSharedPtr<SHorizontalBox> Row;
+    for (int32 Index = 0; Index < Advisers.Num(); ++Index)
+    {
+        const FFourYearsAdviser& Adviser = Advisers[Index];
+        RosterIds.Add(Adviser.Id);
+        if (Index % 2 == 0)
+        {
+            Row = SNew(SHorizontalBox);
+            Content->AddSlot().AutoHeight().Padding(0.f, 8.f)[Row.ToSharedRef()];
+        }
+        FString Availability = Adviser.bResigned ? TEXT("Unavailable / resigned")
+            : Status.bTermOver ? TEXT("Term complete") : Status.bDecisionFiled ? TEXT("Decision filed / next quarter")
+            : Adviser.bMetThisQuarter ? TEXT("Met this quarter") : Status.AppointmentsLeft == 0 ? TEXT("No appointments left")
+            : !Adviser.Promise.IsEmpty() ? TEXT("A promise is waiting") : TEXT("Ready to talk");
+        Row->AddSlot().FillWidth(1.f).Padding(Index % 2 == 0 ? FMargin(0.f, 0.f, 8.f, 0.f) : FMargin(8.f, 0.f, 0.f, 0.f))
+        [
+            SNew(SButton).ButtonStyle(&ConversationButton()).IsFocusable(false).ContentPadding(16.f)
+            .OnClicked(FOnClicked::CreateSP(this, &SFourYearsScreen::TalkTo, Adviser.Id))
+            [
+                SNew(SHorizontalBox)
+                + SHorizontalBox::Slot().AutoWidth().Padding(0.f, 0.f, 16.f, 0.f)[Portrait(Game, Adviser, 118.f)]
+                + SHorizontalBox::Slot().FillWidth(1.f).VAlign(VAlign_Center)
+                [
+                    SNew(SVerticalBox)
+                    + SVerticalBox::Slot().AutoHeight()[Label(FString::Printf(TEXT("%d  /  %s"), Index + 1, *Adviser.Name), 18, Ink, true)]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0.f, 5.f)[Label(Adviser.Role, 12, Muted)]
+                    + SVerticalBox::Slot().AutoHeight()[Label(Availability, 12, Gold, true)]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0.f, 7.f, 0.f, 0.f)[Label(FString::Printf(TEXT("Relationship  %d / 100"), Adviser.Relationship), 12, Muted)]
+                ]
+            ]
+        ];
+    }
+    AddText(TEXT("1–4 select a person   /   E returns to the room   /   P policies   /   C Congress"), 12, Muted);
+    const TArray<FString> Record = Game.GetPromiseRecord();
+    if (Record.Num())
+    {
+        AddText(TEXT("YOUR WORD, ON THE RECORD"), 12, Gold, true);
+        for (const FString& Line : Record) AddText(Line, 13, Line.StartsWith(TEXT("Broken")) ? Alert : Line.StartsWith(TEXT("Kept")) ? Good : Ink);
+    }
+}
+
+void SFourYearsScreen::SetDialogue(const FString& Text)
+{
+    if (DialogueText != Text) { DialogueText = Text; RevealedCharacters = 0.f; }
+}
+
+void SFourYearsScreen::BuildConversation(UFourYearsSubsystem& Game, const FFourYearsAdviser& Adviser)
+{
+    const FFourYearsStatus Status = Game.GetStatus();
+    const bool CanMeet = !Status.bDecisionFiled && !Status.bTermOver && !Adviser.bMetThisQuarter && !Adviser.bResigned && Status.AppointmentsLeft > 0;
+    const FString Voice = Adviser.bActing ? TEXT("") : Adviser.Id;
+    FString Cue = Adviser.Relationship < 35 ? TEXT("strained") : Adviser.Relationship >= 65 ? TEXT("trusted") : TEXT("greeting");
+    if (!Adviser.Promise.IsEmpty()) Cue = TEXT("pending");
+    if (Adviser.bMetThisQuarter) Cue = TEXT("met");
+    if (Status.AppointmentsLeft == 0 && !Adviser.bMetThisQuarter) Cue = TEXT("busy");
+    if (Status.bDecisionFiled) Cue = TEXT("closed");
+    if (Status.bTermOver) Cue = TEXT("ended");
+    if (Adviser.bResigned) Cue = TEXT("resigned");
+    FString Line = Game.GetDialogueLine(Voice, Cue);
+    if (const FString* Reply = ConversationReplies.Find(Adviser.Id)) Line = *Reply;
+    SetDialogue(Line);
+    AddText(Adviser.Name, 32, Ink, true);
+    AddText(Adviser.Role + (Adviser.bActing ? TEXT("  /  ACTING") : TEXT("")), 14, Gold, true);
+    Content->AddSlot().AutoHeight().Padding(0.f, 14.f)
+    [
+        SNew(SHorizontalBox)
+        + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Top).Padding(0.f, 0.f, 22.f, 0.f)
+        [
+            SNew(SVerticalBox)
+            + SVerticalBox::Slot().AutoHeight()[Portrait(Game, Adviser, 212.f)]
+            + SVerticalBox::Slot().AutoHeight().Padding(0.f, 10.f, 0.f, 4.f)
+            [Label(FString::Printf(TEXT("RELATIONSHIP  %d / 100"), Adviser.Relationship), 12, Gold, true)]
+            + SVerticalBox::Slot().AutoHeight()
+            [SNew(SProgressBar).Percent(Adviser.Relationship / 100.f).FillColorAndOpacity(Adviser.Relationship < 35 ? Alert : Good)]
+        ]
+        + SHorizontalBox::Slot().FillWidth(1.f)
+        [
+            SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush")).BorderBackgroundColor(Gold).Padding(2.f)
+            [
+                SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
+                .BorderBackgroundColor(FLinearColor(0.055f, 0.085f, 0.12f)).Padding(22.f)
+                [
+                    SNew(SVerticalBox)
+                    + SVerticalBox::Slot().AutoHeight()[Label(TEXT("PRIVATE CONVERSATION"), 11, Gold, true)]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0.f, 14.f)
+                    [
+                        SNew(SBox).MinDesiredHeight(136.f)
+                        [SAssignNew(Speech, STextBlock).Text(FText::FromString(DialogueText.Left(static_cast<int32>(RevealedCharacters))))
+                            .Font(Font(21)).ColorAndOpacity(Ink).AutoWrapText(true)]
+                    ]
+                    + SVerticalBox::Slot().AutoHeight()
+                    [SNew(SButton).ButtonStyle(&ConversationButton()).IsFocusable(false).ContentPadding(8.f)
+                        .OnClicked(FOnClicked::CreateSP(this, &SFourYearsScreen::FinishDialogue))
+                        [Label(TEXT("SPACE / Show the complete line"), 11, Muted)]]
+                ]
+            ]
+        ]
+    ];
+    if (!Adviser.bResigned)
+    {
+        AddText(Adviser.Promise.IsEmpty() ? TEXT("ON THE TABLE  /  ") + Adviser.Request : TEXT("YOUR COMMITMENT  /  ") + Adviser.Promise, 15, Gold, true);
+    }
+    BuildMessage();
+    if (CanMeet)
+    {
+        DialogueOptions = Adviser.Options;
+        AddText(FString::Printf(TEXT("YOUR RESPONSE  /  %d appointments left"), Status.AppointmentsLeft), 12, Muted, true);
+        for (int32 Index = 0; Index < DialogueOptions.Num(); ++Index)
+        {
+            const FFourYearsMeetingOption& Option = DialogueOptions[Index];
+            AddButton(FString::Printf(TEXT("%d   %s"), Index + 1, *Option.Label), Option.Detail, FOnClicked::CreateSP(this, &SFourYearsScreen::Respond, Index));
+        }
+    }
+    else
+    {
+        const FString Reason = Adviser.bResigned ? TEXT("This adviser has left the administration.") : Status.bTermOver ? TEXT("Your term has ended.")
+            : Status.bDecisionFiled ? TEXT("Meetings reopen next quarter: this quarter's decision is already filed.")
+            : Adviser.bMetThisQuarter ? TEXT("Meeting recorded. You can still work on the policy before filing your decision.")
+            : TEXT("Both appointments are used. You can meet again next quarter.");
+        AddText(Reason, 14, Muted);
+    }
+    if (!Adviser.RequestedPolicyId.IsEmpty() && !Adviser.bResigned)
+        AddButton(TEXT("Open the policy we're discussing"), TEXT("Review the target, cost and implementation delay"), FOnClicked::CreateSP(this, &SFourYearsScreen::OpenRequestedPolicy));
+    AddButton(TEXT("Back to the sitting area"), TEXT("Choose another person / Backspace"), FOnClicked::CreateSP(this, &SFourYearsScreen::AdviserRoster));
+}
+
+FReply SFourYearsScreen::FinishDialogue()
+{
+    RevealedCharacters = static_cast<float>(DialogueText.Len());
+    if (Speech.IsValid()) Speech->SetText(FText::FromString(DialogueText));
+    return FReply::Handled();
+}
+
+FReply SFourYearsScreen::TalkTo(FString AdviserId)
+{
+    SelectedAdviser = AdviserId;
+    DialogueText.Reset();
+    Message.Reset();
+    bResetScroll = true;
+    bNeedsRebuild = true;
+    return FReply::Handled();
+}
+
+FReply SFourYearsScreen::AdviserRoster()
+{
+    SelectedAdviser.Reset();
+    Message.Reset();
+    bResetScroll = true;
+    bNeedsRebuild = true;
+    return FReply::Handled();
+}
+
+FReply SFourYearsScreen::OpenRequestedPolicy()
+{
+    if (UFourYearsSubsystem* Game = Subsystem.Get())
+        for (const FFourYearsAdviser& Adviser : Game->GetAdvisers())
+            if (Adviser.Id == SelectedAdviser) { FocusPolicyId = Adviser.RequestedPolicyId; break; }
+    ShowPage(EFourYearsPage::Policies);
+    return FReply::Handled();
+}
+
+FReply SFourYearsScreen::AllPolicies()
+{
+    FocusPolicyId.Reset();
+    ShowPage(EFourYearsPage::Policies);
+    return FReply::Handled();
+}
+
+FReply SFourYearsScreen::Respond(int32 Index)
+{
+    if (Page != EFourYearsPage::Advisers || !DialogueOptions.IsValidIndex(Index)) return FReply::Handled();
+    // Revalidate after deferred UI rebuilds: a double-click must never spend a second appointment.
+    if (UFourYearsSubsystem* Game = Subsystem.Get())
+    {
+        const FFourYearsStatus Status = Game->GetStatus();
+        if (Status.bDecisionFiled || Status.bTermOver || Status.AppointmentsLeft <= 0) return FReply::Handled();
+        for (const FFourYearsAdviser& Adviser : Game->GetAdvisers())
+            if (Adviser.Id == SelectedAdviser && !Adviser.bMetThisQuarter && !Adviser.bResigned)
+                return Meet(SelectedAdviser, DialogueOptions[Index].Response);
+    }
+    return FReply::Handled();
 }
 
 void SFourYearsScreen::BuildCongress(UFourYearsSubsystem& Game)
@@ -430,9 +608,9 @@ void SFourYearsScreen::BuildCongress(UFourYearsSubsystem& Game)
 				+ SVerticalBox::Slot().AutoHeight()[Label(FString::Printf(TEXT("Support %d%% → %d yes votes · wants: %s"), Bloc.Support, Bloc.YesVotes, *Bloc.Want), 10, Muted)];
 			TSharedRef<SWidget> Action = Bloc.bLobbied
 				? StaticCastSharedRef<SWidget>(Label(TEXT("Lobbied"), 11, Good, true))
-				: StaticCastSharedRef<SWidget>(SNew(SButton).ContentPadding(FMargin(10.f, 5.f))
+				: StaticCastSharedRef<SWidget>(SNew(SButton).ButtonStyle(&ConversationButton()).IsFocusable(false).ContentPadding(FMargin(10.f, 5.f))
 					.OnClicked(FOnClicked::CreateSP(this, &SFourYearsScreen::Lobby, Bloc.Id))
-					[Label(TEXT("Lobby (+15 support)"), 11, FLinearColor(0.08f, 0.08f, 0.08f), true)]);
+					[Label(TEXT("Lobby (+15 support)"), 11, Ink, true)]);
 			Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 3.f))
 			[
 				SNew(SBorder)
@@ -543,6 +721,9 @@ FReply SFourYearsScreen::Advance()
 	if (UFourYearsSubsystem* Game = Subsystem.Get())
 	{
 		Report = Game->AdvanceQuarter();
+        ConversationReplies.Reset();
+        SelectedAdviser.Reset();
+        FocusPolicyId.Reset();
 	}
 	bNeedsRebuild = true;
 	return FReply::Handled();
@@ -560,6 +741,9 @@ FReply SFourYearsScreen::NewTerm()
 	if (UFourYearsSubsystem* Game = Subsystem.Get())
 	{
 		Game->StartNewTerm();
+        ConversationReplies.Reset();
+        SelectedAdviser.Reset();
+        FocusPolicyId.Reset();
 	}
 	Report.Reset();
 	bNeedsRebuild = true;
@@ -580,7 +764,13 @@ FReply SFourYearsScreen::Meet(FString AdviserId, FString Response)
 {
 	if (UFourYearsSubsystem* Game = Subsystem.Get())
 	{
-		SetMessage(Game->MeetAdviser(AdviserId, Response));
+		const FFourYearsActionResult Result = Game->MeetAdviser(AdviserId, Response);
+        SetMessage(Result);
+        FString Voice = AdviserId;
+        for (const FFourYearsAdviser& Adviser : Game->GetAdvisers())
+            if (Adviser.Id == AdviserId && Adviser.bActing) Voice.Reset();
+        ConversationReplies.Add(AdviserId, Game->GetDialogueLine(Voice, Result.bOk ? Response : TEXT("refused")));
+        DialogueOptions.Reset();
 	}
 	bNeedsRebuild = true;
 	return FReply::Handled();

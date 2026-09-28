@@ -130,6 +130,7 @@ struct FFourYearsAdviser
 	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bMetThisQuarter = false;
 	// What they want this quarter, e.g. "Affordable construction at 3/4 (now 2/4)".
 	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Request;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString RequestedPolicyId;
 	// Their open promise, if any, e.g. "Affordable construction at 3/4 by quarter 4".
 	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Promise;
 	UPROPERTY(BlueprintReadOnly, Category = "Four Years") TArray<FFourYearsMeetingOption> Options;
@@ -260,6 +261,10 @@ public:
 	// The adviser's portrait from Prototype/assets/characters, or null (acting replacements have none).
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	UTexture2D* GetPortrait(const FString& AdviserName);
+
+	// Presentation-only lines are authored in Prototype/data/dialogue.json, separate from simulation rules.
+	UFUNCTION(BlueprintPure, Category = "Four Years")
+	FString GetDialogueLine(const FString& AdviserId, const FString& Cue) const;
 
 	UFUNCTION(BlueprintPure, Category = "Four Years")
 	FFourYearsCongress GetCongress() const;

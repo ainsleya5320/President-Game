@@ -17,11 +17,15 @@ Open the Oval Office map and walk around with W/A/S/D and the mouse. The preside
 - Full-strength levels that need an act of Congress are marked.
 
 **Advisers** (press **E** by the sofas):
-- Meet Maya Chen, Elena Ruiz, Daniel Brooks and Samira Bell, with their portraits.
+- Choose Maya Chen, Elena Ruiz, Daniel Brooks or Samira Bell from the portrait roster, then talk through an individual adventure-game-style dialogue box.
+- Large portraits, relationship meters, character-specific reactions and skippable typewriter text. Use **1–4** to select a person, **1–3** to respond, **Space** to reveal text and **Backspace** to return to the roster.
 - See what each one asks for and your relationship with them.
+- Open the exact policy under discussion directly from the conversation.
 - Promise, compromise or listen. With an open promise, you can reassure them, ask for more time or withdraw it.
 - Meetings use the quarter's two appointments.
 - A promise record shows kept, broken and open promises.
+
+See [CONVERSATIONS.md](CONVERSATIONS.md) for dialogue authoring, future scene integration and the save-preserving native gameplay test.
 
 **Congress** (press **C** anywhere):
 - Introduce one of the four acts: housing, grid, health or schools.

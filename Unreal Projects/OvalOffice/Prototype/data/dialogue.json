@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "fallback": {
+    "greeting": "Thank you for making time, Mr. President. There is something we can move forward today, if you're willing to put your support behind it.",
+    "trusted": "We've earned some trust together. I'd like to use it to get something lasting done.",
+    "strained": "I'll be direct. People are watching what we deliver, and the next promise needs to mean something.",
+    "pending": "Before we start anything new, let's talk about the commitment you already made. The deadline is getting closer.",
+    "met": "My recommendation is on your desk. I'll get back to work while you consider the policy.",
+    "busy": "Your appointments are full for this quarter. We can review the file now and talk next quarter.",
+    "closed": "The decision has been filed. Let's see how the quarter turns out and pick this up at our next meeting.",
+    "ended": "The term is over. Whatever happens next, the record will show the choices we made here.",
+    "resigned": "This office is no longer represented by this adviser. An acting replacement must be appointed before meetings can resume.",
+    "promise": "Then we have your word. I'll tell the team to expect movement. Please make sure the policy reaches the target before our deadline.",
+    "compromise": "It's a smaller commitment, but it gives us something to work with. I'll hold you to that timetable.",
+    "listen": "I appreciate being heard. I'll keep making the case, but I won't tell anyone we have a commitment yet.",
+    "reassure": "I'll take you at your word. The original deadline still stands.",
+    "extend": "One more quarter. That is the room we have, so let's use it.",
+    "withdraw": "Understood. I'll explain that the commitment has been withdrawn. That will not be an easy conversation.",
+    "refused": "We can't record that action right now. Let's check the appointment schedule and the terms of the commitment."
+  },
+  "characters": {
+    "chen": {
+      "greeting": "Mr. President, the people I meet don't talk in budget categories. They talk about the rent, the commute, and whether their children will have a better start. I brought one concrete request.",
+      "trusted": "We've shown people that this administration can deliver. Now let's give them a reason to believe the progress will last.",
+      "strained": "I need something I can take back to the families waiting on us. Another announcement won't be enough. Can we agree on a policy and a date?",
+      "pending": "I still have your commitment on my calendar. The team is ready; they need the policy to catch up with the promise.",
+      "promise": "Thank you. I'll put the target and the deadline in writing. If we deliver, this becomes more than a good meeting in a beautiful room.",
+      "compromise": "I can work with a smaller first step. Just make it a real one. People can tell the difference between a start and a delay.",
+      "listen": "Then let me leave the file with you. Behind each number is someone waiting for an answer.",
+      "withdraw": "I'll tell the people who were counting on it. But rebuilding their trust will take more than another promise."
+    },
+    "ruiz": {
+      "greeting": "Good to see you, Mr. President. Back home, they don't ask which office is responsible. They ask why nothing has changed yet. Help me give them a better answer.",
+      "trusted": "My communities are beginning to see the results. Keep showing up for them and they'll keep showing up for you.",
+      "strained": "I spent political capital defending this administration. I need to know you're prepared to spend some of yours for the people I represent.",
+      "pending": "I told my people we had an agreement. Before I get on the next flight home, tell me we're still on track.",
+      "promise": "That's something I can take home. I'll stand beside you on it. Now give me a result we can both defend.",
+      "compromise": "Not everything I wanted, but a governor learns to recognize an opening. Let's get this first step done.",
+      "listen": "All right. I came to make the case, and you've heard it. Just remember that waiting is a decision for the people living with it.",
+      "extend": "I can buy us one more quarter. After that, I won't be able to explain the delay away."
+    },
+    "brooks": {
+      "greeting": "Mr. President, every choice here has a price. My job is to make sure we understand it before we make the announcement. Let's look at one decision we can afford to take seriously.",
+      "trusted": "The numbers are moving, and credibility is an asset too. Let's protect both while we decide where to spend next.",
+      "strained": "I can defend a difficult trade-off. I cannot defend a promise made without a plan to fund it. Let's be precise this time.",
+      "pending": "I've kept the original target in the forecast. If we're changing course, I need to know before we run out of time.",
+      "promise": "I'll record the commitment. Remember: changing a setting is the start. Implementation takes time, and the budget still has to balance around it.",
+      "compromise": "A narrower commitment with a longer runway. That is manageable. I'll revise the assumptions accordingly.",
+      "listen": "Fair enough. There is value in looking at the trade-offs before signing anything. The figures are in the policy file.",
+      "reassure": "Then the forecast stays as it is. Reassurance buys goodwill, not extra time."
+    },
+    "bell": {
+      "greeting": "Mr. President, a good idea still needs people willing to vote for it. Give me something concrete, and I'll tell you what I can sell to the coalition.",
+      "trusted": "You've kept enough of your word that people are taking my calls. Let's turn that goodwill into something we can pass.",
+      "strained": "I'm hearing a lot of doubt on the Hill. If I ask members to take a risk for you, I need to know you'll hold up your end.",
+      "pending": "The coalition remembers the deal. Before I go back to them, let's make sure we're delivering the part we control.",
+      "promise": "Good. I'll put my name behind that. And if the policy needs an act of Congress to reach full strength, bring it to the floor. A promise is not a vote.",
+      "compromise": "I can describe that as a first step. But nobody should mistake a compromise for the finish line.",
+      "listen": "Then I won't count it as a commitment. When you're ready to move, bring me a position I can take into the room.",
+      "withdraw": "I'll make the calls. Some people will understand; others will remember this the next time we need their votes."
+    }
+  }
+}

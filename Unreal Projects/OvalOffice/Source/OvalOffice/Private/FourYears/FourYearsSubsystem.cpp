@@ -387,6 +387,7 @@ TArray<FFourYearsAdviser> UFourYearsSubsystem::GetAdvisers() const
 		Adviser.bMetThisQuarter = Request.Get("done").Truthy();
 		const JsonValue& Wanted = Request.Get("policy");
 		const std::string WantedId = Wanted.Get("id").AsString();
+		Adviser.RequestedPolicyId = ToFString(WantedId);
 		const int32 Now = static_cast<int32>(State.Get("levels").Get(WantedId).AsNumber());
 		const int32 Target = static_cast<int32>(Request.Get("target").AsNumber());
 		Adviser.Request = FString::Printf(TEXT("%s at %d/4 (now %d/4)"), *ToFString(Wanted.Get("name").AsString()), Target, Now);
@@ -479,6 +480,16 @@ UTexture2D* UFourYearsSubsystem::GetPortrait(const FString& AdviserName)
 	UTexture2D* Texture = FPaths::FileExists(Path) ? FImageUtils::ImportFileAsTexture2D(Path) : nullptr;
 	Portraits.Add(AdviserName, Texture);
 	return Texture;
+}
+
+FString UFourYearsSubsystem::GetDialogueLine(const FString& AdviserId, const FString& Cue) const
+{
+	const JsonValue& Dialogue = Core.Data().Get("dialogue");
+	const JsonValue& Character = Dialogue.Get("characters").Get(ToUtf8(AdviserId));
+	const JsonValue& Line = Character.Get(ToUtf8(Cue));
+	if (Line.IsString() && !Line.AsString().empty()) return ToFString(Line.AsString());
+	const JsonValue& Fallback = Dialogue.Get("fallback").Get(ToUtf8(Cue));
+	return Fallback.IsString() ? ToFString(Fallback.AsString()) : TEXT("Let's talk about what happens next, Mr. President.");
 }
 
 FFourYearsBill UFourYearsSubsystem::DescribeBill(const JsonValue& Definition, const JsonValue* BillState) const

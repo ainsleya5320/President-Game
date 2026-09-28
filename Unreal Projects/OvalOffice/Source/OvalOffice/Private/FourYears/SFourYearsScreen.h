@@ -7,6 +7,8 @@
 #include "FourYears/FourYearsSubsystem.h"
 
 class SVerticalBox;
+class STextBlock;
+class SScrollBox;
 struct FSlateBrush;
 
 enum class EFourYearsPage : uint8
@@ -39,11 +41,19 @@ private:
 	void BuildBriefing(UFourYearsSubsystem& Game);
 	void BuildPolicies(UFourYearsSubsystem& Game);
 	void BuildAdvisers(UFourYearsSubsystem& Game);
+	void BuildConversation(UFourYearsSubsystem& Game, const FFourYearsAdviser& Adviser);
+	void SetDialogue(const FString& Text);
+	FReply FinishDialogue();
+	FReply TalkTo(FString AdviserId);
+	FReply AdviserRoster();
+	FReply OpenRequestedPolicy();
+	FReply AllPolicies();
+	FReply Respond(int32 Index);
 	void BuildCongress(UFourYearsSubsystem& Game);
 	void BuildMessage();
 	void AddText(const FString& Text, int32 Size, const FLinearColor& Color, bool bBold = false);
 	void AddButton(const FString& Label, const FString& Detail, FOnClicked OnClicked);
-	TSharedRef<SWidget> Portrait(UFourYearsSubsystem& Game, const FFourYearsAdviser& Adviser);
+	TSharedRef<SWidget> Portrait(UFourYearsSubsystem& Game, const FFourYearsAdviser& Adviser, float Size = 84.f);
 
 	FReply Choose(int32 Index);
 	FReply Advance();
@@ -62,6 +72,16 @@ private:
 	TWeakObjectPtr<UFourYearsSubsystem> Subsystem;
 	FSimpleDelegate OnClose;
 	TSharedPtr<SVerticalBox> Content;
+	TSharedPtr<SScrollBox> Scroll;
+	TSharedPtr<STextBlock> Speech;
+	FString SelectedAdviser;
+	FString FocusPolicyId;
+	FString DialogueText;
+	float RevealedCharacters = 0.f;
+	TArray<FFourYearsMeetingOption> DialogueOptions;
+	TArray<FString> RosterIds;
+	TMap<FString, FString> ConversationReplies;
+	bool bResetScroll = true;
 	EFourYearsPage Page = EFourYearsPage::Briefing;
 	// The report shown after advancing, until the player continues to the next briefing.
 	TOptional<FFourYearsReport> Report;
