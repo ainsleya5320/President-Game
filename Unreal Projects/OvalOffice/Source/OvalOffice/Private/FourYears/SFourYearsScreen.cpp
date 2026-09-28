@@ -102,6 +102,10 @@ FReply SFourYearsScreen::OnKeyDown(const FGeometry& MyGeometry, const FKeyEvent&
 	{
 		return SelectPage(EFourYearsPage::Policies);
 	}
+	if (Key == EKeys::C)
+	{
+		return SelectPage(EFourYearsPage::Congress);
+	}
 	return SCompoundWidget::OnKeyDown(MyGeometry, InKeyEvent);
 }
 
@@ -143,6 +147,7 @@ void SFourYearsScreen::BuildTabs()
 	Tab(TEXT("Briefing"), EFourYearsPage::Briefing);
 	Tab(TEXT("Policies"), EFourYearsPage::Policies);
 	Tab(TEXT("Advisers"), EFourYearsPage::Advisers);
+	Tab(TEXT("Congress"), EFourYearsPage::Congress);
 	Tabs->AddSlot().FillWidth(1.f).HAlign(HAlign_Right).VAlign(VAlign_Center)[Label(TEXT("Esc or E returns to the office"), 10, Muted)];
 	Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 0.f, 0.f, 12.f))[Tabs];
 }
@@ -169,6 +174,7 @@ void SFourYearsScreen::Rebuild()
 	{
 	case EFourYearsPage::Policies: BuildPolicies(*Game); break;
 	case EFourYearsPage::Advisers: BuildAdvisers(*Game); break;
+	case EFourYearsPage::Congress: BuildCongress(*Game); break;
 	default: BuildBriefing(*Game); break;
 	}
 }
@@ -392,10 +398,134 @@ void SFourYearsScreen::BuildAdvisers(UFourYearsSubsystem& Game)
 	}
 }
 
+void SFourYearsScreen::BuildCongress(UFourYearsSubsystem& Game)
+{
+	const FFourYearsStatus Status = Game.GetStatus();
+	const FFourYearsCongress Congress = Game.GetCongress();
+	AddText(TEXT("CAPITOL  ·  LEGISLATIVE AGENDA"), 11, Gold, true);
+	AddText(TEXT("Build a majority"), 26, Ink, true);
+	AddText(FString::Printf(TEXT("Political capital %d/20   ·   Appointments left %d of 2   ·   Opposition momentum %d"),
+		Status.Capital, Status.AppointmentsLeft, Congress.OppositionMomentum), 12, Muted);
+	AddText(TEXT("The chamber has 100 seats and a bill needs 51 votes. Introducing a bill costs 2 capital, each amendment 1, lobbying a faction 1 plus an appointment, and a floor vote 2. A failed bill can be amended and voted on again next quarter. Passing a bill takes its program to full strength."), 11, Muted);
+	if (Status.bDecisionFiled || Status.bTermOver)
+	{
+		AddText(Status.bTermOver ? TEXT("The term is over.") : TEXT("This quarter's decision is filed. Congress reconvenes next quarter."), 12, Alert, true);
+	}
+	BuildMessage();
+	if (Congress.bHasActiveBill)
+	{
+		const FFourYearsBill& Bill = Congress.ActiveBill;
+		Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 12.f, 0.f, 2.f))[Label(Bill.Status == TEXT("failed") ? TEXT("ON THE FLOOR  ·  DEFEATED, AWAITING REVISION") : TEXT("ON THE FLOOR"), 11, Gold, true)];
+		AddText(Bill.Name, 20, Ink, true);
+		AddText(Bill.Story, 12, Ink);
+		AddText(FString::Printf(TEXT("Sponsor %s · takes %s to full strength · %d debt when passed%s"), *Bill.Sponsor, *Bill.Policy, Bill.Cost,
+			Bill.LastYes >= 0 ? *FString::Printf(TEXT(" · last vote %d–%d"), Bill.LastYes, 100 - Bill.LastYes) : TEXT("")), 11, Muted);
+		const bool bMajority = Congress.ProjectedYes >= 51;
+		AddText(FString::Printf(TEXT("Whip count: %d of 100 votes, %s"), Congress.ProjectedYes,
+			bMajority ? TEXT("enough to pass") : *FString::Printf(TEXT("%d short of a majority"), 51 - Congress.ProjectedYes)), 16, bMajority ? Good : Alert, true);
+		for (const FFourYearsBloc& Bloc : Congress.Blocs)
+		{
+			TSharedRef<SVerticalBox> Body = SNew(SVerticalBox)
+				+ SVerticalBox::Slot().AutoHeight()[Label(FString::Printf(TEXT("%s  ·  %d seats"), *Bloc.Name, Bloc.Seats), 13, Ink, true)]
+				+ SVerticalBox::Slot().AutoHeight()[Label(FString::Printf(TEXT("Support %d%% → %d yes votes · wants: %s"), Bloc.Support, Bloc.YesVotes, *Bloc.Want), 10, Muted)];
+			TSharedRef<SWidget> Action = Bloc.bLobbied
+				? StaticCastSharedRef<SWidget>(Label(TEXT("Lobbied"), 11, Good, true))
+				: StaticCastSharedRef<SWidget>(SNew(SButton).ContentPadding(FMargin(10.f, 5.f))
+					.OnClicked(FOnClicked::CreateSP(this, &SFourYearsScreen::Lobby, Bloc.Id))
+					[Label(TEXT("Lobby (+15 support)"), 11, FLinearColor(0.08f, 0.08f, 0.08f), true)]);
+			Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 3.f))
+			[
+				SNew(SBorder)
+				.BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
+				.BorderBackgroundColor(Card)
+				.Padding(FMargin(12.f, 8.f))
+				[
+					SNew(SHorizontalBox)
+					+ SHorizontalBox::Slot().FillWidth(1.f).VAlign(VAlign_Center)[Body]
+					+ SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center).Padding(FMargin(10.f, 0.f, 0.f, 0.f))[Action]
+				]
+			];
+		}
+		Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 12.f, 0.f, 2.f))[Label(TEXT("AMENDMENTS"), 11, Gold, true)];
+		for (const FFourYearsAmendment& Amendment : Congress.Amendments)
+		{
+			if (Amendment.bAdopted)
+			{
+				AddText(TEXT("✓  ") + Amendment.Name + TEXT(" — adopted. ") + Amendment.Detail, 11, Good);
+			}
+			else
+			{
+				AddButton(TEXT("Add amendment: ") + Amendment.Name, Amendment.Detail + TEXT(" Costs 1 political capital."), FOnClicked::CreateSP(this, &SFourYearsScreen::Amend, Amendment.Id));
+			}
+		}
+		Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 12.f, 0.f, 0.f))[Label(TEXT("FLOOR VOTE"), 11, Gold, true)];
+		if (Bill.bVotedThisQuarter)
+		{
+			AddText(TEXT("You have already called a vote on this bill this quarter. Revise it and try again next quarter."), 12, Muted);
+		}
+		else
+		{
+			AddButton(TEXT("Call the vote"), FString::Printf(TEXT("Costs 2 political capital · the whip count projects %d yes votes · a defeat gives the opposition momentum"), Congress.ProjectedYes),
+				FOnClicked::CreateSP(this, &SFourYearsScreen::Vote));
+		}
+	}
+	else if (Congress.Available.Num() > 0)
+	{
+		Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 12.f, 0.f, 2.f))[Label(TEXT("INTRODUCE A BILL"), 11, Gold, true)];
+		for (const FFourYearsBill& Bill : Congress.Available)
+		{
+			AddButton(Bill.Name, FString::Printf(TEXT("%s Sponsor %s · takes %s to full strength · %d debt when passed · costs 2 political capital to introduce"),
+				*Bill.Story, *Bill.Sponsor, *Bill.Policy, Bill.Cost), FOnClicked::CreateSP(this, &SFourYearsScreen::Introduce, Bill.Id));
+		}
+	}
+	else
+	{
+		AddText(TEXT("Every act has been introduced this term."), 12, Muted);
+	}
+	if (Congress.Passed.Num() > 0)
+	{
+		Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 14.f, 0.f, 2.f))[Label(TEXT("LAWS IN FORCE"), 11, Gold, true)];
+		for (const FFourYearsBill& Bill : Congress.Passed)
+		{
+			AddText(FString::Printf(TEXT("%s · %d%% delivered%s"), *Bill.Name, Bill.Progress,
+				Bill.Amendments.Num() ? *(TEXT(" · with ") + FString::Join(Bill.Amendments, TEXT(", "))) : TEXT("")), 12, Bill.Progress >= 100 ? Good : Ink);
+		}
+	}
+}
+
 void SFourYearsScreen::SetMessage(const FFourYearsActionResult& Result)
 {
 	Message = Result.Message;
-	bMessageOk = Result.bOk;
+	// A defeated vote is a completed action but a bad outcome.
+	bMessageOk = Result.bOk && !Result.Message.StartsWith(TEXT("Defeated"));
+}
+
+FReply SFourYearsScreen::Introduce(FString BillId)
+{
+	if (UFourYearsSubsystem* Game = Subsystem.Get()) SetMessage(Game->IntroduceBill(BillId));
+	bNeedsRebuild = true;
+	return FReply::Handled();
+}
+
+FReply SFourYearsScreen::Amend(FString AmendmentId)
+{
+	if (UFourYearsSubsystem* Game = Subsystem.Get()) SetMessage(Game->AddAmendment(AmendmentId));
+	bNeedsRebuild = true;
+	return FReply::Handled();
+}
+
+FReply SFourYearsScreen::Lobby(FString BlocId)
+{
+	if (UFourYearsSubsystem* Game = Subsystem.Get()) SetMessage(Game->LobbyBloc(BlocId));
+	bNeedsRebuild = true;
+	return FReply::Handled();
+}
+
+FReply SFourYearsScreen::Vote()
+{
+	if (UFourYearsSubsystem* Game = Subsystem.Get()) SetMessage(Game->CallVote());
+	bNeedsRebuild = true;
+	return FReply::Handled();
 }
 
 FReply SFourYearsScreen::Choose(int32 Index)

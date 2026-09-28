@@ -1,5 +1,5 @@
-// The president's screen: the quarterly briefing at the Resolute Desk, the policy levers, and meetings with
-// advisers by the sofas, as tabs of one overlay.
+// The president's screen: the quarterly briefing at the Resolute Desk, the policy levers, meetings with
+// advisers by the sofas, and Congress, as tabs of one overlay.
 #pragma once
 
 #include "CoreMinimal.h"
@@ -14,6 +14,7 @@ enum class EFourYearsPage : uint8
 	Briefing,
 	Policies,
 	Advisers,
+	Congress,
 };
 
 class SFourYearsScreen : public SCompoundWidget
@@ -38,6 +39,7 @@ private:
 	void BuildBriefing(UFourYearsSubsystem& Game);
 	void BuildPolicies(UFourYearsSubsystem& Game);
 	void BuildAdvisers(UFourYearsSubsystem& Game);
+	void BuildCongress(UFourYearsSubsystem& Game);
 	void BuildMessage();
 	void AddText(const FString& Text, int32 Size, const FLinearColor& Color, bool bBold = false);
 	void AddButton(const FString& Label, const FString& Detail, FOnClicked OnClicked);
@@ -49,6 +51,10 @@ private:
 	FReply NewTerm();
 	FReply ChangePolicy(FString PolicyId, int32 Level);
 	FReply Meet(FString AdviserId, FString Response);
+	FReply Introduce(FString BillId);
+	FReply Amend(FString AmendmentId);
+	FReply Lobby(FString BlocId);
+	FReply Vote();
 	FReply SelectPage(EFourYearsPage NewPage);
 	FReply Close();
 	void SetMessage(const FFourYearsActionResult& Result);

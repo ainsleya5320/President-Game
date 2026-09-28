@@ -39,7 +39,7 @@ This prototype includes the explorable Oval Office and Air Force One, decorative
 
 ### Four Years in Unreal
 
-The simulation now runs natively in Unreal as a C++ port that reads the same data and saves as the browser game. In the Oval Office, press **E** at the Resolute Desk for the quarterly briefings, **E** by the sofas to meet your advisers, and **P** anywhere to set policies. Build the C++ module once, which needs Visual Studio 2022, then run **Play Four Years in Unreal.cmd**. See [`Source/README.md`](Unreal%20Projects/OvalOffice/Source/README.md) for build steps, architecture and the parity test.
+The simulation now runs natively in Unreal as a C++ port that reads the same data and saves as the browser game. In the Oval Office, press **E** at the Resolute Desk for the quarterly briefings, **E** by the sofas to meet your advisers, **P** anywhere to set policies, and **C** anywhere to take bills through Congress. Build the C++ module once, which needs Visual Studio 2022, then run **Play Four Years in Unreal.cmd**. See [`Source/README.md`](Unreal%20Projects/OvalOffice/Source/README.md) for build steps, architecture and the parity test.
 
 ### Air Force One in Unreal
 

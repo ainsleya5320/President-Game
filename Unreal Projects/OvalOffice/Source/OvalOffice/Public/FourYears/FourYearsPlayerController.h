@@ -9,7 +9,7 @@ class STextBlock;
 class SWidget;
 
 // Mouse look, the on-screen prompt, and the president's screen: E at the Resolute Desk opens the
-// briefing, E by the sofas opens the advisers, and P opens the policies anywhere.
+// briefing, E by the sofas opens the advisers, P opens the policies and C opens Congress anywhere.
 UCLASS()
 class OVALOFFICE_API AFourYearsPlayerController : public APlayerController
 {
@@ -28,6 +28,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void OpenAdvisers();
+
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	void OpenCongress();
 
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void CloseScreen();

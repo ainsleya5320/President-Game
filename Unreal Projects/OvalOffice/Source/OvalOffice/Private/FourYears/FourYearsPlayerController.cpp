@@ -89,7 +89,7 @@ void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 	{
 		const TCHAR* Text = bAtDesk ? TEXT("Press E at the Resolute Desk to read your quarterly briefing")
 			: bAtSofas ? TEXT("Press E by the sofas to meet your advisers")
-			: TEXT("W/A/S/D to walk · mouse to look · P for policies · the desk for briefings · the sofas for advisers");
+			: TEXT("W/A/S/D to walk · mouse to look · P for policies · C for Congress · the desk for briefings · the sofas for advisers");
 		PromptText->SetText(FText::FromString(Text));
 	}
 	if (WasInputKeyJustPressed(EKeys::E))
@@ -101,11 +101,16 @@ void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 	{
 		OpenPolicies();
 	}
+	if (WasInputKeyJustPressed(EKeys::C))
+	{
+		OpenCongress();
+	}
 }
 
 void AFourYearsPlayerController::OpenBriefing() { OpenScreen(static_cast<uint8>(EFourYearsPage::Briefing)); }
 void AFourYearsPlayerController::OpenPolicies() { OpenScreen(static_cast<uint8>(EFourYearsPage::Policies)); }
 void AFourYearsPlayerController::OpenAdvisers() { OpenScreen(static_cast<uint8>(EFourYearsPage::Advisers)); }
+void AFourYearsPlayerController::OpenCongress() { OpenScreen(static_cast<uint8>(EFourYearsPage::Congress)); }
 
 void AFourYearsPlayerController::OpenScreen(uint8 Page)
 {

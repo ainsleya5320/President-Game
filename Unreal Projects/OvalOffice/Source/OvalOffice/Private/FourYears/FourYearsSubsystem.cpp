@@ -480,3 +480,120 @@ UTexture2D* UFourYearsSubsystem::GetPortrait(const FString& AdviserName)
 	Portraits.Add(AdviserName, Texture);
 	return Texture;
 }
+
+FFourYearsBill UFourYearsSubsystem::DescribeBill(const JsonValue& Definition, const JsonValue* BillState) const
+{
+	FFourYearsBill Bill;
+	Bill.Id = ToFString(Definition.Get("id").AsString());
+	Bill.Name = ToFString(Definition.Get("name").AsString());
+	Bill.Story = ToFString(Definition.Get("story").AsString());
+	Bill.Cost = static_cast<int32>(Definition.Get("cost").AsNumber());
+	const JsonValue People = Core.People(State);
+	for (const JsonValue& Person : People.Items())
+	{
+		if (Person.Get("id").AsString() == Definition.Get("sponsor").AsString()) Bill.Sponsor = ToFString(Person.Get("name").AsString());
+	}
+	for (const JsonValue& Policy : Core.Policies().Items())
+	{
+		if (Policy.Get("id").AsString() == Definition.Get("policy").AsString()) Bill.Policy = ToFString(Policy.Get("name").AsString());
+	}
+	Bill.Status = TEXT("available");
+	if (BillState)
+	{
+		Bill.Status = ToFString(BillState->Get("status").AsString());
+		Bill.Progress = static_cast<int32>(BillState->Get("progress").AsNumber());
+		Bill.Attempts = static_cast<int32>(BillState->Get("attempts").AsNumber());
+		Bill.LastYes = BillState->Get("yes").IsNumber() ? static_cast<int32>(BillState->Get("yes").AsNumber()) : -1;
+		Bill.bVotedThisQuarter = BillState->Get("lastVote").AsNumber() == State.Get("quarter").AsNumber();
+		for (const JsonValue& Id : BillState->Get("amendments").Items())
+		{
+			for (const JsonValue& Amendment : Core.Data().Get("executive").Get("amendments").Items())
+			{
+				if (Amendment.Get("id").AsString() == Id.AsString()) Bill.Amendments.Add(ToFString(Amendment.Get("name").AsString()));
+			}
+		}
+	}
+	return Bill;
+}
+
+FFourYearsCongress UFourYearsSubsystem::GetCongress() const
+{
+	FFourYearsCongress Congress;
+	if (!bReady)
+	{
+		return Congress;
+	}
+	const JsonValue& Executive = Core.Data().Get("executive");
+	Congress.OppositionMomentum = static_cast<int32>(FourYears::JsRound(State.Get("executive").Get("opposition").Get("momentum").AsNumber()));
+	for (const JsonValue& Definition : Executive.Get("bills").Items())
+	{
+		const JsonValue* BillState = nullptr;
+		for (const JsonValue& Candidate : State.Get("executive").Get("bills").Items())
+		{
+			if (Candidate.Get("id").AsString() == Definition.Get("id").AsString()) BillState = &Candidate;
+		}
+		const FFourYearsBill Bill = DescribeBill(Definition, BillState);
+		if (!BillState) Congress.Available.Add(Bill);
+		else if (Bill.Status == TEXT("passed")) Congress.Passed.Add(Bill);
+	}
+	const JsonValue* Active = Core.ActiveBill(State);
+	if (!Active)
+	{
+		return Congress;
+	}
+	Congress.bHasActiveBill = true;
+	for (const JsonValue& Definition : Executive.Get("bills").Items())
+	{
+		if (Definition.Get("id").AsString() == Active->Get("id").AsString()) Congress.ActiveBill = DescribeBill(Definition, Active);
+	}
+	const JsonValue Rows = Core.Votes(State, *Active);
+	for (const JsonValue& Row : Rows.Items())
+	{
+		FFourYearsBloc Bloc;
+		Bloc.Id = ToFString(Row.Get("id").AsString());
+		Bloc.Name = ToFString(Row.Get("name").AsString());
+		Bloc.Seats = static_cast<int32>(Row.Get("seats").AsNumber());
+		Bloc.Support = static_cast<int32>(Row.Get("support").AsNumber());
+		Bloc.YesVotes = static_cast<int32>(Row.Get("yes").AsNumber());
+		Bloc.Want = ToFString(Row.Get("want").AsString());
+		for (const JsonValue& Id : Active->Get("lobbied").Items())
+		{
+			if (Id.AsString() == Row.Get("id").AsString()) Bloc.bLobbied = true;
+		}
+		Congress.ProjectedYes += Bloc.YesVotes;
+		Congress.Blocs.Add(Bloc);
+	}
+	for (const JsonValue& Definition : Executive.Get("amendments").Items())
+	{
+		FFourYearsAmendment Amendment;
+		Amendment.Id = ToFString(Definition.Get("id").AsString());
+		Amendment.Name = ToFString(Definition.Get("name").AsString());
+		Amendment.Detail = ToFString(Definition.Get("detail").AsString());
+		for (const JsonValue& Id : Active->Get("amendments").Items())
+		{
+			if (Id.AsString() == Definition.Get("id").AsString()) Amendment.bAdopted = true;
+		}
+		Congress.Amendments.Add(Amendment);
+	}
+	return Congress;
+}
+
+FFourYearsActionResult UFourYearsSubsystem::IntroduceBill(const FString& BillId)
+{
+	return bReady ? ToResult(Core.Propose(State, ToUtf8(BillId))) : FFourYearsActionResult();
+}
+
+FFourYearsActionResult UFourYearsSubsystem::AddAmendment(const FString& AmendmentId)
+{
+	return bReady ? ToResult(Core.Amend(State, ToUtf8(AmendmentId))) : FFourYearsActionResult();
+}
+
+FFourYearsActionResult UFourYearsSubsystem::LobbyBloc(const FString& BlocId)
+{
+	return bReady ? ToResult(Core.Lobby(State, ToUtf8(BlocId))) : FFourYearsActionResult();
+}
+
+FFourYearsActionResult UFourYearsSubsystem::CallVote()
+{
+	return bReady ? ToResult(Core.Vote(State)) : FFourYearsActionResult();
+}
