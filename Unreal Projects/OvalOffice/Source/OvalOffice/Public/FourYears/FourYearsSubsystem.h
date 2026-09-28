@@ -135,6 +135,75 @@ struct FFourYearsAdviser
 	UPROPERTY(BlueprintReadOnly, Category = "Four Years") TArray<FFourYearsMeetingOption> Options;
 };
 
+USTRUCT(BlueprintType)
+struct FFourYearsBloc
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Id;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Name;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Seats = 0;
+	// Projected support for the active bill, 0-100, and the yes votes it brings.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Support = 0;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 YesVotes = 0;
+	// What the faction wants, e.g. "Independent oversight and a credible rollout".
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Want;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bLobbied = false;
+};
+
+USTRUCT(BlueprintType)
+struct FFourYearsAmendment
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Id;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Name;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Detail;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bAdopted = false;
+};
+
+USTRUCT(BlueprintType)
+struct FFourYearsBill
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Id;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Name;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Story;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Sponsor;
+	// The policy it takes to full strength.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Policy;
+	// One-off debt when it passes.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Cost = 0;
+	// "available", "draft", "failed" or "passed".
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FString Status;
+	// Delivery progress once passed, 0-100.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Progress = 0;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 Attempts = 0;
+	// Yes votes in the most recent floor vote, or -1 before any vote.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 LastYes = -1;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bVotedThisQuarter = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") TArray<FString> Amendments;
+};
+
+// The chamber: 100 seats, 51 votes to pass, one bill on the floor at a time.
+USTRUCT(BlueprintType)
+struct FFourYearsCongress
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") bool bHasActiveBill = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") FFourYearsBill ActiveBill;
+	// Whip count for the active bill.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") TArray<FFourYearsBloc> Blocs;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 ProjectedYes = 0;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") TArray<FFourYearsAmendment> Amendments;
+	// Bills that can still be introduced, and bills already law.
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") TArray<FFourYearsBill> Available;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") TArray<FFourYearsBill> Passed;
+	UPROPERTY(BlueprintReadOnly, Category = "Four Years") int32 OppositionMomentum = 0;
+};
+
 UCLASS()
 class OVALOFFICE_API UFourYearsSubsystem : public UGameInstanceSubsystem
 {
@@ -192,6 +261,25 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	UTexture2D* GetPortrait(const FString& AdviserName);
 
+	UFUNCTION(BlueprintPure, Category = "Four Years")
+	FFourYearsCongress GetCongress() const;
+
+	// Introduces a bill (2 political capital). Only one bill can be on the floor at a time.
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	FFourYearsActionResult IntroduceBill(const FString& BillId);
+
+	// Adds an amendment to the active bill (1 political capital).
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	FFourYearsActionResult AddAmendment(const FString& AmendmentId);
+
+	// Meets a faction about the active bill: +15 support, one appointment and 1 political capital.
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	FFourYearsActionResult LobbyBloc(const FString& BlocId);
+
+	// Calls the floor vote on the active bill (2 political capital, once per quarter). 51 votes pass it.
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	FFourYearsActionResult CallVote();
+
 	// Where the president is: "oval" or "aircraft". Meetings need the Oval Office.
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void SetLocation(const FString& Location);
@@ -210,6 +298,7 @@ private:
 	FString QuarterLabel(int32 Quarter) const;
 
 	FFourYearsActionResult ToResult(const FourYears::JsonValue& Result);
+	FFourYearsBill DescribeBill(const FourYears::JsonValue& Definition, const FourYears::JsonValue* BillState) const;
 
 	UPROPERTY(Transient)
 	TMap<FString, TObjectPtr<UTexture2D>> Portraits;
