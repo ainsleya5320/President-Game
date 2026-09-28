@@ -1,4 +1,4 @@
-param([switch]$Editor)
+param([switch]$Editor, [switch]$CabinetRoom)
 # Opens the native Four Years slice: walk the Oval Office and govern from the Resolute Desk.
 # The C++ module must be built first (see Source/README.md).
 $projectRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
@@ -22,8 +22,9 @@ if (Test-Path -LiteralPath (Join-Path $dotnetRoot 'dotnet.exe')) {
     $env:UE_USE_SYSTEM_DOTNET = '1'
     $env:DOTNET_ROLL_FORWARD = 'LatestMajor'
 }
-$map = if ($Editor) { '/Game/OvalOffice/Maps/OvalOffice' } else { '/Game/OvalOffice/Maps/OvalOffice?game=/Script/OvalOffice.FourYearsGameMode' }
+$level = if ($CabinetRoom) { '/Game/CabinetRoom/Maps/CabinetRoom' } else { '/Game/OvalOffice/Maps/OvalOffice' }
+$map = if ($Editor) { $level } else { $level + '?game=/Script/OvalOffice.FourYearsGameMode' }
 $arguments = @(('"'+$project+'"'),$map,'-dx11','-windowed','-ResX=1280','-ResY=720',('-ZenDataPath="'+$zenData+'"'),('-ShaderWorkingDir="'+$shaderWorking+'"'),'-DDC-ForceMemoryCache','-NoSendLog')
-if ($Editor) { $arguments += ('"-ExecCmds=py '+(Join-Path $PSScriptRoot 'configure_four_years.py').Replace('\','/')+'"') }
+if ($Editor -and !$CabinetRoom) { $arguments += ('"-ExecCmds=py '+(Join-Path $PSScriptRoot 'configure_four_years.py').Replace('\','/')+'"') }
 if (!$Editor) { $arguments += '-game' }
 Start-Process -FilePath $engine -ArgumentList $arguments -WindowStyle Normal -PassThru | Select-Object Id

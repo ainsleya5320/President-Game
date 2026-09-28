@@ -6,6 +6,8 @@
 #include "Framework/Application/SlateApplication.h"
 #include "FourYears/FourYearsSubsystem.h"
 #include "FourYears/FourYearsWalker.h"
+#include "FourYears/FourYearsRoom.h"
+#include "Kismet/GameplayStatics.h"
 #include "InputCoreTypes.h"
 #include "SFourYearsScreen.h"
 #include "Styling/CoreStyle.h"
@@ -90,12 +92,13 @@ void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 		const TCHAR* Text = bAtDesk ? TEXT("Press E at the Resolute Desk to read your quarterly briefing")
 			: bAtSofas ? TEXT("Press E by the sofas to meet your advisers")
 			: TEXT("W/A/S/D to walk · mouse to look · P for policies · C for Congress · the desk for briefings · the sofas for advisers");
-		PromptText->SetText(FText::FromString(Text));
+		const FString Nearby = GetInteractionPrompt();
+		PromptText->SetText(FText::FromString(Nearby.IsEmpty() ? FString(Text) : Nearby));
 	}
 	if (WasInputKeyJustPressed(EKeys::E))
 	{
-		if (bAtDesk) OpenBriefing();
-		else if (bAtSofas) OpenAdvisers();
+		Interact();
+		return; // Travel may replace this world; do not open another screen this frame.
 	}
 	if (WasInputKeyJustPressed(EKeys::P))
 	{
@@ -105,6 +108,43 @@ void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 	{
 		OpenCongress();
 	}
+}
+
+FString AFourYearsPlayerController::GetInteractionPrompt() const
+{
+	const AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn());
+	if (Walker && Walker->GetRoom())
+	{
+		if (const auto* Point = Walker->GetRoom()->FindInteraction(Walker->GetActorLocation())) return Point->Prompt;
+		if (Walker->GetRoom()->WalkableAreas.Num()) return TEXT("CABINET ROOM  ·  W/A/S/D walk  ·  E at a named seat to meet  ·  P policies  ·  C Congress  ·  exit behind you");
+	}
+	return FString();
+}
+
+void AFourYearsPlayerController::Interact()
+{
+	if (IsScreenOpen()) return;
+	const AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn());
+	if (!Walker) return;
+	if (const AFourYearsRoom* Room = Walker->GetRoom())
+	{
+		if (const auto* Point = Room->FindInteraction(Walker->GetActorLocation()))
+		{
+			if (Point->Action == TEXT("travel"))
+			{
+				UGameplayStatics::OpenLevel(this, FName(*Point->Target), true, TEXT("FromRoom=1"));
+			}
+			else if (Point->Action == TEXT("briefing")) OpenBriefing();
+			else if (Point->Action == TEXT("adviser"))
+			{
+				OpenAdvisers();
+				if (Screen.IsValid()) Screen->ShowAdviser(Point->Target);
+			}
+			return;
+		}
+	}
+	if (Walker->IsNearDesk()) OpenBriefing();
+	else if (Walker->IsNearSittingArea()) OpenAdvisers();
 }
 
 void AFourYearsPlayerController::OpenBriefing() { OpenScreen(static_cast<uint8>(EFourYearsPage::Briefing)); }
@@ -130,6 +170,10 @@ void AFourYearsPlayerController::OpenScreen(uint8 Page)
 		.Subsystem(Instance->GetSubsystem<UFourYearsSubsystem>())
 		.Page(Target)
 		.OnClose(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::CloseScreen));
+	if (const AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn()))
+	{
+		if (Walker->GetRoom()) Screen->SetRoomLabel(Walker->GetRoom()->RoomLabel);
+	}
 	Viewport->AddViewportWidgetContent(Screen.ToSharedRef(), 10);
 	if (Prompt.IsValid()) Prompt->SetVisibility(EVisibility::Collapsed);
 	if (AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn())) Walker->SetMovementEnabled(false);

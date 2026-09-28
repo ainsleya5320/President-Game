@@ -1,0 +1,87 @@
+newmtl Warm_Limestone
+Kd 0.66 0.61 0.5
+d 1
+
+newmtl Painted_Ivory
+Kd 0.84 0.82 0.74
+d 1
+
+newmtl Mahogany
+Kd 0.55 0.3 0.2
+d 1
+
+newmtl Dark_Mahogany
+Kd 0.2 0.075 0.033
+d 1
+
+newmtl Antique_Brass
+Kd 0.57 0.36 0.12
+d 1
+
+newmtl Cabinet_Leather
+Kd 0.018 0.025 0.027
+d 1
+
+newmtl Federal_Blue_Carpet
+Kd 0.095 0.16 0.23
+d 1
+
+newmtl Carpet_Border
+Kd 0.26 0.34 0.39
+d 1
+
+newmtl Ivory_Damask
+Kd 0.67 0.6 0.43
+d 1
+
+newmtl Ivory_Paper
+Kd 0.9 0.88 0.79
+d 1
+
+newmtl Microphone
+Kd 0.016 0.019 0.021
+d 1
+
+newmtl Hearth_Marble
+Kd 0.64 0.61 0.52
+d 1
+
+newmtl Garden_Hedges
+Kd 0.12 0.25 0.075
+d 1
+
+newmtl Lawn
+Kd 0.19 0.3 0.105
+d 1
+
+newmtl White_Roses
+Kd 0.87 0.8 0.66
+d 1
+
+newmtl Crystal
+Kd 0.39 0.5 0.55
+d 1
+
+newmtl Washington
+Kd 1 1 1
+d 1
+
+newmtl River_Landscape
+Kd 1 1 1
+d 1
+
+newmtl Liberty
+Kd 1 1 1
+d 1
+
+newmtl US_Flag
+Kd 1 1 1
+d 1
+
+newmtl Presidential_Flag
+Kd 1 1 1
+d 1
+
+newmtl Presidential_Seal
+Kd 1 1 1
+d 1

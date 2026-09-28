@@ -1,0 +1,351 @@
+{
+  "groups": [
+    {
+      "name": "Architecture",
+      "triangles": 13632,
+      "materials": [
+        "Antique_Brass",
+        "Carpet_Border",
+        "Federal_Blue_Carpet",
+        "Painted_Ivory",
+        "Warm_Limestone"
+      ]
+    },
+    {
+      "name": "Windows_and_Drapery",
+      "triangles": 25300,
+      "materials": [
+        "Antique_Brass",
+        "Ivory_Damask",
+        "Painted_Ivory"
+      ]
+    },
+    {
+      "name": "Hall_and_Doors",
+      "triangles": 4766,
+      "materials": [
+        "Antique_Brass",
+        "Dark_Mahogany",
+        "Mahogany",
+        "Painted_Ivory",
+        "Presidential_Seal",
+        "Warm_Limestone"
+      ]
+    },
+    {
+      "name": "Conference_Table",
+      "triangles": 7760,
+      "materials": [
+        "Antique_Brass",
+        "Dark_Mahogany",
+        "Mahogany"
+      ]
+    },
+    {
+      "name": "Cabinet_Chairs",
+      "triangles": 60608,
+      "materials": [
+        "Antique_Brass",
+        "Cabinet_Leather",
+        "Dark_Mahogany",
+        "Mahogany"
+      ]
+    },
+    {
+      "name": "Table_Details",
+      "triangles": 41896,
+      "materials": [
+        "Antique_Brass",
+        "Cabinet_Leather",
+        "Crystal",
+        "Dark_Mahogany",
+        "Ivory_Paper",
+        "Mahogany",
+        "Microphone",
+        "White_Roses"
+      ]
+    },
+    {
+      "name": "Fireplace_and_Art",
+      "triangles": 14056,
+      "materials": [
+        "Antique_Brass",
+        "Dark_Mahogany",
+        "Hearth_Marble",
+        "Ivory_Damask",
+        "Liberty",
+        "Mahogany",
+        "Microphone",
+        "Painted_Ivory",
+        "Presidential_Flag",
+        "River_Landscape",
+        "US_Flag",
+        "Washington"
+      ]
+    },
+    {
+      "name": "Rose_Garden",
+      "triangles": 32816,
+      "materials": [
+        "Dark_Mahogany",
+        "Garden_Hedges",
+        "Hearth_Marble",
+        "Lawn",
+        "White_Roses"
+      ]
+    },
+    {
+      "name": "Lighting_Fixtures",
+      "triangles": 9204,
+      "materials": [
+        "Antique_Brass",
+        "Painted_Ivory"
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "id": "Warm_Limestone",
+      "color": [
+        0.66,
+        0.61,
+        0.5
+      ],
+      "roughness": 0.76,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Painted_Ivory",
+      "color": [
+        0.84,
+        0.82,
+        0.74
+      ],
+      "roughness": 0.4,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Mahogany",
+      "color": [
+        0.55,
+        0.3,
+        0.2
+      ],
+      "roughness": 0.24,
+      "metallic": 0,
+      "texture": "walnut.png"
+    },
+    {
+      "id": "Dark_Mahogany",
+      "color": [
+        0.2,
+        0.075,
+        0.033
+      ],
+      "roughness": 0.27,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Antique_Brass",
+      "color": [
+        0.57,
+        0.36,
+        0.12
+      ],
+      "roughness": 0.27,
+      "metallic": 0.74,
+      "texture": null
+    },
+    {
+      "id": "Cabinet_Leather",
+      "color": [
+        0.018,
+        0.025,
+        0.027
+      ],
+      "roughness": 0.39,
+      "metallic": 0,
+      "texture": "cognac_leather.png"
+    },
+    {
+      "id": "Federal_Blue_Carpet",
+      "color": [
+        0.095,
+        0.16,
+        0.23
+      ],
+      "roughness": 0.94,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Carpet_Border",
+      "color": [
+        0.26,
+        0.34,
+        0.39
+      ],
+      "roughness": 0.95,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Ivory_Damask",
+      "color": [
+        0.67,
+        0.6,
+        0.43
+      ],
+      "roughness": 0.9,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Ivory_Paper",
+      "color": [
+        0.9,
+        0.88,
+        0.79
+      ],
+      "roughness": 0.86,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Microphone",
+      "color": [
+        0.016,
+        0.019,
+        0.021
+      ],
+      "roughness": 0.34,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Hearth_Marble",
+      "color": [
+        0.64,
+        0.61,
+        0.52
+      ],
+      "roughness": 0.22,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Garden_Hedges",
+      "color": [
+        0.12,
+        0.25,
+        0.075
+      ],
+      "roughness": 0.94,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Lawn",
+      "color": [
+        0.19,
+        0.3,
+        0.105
+      ],
+      "roughness": 1,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "White_Roses",
+      "color": [
+        0.87,
+        0.8,
+        0.66
+      ],
+      "roughness": 0.7,
+      "metallic": 0,
+      "texture": null
+    },
+    {
+      "id": "Crystal",
+      "color": [
+        0.39,
+        0.5,
+        0.55
+      ],
+      "roughness": 0.18,
+      "metallic": 0.25,
+      "texture": null
+    },
+    {
+      "id": "Washington",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.8,
+      "metallic": 0,
+      "texture": "washington_portrait.png"
+    },
+    {
+      "id": "River_Landscape",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.8,
+      "metallic": 0,
+      "texture": "river_landscape.png"
+    },
+    {
+      "id": "Liberty",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.8,
+      "metallic": 0,
+      "texture": "statue_liberty.png"
+    },
+    {
+      "id": "US_Flag",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.83,
+      "metallic": 0,
+      "texture": "us_flag.png"
+    },
+    {
+      "id": "Presidential_Flag",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.83,
+      "metallic": 0,
+      "texture": "presidential_flag.png"
+    },
+    {
+      "id": "Presidential_Seal",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.8,
+      "metallic": 0,
+      "texture": "presidential_seal.png"
+    }
+  ],
+  "coordinates": "UE centimetres X=Blender X, Y=-Blender Y, Z=Blender Z"
+}

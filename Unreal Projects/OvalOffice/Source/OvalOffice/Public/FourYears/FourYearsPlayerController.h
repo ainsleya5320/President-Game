@@ -33,6 +33,12 @@ public:
 	void OpenCongress();
 
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	void Interact();
+
+	UFUNCTION(BlueprintPure, Category = "Four Years")
+	FString GetInteractionPrompt() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void CloseScreen();
 
 	UFUNCTION(BlueprintPure, Category = "Four Years")

@@ -30,6 +30,8 @@ public:
 
 	void Construct(const FArguments& InArgs);
 	void ShowPage(EFourYearsPage NewPage);
+	void ShowAdviser(const FString& Id) { TalkTo(Id); }
+	void SetRoomLabel(const FString& Label) { RoomLabel = Label; bNeedsRebuild = true; }
 
 	virtual bool SupportsKeyboardFocus() const override { return true; }
 	virtual FReply OnKeyDown(const FGeometry& MyGeometry, const FKeyEvent& InKeyEvent) override;
@@ -75,6 +77,7 @@ private:
 	TSharedPtr<SScrollBox> Scroll;
 	TSharedPtr<STextBlock> Speech;
 	FString SelectedAdviser;
+	FString RoomLabel = TEXT("THE OVAL OFFICE");
 	FString FocusPolicyId;
 	FString DialogueText;
 	float RevealedCharacters = 0.f;

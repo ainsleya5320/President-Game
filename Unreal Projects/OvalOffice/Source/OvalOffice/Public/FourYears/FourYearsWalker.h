@@ -8,6 +8,7 @@
 #include "FourYearsWalker.generated.h"
 
 class UCameraComponent;
+class AFourYearsRoom;
 
 UCLASS()
 class OVALOFFICE_API AFourYearsWalker : public APawn
@@ -25,6 +26,9 @@ public:
 
 	// By the sofas and the fireplace, where advisers meet the president.
 	bool IsNearSittingArea() const;
+	AFourYearsRoom* GetRoom() const { return Room; }
+	UFUNCTION(BlueprintPure, Category = "Four Years")
+	bool CanStand(const FVector2D& Position) const;
 
 	// Movement pauses while a screen is open.
 	void SetMovementEnabled(bool bEnabled) { bMovementEnabled = bEnabled; }
@@ -63,7 +67,7 @@ public:
 	TArray<FBox2D> Furniture;
 
 private:
-	bool CanStand(const FVector2D& Position) const;
-
+	UPROPERTY() TObjectPtr<AFourYearsRoom> Room;
+	bool bApplyArrivalView = false;
 	bool bMovementEnabled = true;
 };

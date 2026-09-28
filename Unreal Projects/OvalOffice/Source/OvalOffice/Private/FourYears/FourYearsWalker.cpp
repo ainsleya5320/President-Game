@@ -4,6 +4,8 @@
 #include "Components/SceneComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "InputCoreTypes.h"
+#include "FourYears/FourYearsRoom.h"
+#include "EngineUtils.h"
 
 AFourYearsWalker::AFourYearsWalker()
 {
@@ -26,7 +28,14 @@ AFourYearsWalker::AFourYearsWalker()
 void AFourYearsWalker::BeginPlay()
 {
 	Super::BeginPlay();
+	for (TActorIterator<AFourYearsRoom> It(GetWorld()); It; ++It) { Room = *It; break; }
+	if (Room && Room->WalkableAreas.Num()) Furniture = Room->Obstacles;
 	FVector Start = GetActorLocation();
+	if (Room && GetWorld()->URL.HasOption(TEXT("FromRoom")))
+	{
+		Start = Room->ArrivalPosition;
+		bApplyArrivalView = true;
+	}
 	if (!CanStand(FVector2D(Start.X, Start.Y)))
 	{
 		Start.X = -400.f;
@@ -39,7 +48,13 @@ void AFourYearsWalker::BeginPlay()
 bool AFourYearsWalker::CanStand(const FVector2D& Position) const
 {
 	const double X = Position.X / RoomRadii.X, Y = Position.Y / RoomRadii.Y;
-	if (X * X + Y * Y > WalkableFraction)
+	bool bInside = X * X + Y * Y <= WalkableFraction;
+	if (Room && Room->WalkableAreas.Num())
+	{
+		bInside = false;
+		for (const FBox2D& Area : Room->WalkableAreas) bInside |= Area.IsInside(Position);
+	}
+	if (!bInside)
 	{
 		return false;
 	}
@@ -55,18 +70,25 @@ bool AFourYearsWalker::CanStand(const FVector2D& Position) const
 
 bool AFourYearsWalker::IsNearDesk() const
 {
+	if (Room && Room->WalkableAreas.Num()) return false;
 	return FVector2D::Distance(FVector2D(GetActorLocation().X, GetActorLocation().Y), DeskPosition) < DeskReach;
 }
 
 bool AFourYearsWalker::IsNearSittingArea() const
 {
+	if (Room && Room->WalkableAreas.Num()) return false;
 	return FVector2D::Distance(FVector2D(GetActorLocation().X, GetActorLocation().Y), SittingAreaPosition) < SittingAreaReach;
 }
 
 void AFourYearsWalker::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	const APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	if (bApplyArrivalView && PlayerController && Room)
+	{
+		PlayerController->SetControlRotation(FRotator(0, Room->ArrivalYaw, 0));
+		bApplyArrivalView = false;
+	}
 	if (!bMovementEnabled || !PlayerController)
 	{
 		return;

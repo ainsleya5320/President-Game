@@ -380,7 +380,7 @@ void SFourYearsScreen::BuildAdvisers(UFourYearsSubsystem& Game)
 {
     const FFourYearsStatus Status = Game.GetStatus();
     const TArray<FFourYearsAdviser> Advisers = Game.GetAdvisers();
-    AddText(TEXT("FOUR YEARS  /  THE OVAL OFFICE  /  PRIVATE AUDIENCE"), 11, Gold, true);
+    AddText(FString::Printf(TEXT("FOUR YEARS  /  %s  /  PRIVATE AUDIENCE"), *RoomLabel), 11, Gold, true);
     if (!SelectedAdviser.IsEmpty())
     {
         for (const FFourYearsAdviser& Adviser : Advisers)
