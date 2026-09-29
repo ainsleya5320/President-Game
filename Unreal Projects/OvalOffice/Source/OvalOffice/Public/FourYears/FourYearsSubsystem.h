@@ -262,6 +262,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	UTexture2D* GetPortrait(const FString& AdviserName);
 
+	UFUNCTION(BlueprintPure, Category = "Four Years|Introduction")
+	bool NeedsInauguration() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Introduction")
+	void CompleteInauguration();
+
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Introduction")
+	UTexture2D* GetInaugurationImage(int32 Index);
+
 	// Presentation-only lines are authored in Prototype/data/dialogue.json, separate from simulation rules.
 	UFUNCTION(BlueprintPure, Category = "Four Years")
 	FString GetDialogueLine(const FString& AdviserId, const FString& Cue) const;
@@ -285,6 +294,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	FFourYearsActionResult CallVote();
 
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Diplomacy")
+	FFourYearsActionResult DiplomacyAction(const FString& Region, const FString& Action);
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Diplomacy")
+	FFourYearsActionResult RespondDiplomacyCrisis(int32 Index, const FString& Choice);
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Diplomacy")
+	FFourYearsActionResult ChooseDiplomacyDoctrine(const FString& Doctrine);
+	UFUNCTION(BlueprintPure, Category = "Four Years|Diplomacy")
+	FString GetDiplomacyJson() const;
+
 	// Where the president is: "oval" or "aircraft". Meetings need the Oval Office.
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void SetLocation(const FString& Location);
@@ -307,6 +325,9 @@ private:
 
 	UPROPERTY(Transient)
 	TMap<FString, TObjectPtr<UTexture2D>> Portraits;
+
+	UPROPERTY(Transient)
+	TMap<int32, TObjectPtr<UTexture2D>> InaugurationImages;
 
 	FourYears::Simulation Core;
 	FourYears::JsonValue State;

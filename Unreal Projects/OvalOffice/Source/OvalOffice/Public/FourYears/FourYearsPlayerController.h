@@ -5,6 +5,8 @@
 #include "FourYearsPlayerController.generated.h"
 
 class SFourYearsScreen;
+class SFourYearsIntro;
+class SFourYearsDiplomacy;
 class STextBlock;
 class SWidget;
 
@@ -32,6 +34,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void OpenCongress();
 
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Diplomacy")
+	void OpenWorldMap();
+
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void Interact();
 
@@ -42,15 +47,28 @@ public:
 	void CloseScreen();
 
 	UFUNCTION(BlueprintPure, Category = "Four Years")
-	bool IsScreenOpen() const { return Screen.IsValid(); }
+	bool IsScreenOpen() const { return Screen.IsValid() || Intro.IsValid() || WorldMap.IsValid(); }
+
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Introduction")
+	void OpenInauguration();
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Introduction")
+	void SkipInauguration();
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Introduction")
+	void FinishInauguration();
+	UFUNCTION(BlueprintPure, Category = "Four Years|Introduction")
+	int32 GetInaugurationStage() const;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Four Years")
 	float LookSensitivity = .12f;
 
 private:
 	void OpenScreen(uint8 Page);
+	void ShowWorldMap();
 
 	TSharedPtr<SWidget> Prompt;
 	TSharedPtr<STextBlock> PromptText;
 	TSharedPtr<SFourYearsScreen> Screen;
+	TSharedPtr<SFourYearsIntro> Intro;
+	TSharedPtr<SFourYearsDiplomacy> WorldMap;
+	bool bWorldMapRequested = false;
 };

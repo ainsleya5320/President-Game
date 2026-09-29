@@ -1,4 +1,5 @@
 #include "FourYears/FourYearsSubsystem.h"
+#include "FourYears/Core/FourYearsDiplomacy.h"
 
 #include "HAL/FileManager.h"
 #include "ImageUtils.h"
@@ -120,6 +121,7 @@ bool UFourYearsSubsystem::LoadTerm()
 	}
 	// Migrate upgrades saves from any earlier version, including saves copied from the browser game.
 	State = Core.Migrate(std::move(Saved));
+	FourYears::Diplomacy::Initialize(State);
 	return true;
 }
 
@@ -144,7 +146,33 @@ void UFourYearsSubsystem::StartNewTerm()
 	}
 	const double Seed = static_cast<double>(FDateTime::Now().GetTicks() % 2147483647);
 	State = Core.Fresh(Seed);
+	State.Set("inaugurationSeen", JsonValue::Boolean(false));
+	FourYears::Diplomacy::Initialize(State);
 	SaveTerm();
+}
+
+bool UFourYearsSubsystem::NeedsInauguration() const
+{
+	// Existing saves predate this presentation flag and continue uninterrupted.
+	return bReady && State.Get("inaugurationSeen").IsBool() && !State.Get("inaugurationSeen").AsBool();
+}
+
+void UFourYearsSubsystem::CompleteInauguration()
+{
+	if (!NeedsInauguration()) return; // Replays never modify a saved presidency.
+	State.Set("inaugurationSeen", JsonValue::Boolean(true));
+	SaveTerm();
+}
+
+UTexture2D* UFourYearsSubsystem::GetInaugurationImage(int32 Index)
+{
+	static const TCHAR* Files[] = { TEXT("capitol.png"), TEXT("oath.png"), TEXT("arrival.png") };
+	if (Index < 0 || Index >= 3) return nullptr;
+	if (const TObjectPtr<UTexture2D>* Cached = InaugurationImages.Find(Index)) return Cached->Get();
+	const FString Path = FPaths::Combine(FPaths::ProjectContentDir(), TEXT("FourYears/Intro"), Files[Index]);
+	UTexture2D* Texture = FPaths::FileExists(Path) ? FImageUtils::ImportFileAsTexture2D(Path) : nullptr;
+	InaugurationImages.Add(Index, Texture);
+	return Texture;
 }
 
 FString UFourYearsSubsystem::QuarterLabel(int32 Quarter) const
@@ -235,6 +263,8 @@ FFourYearsReport UFourYearsSubsystem::AdvanceQuarter()
 	{
 		return Report;
 	}
+	// Resolve international effects before domestic polling and elections account for them.
+	const JsonValue WorldChanges = FourYears::Diplomacy::Advance(State);
 	const JsonValue Result = Core.Advance(State);
 	if (!Result.IsObject())
 	{
@@ -242,6 +272,7 @@ FFourYearsReport UFourYearsSubsystem::AdvanceQuarter()
 	}
 	SaveTerm();
 	Report.Quarter = static_cast<int32>(Result.Get("quarter").AsNumber());
+	for (const JsonValue& Change : WorldChanges.Items()) Report.Changes.Add(ToFString(Change.AsString()));
 	for (const JsonValue& Change : Result.Get("changes").Items())
 	{
 		Report.Changes.Add(ToFString(Change.AsString()));
@@ -480,6 +511,23 @@ UTexture2D* UFourYearsSubsystem::GetPortrait(const FString& AdviserName)
 	UTexture2D* Texture = FPaths::FileExists(Path) ? FImageUtils::ImportFileAsTexture2D(Path) : nullptr;
 	Portraits.Add(AdviserName, Texture);
 	return Texture;
+}
+
+FFourYearsActionResult UFourYearsSubsystem::DiplomacyAction(const FString& Region, const FString& Action)
+{
+	return ToResult(FourYears::Diplomacy::Act(State, ToUtf8(Region), ToUtf8(Action)));
+}
+FFourYearsActionResult UFourYearsSubsystem::RespondDiplomacyCrisis(int32 Index, const FString& Choice)
+{
+	return ToResult(FourYears::Diplomacy::Respond(State, Index, ToUtf8(Choice)));
+}
+FFourYearsActionResult UFourYearsSubsystem::ChooseDiplomacyDoctrine(const FString& Doctrine)
+{
+	return ToResult(FourYears::Diplomacy::SetDoctrine(State, ToUtf8(Doctrine)));
+}
+FString UFourYearsSubsystem::GetDiplomacyJson() const
+{
+	return ToFString(FourYears::Diplomacy::View(State).Dump());
 }
 
 FString UFourYearsSubsystem::GetDialogueLine(const FString& AdviserId, const FString& Cue) const

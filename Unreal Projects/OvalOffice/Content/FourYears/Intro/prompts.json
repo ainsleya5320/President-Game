@@ -1,0 +1,17 @@
+{
+  "mode": "built-in image generation",
+  "images": [
+    {
+      "file": "capitol.png",
+      "prompt": "Cinematic establishing photograph of a fictional United States presidential inauguration on a cold clear January morning, Capitol west front centered in the distance, American flags and a large crowd bundled in winter coats stretching along the National Mall, pale warm sunlight, atmospheric haze, restrained navy ivory and gold palette, realistic documentary photography, dignified and hopeful, no identifiable real politicians, no banners with readable words, no text or titles or watermark, horizontal widescreen 16:9 full bleed. This is an original fictional game cutscene background; keep important subjects within central 80 percent, leave lower quarter visually calm for captions."
+    },
+    {
+      "file": "oath.png",
+      "prompt": "Cinematic close documentary photograph of a fictional presidential inauguration oath of office, viewed from behind and slightly to the side of an anonymous adult president in a dark formal coat, raised right hand as the clear focal point, other hand resting on a closed ceremonial book held by an attendant, softly blurred Capitol columns and American flags behind, shallow depth of field, cold January daylight, navy ivory and muted gold palette, photorealistic credible anatomy and exactly one raised hand with five fingers, no face of a recognizable politician, do not show a clear face for the president, no readable text or titles or watermark, horizontal widescreen 16:9 full bleed, solemn historical documentary feeling. Original fictional game cutscene background with lower quarter calm for captions."
+    },
+    {
+      "file": "arrival.png",
+      "prompt": "Cinematic realistic documentary photograph of the north facade of the White House at blue hour on inauguration evening, centered architectural composition, warm lights glowing in windows, a modest procession of two black executive cars approaching along the curved driveway, winter trees, one United States flag on roof, sense of quiet responsibility after a huge public ceremony, navy ivory and subtle warm gold palette, natural photographic detail, original fictional game scene, no identifiable real people, no text, captions, logos or watermark. Horizontal widescreen 16:9 full bleed with lower quarter dark and calm for overlay captions."
+    }
+  ]
+}

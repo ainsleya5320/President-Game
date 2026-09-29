@@ -10,6 +10,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "InputCoreTypes.h"
 #include "SFourYearsScreen.h"
+#include "SFourYearsIntro.h"
+#include "SFourYearsDiplomacy.h"
 #include "Styling/CoreStyle.h"
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/Layout/SBox.h"
@@ -62,15 +64,28 @@ void AFourYearsPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReaso
 	{
 		if (Prompt.IsValid()) Viewport->RemoveViewportWidgetContent(Prompt.ToSharedRef());
 		if (Screen.IsValid()) Viewport->RemoveViewportWidgetContent(Screen.ToSharedRef());
+		if (Intro.IsValid()) Viewport->RemoveViewportWidgetContent(Intro.ToSharedRef());
+		if (WorldMap.IsValid()) Viewport->RemoveViewportWidgetContent(WorldMap.ToSharedRef());
 	}
 	Prompt.Reset();
 	Screen.Reset();
+	Intro.Reset();
+	WorldMap.Reset();
 	Super::EndPlay(EndPlayReason);
 }
 
 void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+	if (bWorldMapRequested) { bWorldMapRequested = false; ShowWorldMap(); }
+	if (IsLocalController() && !Intro.IsValid() && GetGameInstance())
+	{
+		if (const auto* Game = GetGameInstance()->GetSubsystem<UFourYearsSubsystem>(); Game && Game->NeedsInauguration())
+		{
+			OpenInauguration();
+			return;
+		}
+	}
 	if (!IsLocalController() || IsScreenOpen())
 	{
 		return;
@@ -108,6 +123,8 @@ void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 	{
 		OpenCongress();
 	}
+	if (WasInputKeyJustPressed(EKeys::I)) OpenInauguration();
+	if (WasInputKeyJustPressed(EKeys::M)) OpenWorldMap();
 }
 
 FString AFourYearsPlayerController::GetInteractionPrompt() const
@@ -154,6 +171,7 @@ void AFourYearsPlayerController::OpenCongress() { OpenScreen(static_cast<uint8>(
 
 void AFourYearsPlayerController::OpenScreen(uint8 Page)
 {
+	if (Intro.IsValid() || WorldMap.IsValid()) return;
 	const EFourYearsPage Target = static_cast<EFourYearsPage>(Page);
 	if (IsScreenOpen())
 	{
@@ -169,6 +187,7 @@ void AFourYearsPlayerController::OpenScreen(uint8 Page)
 	Screen = SNew(SFourYearsScreen)
 		.Subsystem(Instance->GetSubsystem<UFourYearsSubsystem>())
 		.Page(Target)
+		.OnWorldMap(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::OpenWorldMap))
 		.OnClose(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::CloseScreen));
 	if (const AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn()))
 	{
@@ -186,17 +205,89 @@ void AFourYearsPlayerController::OpenScreen(uint8 Page)
 
 void AFourYearsPlayerController::CloseScreen()
 {
-	if (!IsScreenOpen())
+	if (!Screen.IsValid() && !WorldMap.IsValid())
 	{
 		return;
 	}
 	if (UGameViewportClient* Viewport = GetWorld() ? GetWorld()->GetGameViewport() : nullptr)
 	{
-		Viewport->RemoveViewportWidgetContent(Screen.ToSharedRef());
+		if (Screen.IsValid()) Viewport->RemoveViewportWidgetContent(Screen.ToSharedRef());
+		if (WorldMap.IsValid()) Viewport->RemoveViewportWidgetContent(WorldMap.ToSharedRef());
 	}
 	Screen.Reset();
+	WorldMap.Reset();
 	if (Prompt.IsValid()) Prompt->SetVisibility(EVisibility::HitTestInvisible);
 	if (AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn())) Walker->SetMovementEnabled(true);
+	SetInputMode(FInputModeGameOnly());
+	SetShowMouseCursor(false);
+	FSlateApplication::Get().SetAllUserFocusToGameViewport();
+}
+
+void AFourYearsPlayerController::OpenInauguration()
+{
+	if (Intro.IsValid() || !IsLocalController()) return;
+	UGameViewportClient* Viewport = GetWorld() ? GetWorld()->GetGameViewport() : nullptr;
+	UGameInstance* Instance = GetGameInstance();
+	if (!Viewport || !Instance) return;
+	CloseScreen();
+	Intro = SNew(SFourYearsIntro)
+		.Subsystem(Instance->GetSubsystem<UFourYearsSubsystem>())
+		.OnFinished(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::FinishInauguration));
+	Viewport->AddViewportWidgetContent(Intro.ToSharedRef(), 20);
+	if (Prompt.IsValid()) Prompt->SetVisibility(EVisibility::Collapsed);
+	if (auto* Walker = Cast<AFourYearsWalker>(GetPawn())) Walker->SetMovementEnabled(false);
+	FInputModeUIOnly Mode;
+	Mode.SetWidgetToFocus(Intro);
+	Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	SetInputMode(Mode);
+	SetShowMouseCursor(true);
+}
+
+void AFourYearsPlayerController::OpenWorldMap()
+{
+	if (!Intro.IsValid() && !WorldMap.IsValid()) bWorldMapRequested = true;
+}
+
+void AFourYearsPlayerController::ShowWorldMap()
+{
+	if (Intro.IsValid() || WorldMap.IsValid() || !IsLocalController()) return;
+	auto* Viewport = GetWorld() ? GetWorld()->GetGameViewport() : nullptr;
+	auto* Instance = GetGameInstance();
+	if (!Viewport || !Instance) return;
+	CloseScreen();
+	WorldMap = SNew(SFourYearsDiplomacy)
+		.Subsystem(Instance->GetSubsystem<UFourYearsSubsystem>())
+		.OnClose(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::CloseScreen));
+	Viewport->AddViewportWidgetContent(WorldMap.ToSharedRef(), 15);
+	if (Prompt.IsValid()) Prompt->SetVisibility(EVisibility::Collapsed);
+	if (auto* Walker = Cast<AFourYearsWalker>(GetPawn())) Walker->SetMovementEnabled(false);
+	FInputModeUIOnly Mode;
+	Mode.SetWidgetToFocus(WorldMap);
+	Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	SetInputMode(Mode);
+	SetShowMouseCursor(true);
+}
+
+void AFourYearsPlayerController::SkipInauguration()
+{
+	if (Intro.IsValid()) Intro->SkipToBriefing();
+}
+
+int32 AFourYearsPlayerController::GetInaugurationStage() const
+{
+	return Intro.IsValid() ? (Intro->IsBriefing() ? 1 : 0) : -1;
+}
+
+void AFourYearsPlayerController::FinishInauguration()
+{
+	if (!Intro.IsValid()) return;
+	if (UGameInstance* Instance = GetGameInstance())
+		if (auto* Game = Instance->GetSubsystem<UFourYearsSubsystem>()) Game->CompleteInauguration();
+	if (auto* Viewport = GetWorld() ? GetWorld()->GetGameViewport() : nullptr)
+		Viewport->RemoveViewportWidgetContent(Intro.ToSharedRef());
+	Intro.Reset();
+	if (Prompt.IsValid()) Prompt->SetVisibility(EVisibility::HitTestInvisible);
+	if (auto* Walker = Cast<AFourYearsWalker>(GetPawn())) Walker->SetMovementEnabled(true);
 	SetInputMode(FInputModeGameOnly());
 	SetShowMouseCursor(false);
 	FSlateApplication::Get().SetAllUserFocusToGameViewport();

@@ -4,6 +4,10 @@ The presidency simulation now runs natively in Unreal Engine 5.8, sharing its co
 
 ## What is playable
 
+**International diplomacy**: press **M** for the interactive world map, twelve partners, trade agreements, security partnerships, rival influence, a crisis desk, and three selectable foreign-policy victory paths. Actions compete for domestic political capital and international outcomes appear in quarterly reports. See [DIPLOMACY.md](DIPLOMACY.md) for rules, save compatibility and tests.
+
+New presidencies begin with a skippable inauguration montage and welcome briefing. Press **I** while walking to replay it; **Enter**, **Space**, or the button skips the montage and continues from the briefing. Existing saves retain their progress. See [intro assets and prompts](../Content/FourYears/Intro/README.md). The replay and save-preservation smoke test is `Scripts/test_inauguration.py`, run during Play in Editor on an existing presidency.
+
 Open the Oval Office map and walk around with W/A/S/D and the mouse. The president's screen has four tabs.
 
 **Briefing** (press **E** at the Resolute Desk):
