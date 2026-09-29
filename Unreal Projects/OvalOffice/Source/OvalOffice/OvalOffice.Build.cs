@@ -10,5 +10,7 @@ public class OvalOffice : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 		RuntimeDependencies.Add("$(ProjectDir)/Content/FourYears/Intro/*.png", StagedFileType.NonUFS);
+		RuntimeDependencies.Add("$(ProjectDir)/Content/FourYears/Atlas/*.png", StagedFileType.NonUFS);
+		RuntimeDependencies.Add("$(ProjectDir)/Content/FourYears/Atlas/*.json", StagedFileType.NonUFS);
 	}
 }

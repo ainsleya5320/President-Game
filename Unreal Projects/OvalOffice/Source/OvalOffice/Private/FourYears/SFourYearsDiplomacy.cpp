@@ -1,4 +1,7 @@
 #include "SFourYearsDiplomacy.h"
+#include "SWorldAtlas.h"
+#include "Widgets/Input/SSearchBox.h"
+#include "Framework/Application/SlateApplication.h"
 #include "FourYears/Core/FourYearsDiplomacy.h"
 #include "Brushes/SlateColorBrush.h"
 #include "InputCoreTypes.h"
@@ -33,64 +36,15 @@ void Line(TSharedRef<SVerticalBox> Box,const FString& S,int Size=16,FLinearColor
  Box->AddSlot().AutoHeight().Padding(0,0,0,8)[Text(S,Size,Color,Bold)];
 }
 TSharedRef<SWidget> Panel(TSharedRef<SWidget> W){return SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush")).BorderBackgroundColor(Card).Padding(18)[W];}
-FVector2D Project(double Lon,double Lat,FVector2D Size){return FVector2D((Lon+180)/360*Size.X,(83-Lat)/155*Size.Y);}
-class SStrategicMap:public SLeafWidget {
-public:
- SLATE_BEGIN_ARGS(SStrategicMap){} SLATE_ARGUMENT(V,World) SLATE_ARGUMENT(FString,Selected) SLATE_EVENT(TDelegate<void(FString)>,OnSelect) SLATE_END_ARGS()
- void Construct(const FArguments& A){World=A._World;Selected=A._Selected;OnSelect=A._OnSelect;SetClipping(EWidgetClipping::ClipToBounds);SetCursor(EMouseCursor::Hand);}
- FVector2D ComputeDesiredSize(float) const override{return FVector2D(780,390);}
- FReply OnMouseButtonDown(const FGeometry& G,const FPointerEvent& E) override{
-  if(E.GetEffectingButton()!=EKeys::LeftMouseButton)return FReply::Unhandled();
-  FVector2D P=G.AbsoluteToLocal(E.GetScreenSpacePosition());double Best=28;const D::Region* Hit=nullptr;
-  for(const auto& R:D::Regions()){double Dist=FVector2D::Distance(P,Project(R.Lon,R.Lat,G.GetLocalSize()));if(Dist<Best){Best=Dist;Hit=&R;}}
-  if(Hit){OnSelect.ExecuteIfBound(F(Hit->Id));return FReply::Handled();}return FReply::Unhandled();
- }
- int32 OnPaint(const FPaintArgs&,const FGeometry& G,const FSlateRect&,FSlateWindowElementList& Out,int32 Layer,const FWidgetStyle&,bool) const override{
-  auto Size=G.GetLocalSize();const auto* Brush=FCoreStyle::Get().GetBrush("WhiteBrush");
-  FSlateDrawElement::MakeBox(Out,Layer,G.ToPaintGeometry(),Brush,ESlateDrawEffect::None,Navy);
-  auto Lines=[&](const TArray<FVector2D>& P,FLinearColor Color,float Width=1.f){FSlateDrawElement::MakeLines(Out,Layer+1,G.ToPaintGeometry(),P,ESlateDrawEffect::None,Color,true,Width);};
-  for(int Lon=-150;Lon<=150;Lon+=30)Lines({Project(Lon,80,Size),Project(Lon,-65,Size)},FLinearColor(.055f,.11f,.15f));
-  for(int Lat=-60;Lat<=60;Lat+=30)Lines({Project(-180,Lat,Size),Project(180,Lat,Size)},FLinearColor(.055f,.11f,.15f));
-  // Original schematic coastlines: gameplay anchors represent partners, not territorial claims.
-  static const TArray<TArray<FVector2D>> Land={
-   {{-168,66},{-145,70},{-125,72},{-110,70},{-92,74},{-70,62},{-58,52},{-65,44},{-78,32},{-81,24},{-88,30},{-98,23},{-88,16},{-79,8},{-85,9},{-103,20},{-117,32},{-125,48},{-137,58},{-160,60},{-168,66}},
-   {{-73,82},{-25,82},{-20,67},{-43,59},{-60,69},{-73,82}},
-   {{-81,10},{-68,11},{-51,3},{-35,-7},{-40,-20},{-53,-35},{-66,-55},{-73,-51},{-76,-30},{-81,-5},{-81,10}},
-   {{-10,36},{-10,44},{-1,49},{8,54},{5,60},{20,72},{33,68},{33,58},{50,55},{62,68},{95,78},{140,71},{178,65},{175,52},{153,58},{143,47},{131,42},{122,30},{121,20},{108,20},{110,5},{103,1},{98,16},{90,22},{79,7},{70,24},{56,25},{50,13},{43,12},{35,30},{22,37},{14,41},{4,43},{-10,36}},
-   {{-17,34},{10,37},{32,31},{43,12},{51,12},{42,-4},{35,-20},{19,-35},{12,-30},{8,-12},{-2,5},{-16,14},{-17,34}},
-   {{112,-12},{132,-11},{141,-17},{146,-11},{154,-26},{148,-38},{132,-35},{114,-34},{112,-12}},
-   {{130,32},{139,36},{145,44},{142,46},{136,37},{130,32}},
-   {{-8,50},{-6,58},{-3,59},{1,52},{-8,50}},
-   {{96,5},{106,-5},{117,-8},{129,-3},{138,-5},{149,-9},{138,-11},{125,-8},{113,-8},{104,-6},{96,5}}
-  };
-  for(const auto& Shape:Land){TArray<FVector2D> P;for(auto Point:Shape)P.Add(Project(Point.X,Point.Y,Size));Lines(P,FLinearColor(.22f,.39f,.44f),1.5f);}
-  const FVector2D Home=Project(-98,38,Size);
-  auto Caption=[&](FVector2D P,const FString& S,FLinearColor Color,int Font=12){
-   FSlateDrawElement::MakeText(Out,Layer+3,G.ToPaintGeometry(FVector2D(160,26),FSlateLayoutTransform(P)),S,FCoreStyle::GetDefaultFontStyle("Bold",Font),ESlateDrawEffect::None,Color);
-  };
-  Caption(Home+FVector2D(-22,12),TEXT("USA"),Gold,15);
-  FSlateDrawElement::MakeBox(Out,Layer+3,G.ToPaintGeometry(FVector2D(10,10),FSlateLayoutTransform(Home-FVector2D(5,5))),Brush,ESlateDrawEffect::None,Gold);
-  for(const auto& R:D::Regions()){
-   const V& Data=World.Get("regions").Get(R.Id);FVector2D P=Project(R.Lon,R.Lat,Size);
-   FLinearColor Color=Num(Data,"influence")>=Num(Data,"rival")?Teal:Red;
-   if(Data.Get("trade").Truthy()){TArray<FVector2D> Route;for(int I=0;I<=24;++I){float T=I/24.f;FVector2D Point=Home*(1-T)+P*T;Point.Y-=FMath::Sin(T*PI)*38;Route.Add(Point);}Lines(Route,FLinearColor(.12f,.45f,.39f),1.4f);}
-   TArray<FVector2D> Circle;bool Active=Selected==F(R.Id);for(int I=0;I<=24;++I){float A=I*2*PI/24;Circle.Add(P+FVector2D(FMath::Cos(A),FMath::Sin(A))*(Active?12:7));}Lines(Circle,Active?Gold:Color,Active?2.8f:2.f);
-   FSlateDrawElement::MakeBox(Out,Layer+2,G.ToPaintGeometry(FVector2D(4,4),FSlateLayoutTransform(P-FVector2D(2,2))),Brush,ESlateDrawEffect::None,Color);
-   FVector2D Offset(10,-8);if(F(R.Id)==TEXT("uk"))Offset=FVector2D(-42,-24);if(F(R.Id)==TEXT("europe"))Offset=FVector2D(10,8);if(F(R.Id)==TEXT("japan"))Offset=FVector2D(-4,-28);if(F(R.Id)==TEXT("australia"))Offset=FVector2D(-35,16);
-   FString Name=F(R.Name);if(F(R.Id)==TEXT("europe"))Name=TEXT("EU");if(F(R.Id)==TEXT("uk"))Name=TEXT("UK");if(F(R.Id)==TEXT("gulf"))Name=TEXT("Gulf");
-   Caption(P+Offset,Name,Active?Gold:Ink);
-  }
-  return Layer+3;
- }
-private: V World;FString Selected;TDelegate<void(FString)> OnSelect;
-};
+
 }
 void SFourYearsDiplomacy::Construct(const FArguments& Args){
  Game=Args._Subsystem;OnClose=Args._OnClose;
+ Atlas=SNew(SWorldAtlas).OnSelect(TDelegate<void(FString)>::CreateLambda([this](FString Id){SelectRegion(Id);}));
  ChildSlot[SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush")).BorderBackgroundColor(FLinearColor(.005f,.012f,.023f,.98f)).Padding(0)
  [SNew(SScaleBox).Stretch(EStretch::ScaleToFit)
  [SNew(SBox).WidthOverride(1280).HeightOverride(800)
- [SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush")).BorderBackgroundColor(Navy).Padding(30)
+ [SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush")).BorderBackgroundColor(Navy).Padding(20)
  [SAssignNew(Body,SVerticalBox)]]]]];
 }
 void SFourYearsDiplomacy::Tick(const FGeometry& G,double T,float Dt){
@@ -99,12 +53,13 @@ void SFourYearsDiplomacy::Tick(const FGeometry& G,double T,float Dt){
  if(Dirty){Dirty=false;Rebuild();SlatePrepass(GetPrepassLayoutScaleMultiplier());}
 }
 FReply SFourYearsDiplomacy::OnKeyDown(const FGeometry&,const FKeyEvent& E){
+ if(AtlasSearch.IsValid()&&(AtlasSearch->HasKeyboardFocus()||AtlasSearch->HasFocusedDescendants()))return FReply::Unhandled();
  if(!E.IsRepeat()&&(E.GetKey()==EKeys::Escape||E.GetKey()==EKeys::M||E.GetKey()==EKeys::E))return Close();
  return FReply::Handled();
 }
 FReply SFourYearsDiplomacy::Close(){Closing=true;return FReply::Handled();}
-FReply SFourYearsDiplomacy::SelectRegion(FString Id){Selected=Id;Dirty=true;return FReply::Handled();}
-FReply SFourYearsDiplomacy::SelectPage(int32 Index){Page=Index;Dirty=true;return FReply::Handled();}
+FReply SFourYearsDiplomacy::SelectRegion(FString Id){FSlateApplication::Get().SetKeyboardFocus(SharedThis(this));SelectedCountry=Id;const auto* C=Atlas->Country(Id);Selected=C?C->Region:TEXT("");Atlas->Select(Id);Dirty=true;return FReply::Handled();}
+FReply SFourYearsDiplomacy::SelectPage(int32 Index){FSlateApplication::Get().SetKeyboardFocus(SharedThis(this));Page=Index;Dirty=true;return FReply::Handled();}
 void SFourYearsDiplomacy::MessageResult(const FFourYearsActionResult& R){Message=R.Message;Success=R.bOk;Dirty=true;}
 FReply SFourYearsDiplomacy::Action(FString Id){if(Game.IsValid())MessageResult(Game->DiplomacyAction(Selected,Id));return FReply::Handled();}
 FReply SFourYearsDiplomacy::CrisisAction(int32 Index,FString Id){if(Game.IsValid())MessageResult(Game->RespondDiplomacyCrisis(Index,Id));return FReply::Handled();}
@@ -114,7 +69,7 @@ void SFourYearsDiplomacy::Rebuild(){
  const V& State=Game->GetState();const V World=D::View(State);const bool Ended=State.Get("ended").Truthy();
  const FString Goal=F(World.Get("goal").AsString());int Open=0;for(const auto& C:World.Get("crises").Items())if(C.Get("status").AsString()=="open")++Open;
  auto Header=SNew(SHorizontalBox);
- auto Title=SNew(SVerticalBox);Line(Title,TEXT("THE PRESIDENT'S WORLD ATLAS"),13,Gold,true);Line(Title,TEXT("A world of consequences"),30,Ink,true);
+ auto Title=SNew(SVerticalBox);Line(Title,TEXT("THE PRESIDENT'S WORLD ATLAS"),25,Ink,true);
  Header->AddSlot().FillWidth(1)[Title];Header->AddSlot().AutoWidth().VAlign(VAlign_Center)[Button(TEXT("Return to office  [M]"),FOnClicked::CreateSP(this,&SFourYearsDiplomacy::Close))];
  Body->AddSlot().AutoHeight()[Header];
  auto Stats=SNew(SHorizontalBox);
@@ -126,27 +81,55 @@ void SFourYearsDiplomacy::Rebuild(){
  {TEXT("DIPLOMATIC ACTIONS"),Number(Num(World,"actions"))+TEXT(" / 3")},
  {TEXT("POLITICAL CAPITAL"),Number(Num(State,"capital"))}
  };
- for(const auto& Pair:Values){auto Cell=SNew(SVerticalBox);Line(Cell,Pair.Key,11,Muted,true);Line(Cell,Pair.Value,22,Pair.Key==TEXT("WORLD TENSION")&&Num(World,"tension")>=60?Red:Teal,true);Stats->AddSlot().FillWidth(1).Padding(0,0,8,0)[Panel(Cell)];}
- Body->AddSlot().AutoHeight().Padding(0,8,0,12)[Stats];
+ for(const auto& Pair:Values){auto Cell=SNew(SVerticalBox);Line(Cell,Pair.Key,11,Muted,true);Line(Cell,Pair.Value,18,Pair.Key==TEXT("WORLD TENSION")&&Num(World,"tension")>=60?Red:Teal,true);Stats->AddSlot().FillWidth(1).Padding(0,0,8,0)[Cell];}
+ Body->AddSlot().AutoHeight().Padding(0,4,0,8)[Stats];
  auto Nav=SNew(SHorizontalBox);
  const TCHAR* Pages[]={TEXT("WORLD MAP"),TEXT("CRISIS DESK"),TEXT("STRATEGY & RECORD")};
  for(int I=0;I<3;++I)Nav->AddSlot().AutoWidth().Padding(0,0,10,0)[Button(FString(Pages[I])+(I==1?FString::Printf(TEXT("  (%d)"),Open):TEXT("")),FOnClicked::CreateSP(this,&SFourYearsDiplomacy::SelectPage,I))];
  Nav->AddSlot().FillWidth(1).VAlign(VAlign_Center).HAlign(HAlign_Right)[Text(Ended?F(World.Get("outcome").AsString()):FString::Printf(TEXT("VICTORY PROGRESS  %d / 100"),int(Num(World,"score"))),16,Gold,true,false)];
  Body->AddSlot().AutoHeight().Padding(0,0,0,10)[Nav];
- Body->AddSlot().AutoHeight().Padding(0,0,0,10)[SNew(SProgressBar).Percent(float(Num(World,"score")/100)).FillColorAndOpacity(Gold)];
+
  if(!Message.IsEmpty())Body->AddSlot().AutoHeight().Padding(0,0,0,8)[Text(Message,14,Success?Teal:Red)];
  if(!State.Get("agendaChoice").IsNull()&&!Ended)Body->AddSlot().AutoHeight().Padding(0,0,0,8)[Text(TEXT("Quarter closed: advance from your domestic briefing to resume diplomacy."),14,Gold)];
  if(Page==0){
   auto Main=SNew(SHorizontalBox);auto Left=SNew(SVerticalBox);
-  Left->AddSlot().AutoHeight()[SNew(SBox).HeightOverride(320)[SNew(SStrategicMap).World(World).Selected(Selected).OnSelect(TDelegate<void(FString)>::CreateLambda([this](FString Id){SelectRegion(Id);}))]];
-  Line(Left,TEXT("Click a partner  |  TEAL: U.S. influence leads  |  CORAL: rival leads  |  LINES: trade pacts"),12,Muted);
-  Line(Left,TEXT("Your mission: ")+Goal,15,Gold);
-  Line(Left,TEXT("Trade pacts ")+Number(Num(World,"tradeCount"))+TEXT("  /  Security partners ")+Number(Num(World,"allies"))+TEXT("  /  Crises resolved ")+Number(Num(World,"resolved")),16,Teal,true);
-  Main->AddSlot().FillWidth(.66f).Padding(0,0,18,0)[Left];
+  Atlas->SetWorld(World);
+  auto Small=[&](const FString& Label,TFunction<void()> Fn){return SNew(SButton).ButtonStyle(&ButtonStyle()).IsFocusable(false).ContentPadding(FMargin(9,6)).OnClicked_Lambda([this,Fn](){FSlateApplication::Get().SetKeyboardFocus(SharedThis(this));Fn();return FReply::Handled();})[Text(Label,12,Ink,true,false)];};
+  auto Tools=SNew(SHorizontalBox);
+  const TCHAR* Modes[]={TEXT("POLITICAL"),TEXT("TERRAIN"),TEXT("INFLUENCE")};
+  for(int I=0;I<3;++I)Tools->AddSlot().AutoWidth().Padding(0,0,4,0)[Small(FString(Atlas->Mode==I?TEXT("> "):TEXT(""))+Modes[I],[this,I](){Atlas->Mode=I;Dirty=true;})];
+  Tools->AddSlot().FillWidth(1).Padding(6,0)[SAssignNew(AtlasSearch,SSearchBox).HintText(FText::FromString(TEXT("Find country or city; Enter"))).OnTextCommitted_Lambda([this](const FText& T,ETextCommit::Type How){if(How==ETextCommit::OnEnter){if(Atlas->Search(T.ToString())){Message=TEXT("");Success=true;}else{Message=TEXT("No matching country or city. Try its full name.");Success=false;}Dirty=true;FSlateApplication::Get().SetKeyboardFocus(SharedThis(this));}})];
+  Tools->AddSlot().AutoWidth()[Small(FullAtlas?TEXT("SHOW DETAILS"):TEXT("EXPAND MAP"),[this](){FullAtlas=!FullAtlas;Dirty=true;})];
+  Left->AddSlot().AutoHeight().Padding(0,0,0,6)[Tools];
+  auto Navigation=SNew(SHorizontalBox);
+  Navigation->AddSlot().AutoWidth().Padding(0,0,4,0)[Small(TEXT("+"),[this](){Atlas->ZoomBy(1.4);})];
+  Navigation->AddSlot().AutoWidth().Padding(0,0,4,0)[Small(TEXT("-"),[this](){Atlas->ZoomBy(1/1.4);})];
+  Navigation->AddSlot().AutoWidth().Padding(0,0,8,0)[Small(TEXT("WHOLE WORLD"),[this](){Atlas->Reset();})];
+  Navigation->AddSlot().AutoWidth().Padding(0,0,4,0)[Small(Atlas->ShowCities?TEXT("CITIES ON"):TEXT("CITIES OFF"),[this](){Atlas->ShowCities=!Atlas->ShowCities;Dirty=true;})];
+  Navigation->AddSlot().AutoWidth().Padding(0,0,4,0)[Small(Atlas->ShowGrid?TEXT("GRID ON"):TEXT("GRID OFF"),[this](){Atlas->ShowGrid=!Atlas->ShowGrid;Dirty=true;})];
+  Navigation->AddSlot().AutoWidth()[Small(Atlas->ShowRoutes?TEXT("TRADE LINKS ON"):TEXT("TRADE LINKS OFF"),[this](){Atlas->ShowRoutes=!Atlas->ShowRoutes;Dirty=true;})];
+  Navigation->AddSlot().FillWidth(1).VAlign(VAlign_Center).HAlign(HAlign_Right)[SNew(STextBlock).Text_Lambda([this](){return FText::FromString(FString::Printf(TEXT("ZOOM %.0f%%"),Atlas->GetZoom()*100));}).Font(FCoreStyle::GetDefaultFontStyle("Regular",11)).ColorAndOpacity(Muted)];
+  Left->AddSlot().AutoHeight().Padding(0,0,0,6)[Navigation];
+  Left->AddSlot().FillHeight(1)[Atlas.ToSharedRef()];
+  Left->AddSlot().AutoHeight().Padding(0,6,0,2)[Text(TEXT("SCROLL TO ZOOM  /  DRAG TO PAN  /  CLICK TERRITORY  /  DOUBLE-CLICK TO FOCUS"),11,Muted,true,false)];
+  Left->AddSlot().AutoHeight()[Text(Atlas->Mode==2?TEXT("TEAL: U.S. influence leads  /  CORAL: rival leads  /  Gold: selected territory"):TEXT("POINT SYMBOLS: named cities only  /  Gold ring + center: capital  /  Gold outline: selection"),11,Muted,false,false)];
+  Main->AddSlot().FillWidth(1).Padding(0,0,FullAtlas?0:14,0)[Left];
   auto Right=SNew(SVerticalBox);const D::Region* Definition=nullptr;for(const auto& R:D::Regions())if(F(R.Id)==Selected)Definition=&R;
+  const auto* Country=Atlas->Country(SelectedCountry);
+  if(Country){
+   Line(Right,Country->Name,23,Ink,true);
+   Line(Right,Country->Continent.ToUpper(),11,Gold,true);
+   if(!Country->Capital.IsEmpty())Line(Right,TEXT("Capital: ")+Country->Capital,14,Muted);
+   Right->AddSlot().AutoHeight().Padding(0,0,0,12)[Small(TEXT("FOCUS ON TERRITORY"),[this](){Atlas->FocusCountry(SelectedCountry);})];
+  }
+  if(!Definition){
+   Line(Right,SelectedCountry==TEXT("USA")?TEXT("YOUR ADMINISTRATION"):TEXT("GEOGRAPHIC REFERENCE"),14,Gold,true);
+   Line(Right,SelectedCountry==TEXT("USA")?TEXT("Your diplomacy begins in Washington, D.C. Select a foreign partner to negotiate."):TEXT("This territory is part of the atlas. Bilateral actions are not yet available for this country."),15,Muted);
+   Line(Right,TEXT("Each national border remains visible. European Union and Gulf negotiations cover several countries without merging their geography."),14,Muted);
+  }
   if(Definition){
    const V& R=World.Get("regions").Get(Definition->Id);
-   Line(Right,F(Definition->Name),24,Ink,true);Line(Right,F(Definition->Interest),14,Muted);
+   Line(Right,TEXT("DIPLOMATIC PARTNER: ")+F(Definition->Name),13,Gold,true);Line(Right,F(Definition->Interest),14,Muted);
    Line(Right,TEXT("Relations ")+Number(Num(R,"relation"))+TEXT("   Stability ")+Number(Num(R,"stability")),15,Teal,true);
    Line(Right,TEXT("Your influence ")+Number(Num(R,"influence"))+TEXT("   Rival ")+Number(Num(R,"rival")),15,Gold);
    Line(Right,R.Get("trade").Truthy()?(Num(R,"stability")<35?TEXT("TRADE PACT SUSPENDED: stability below 35"):TEXT("ACTIVE TRADE PACT")):TEXT("No trade agreement"),12,Muted,true);
@@ -159,7 +142,7 @@ void SFourYearsDiplomacy::Rebuild(){
     Right->AddSlot().AutoHeight()[Box];
    }
   }
-  Main->AddSlot().FillWidth(.34f)[SNew(SScrollBox)+SScrollBox::Slot()[Panel(Right)]];
+  if(!FullAtlas)Main->AddSlot().AutoWidth()[SNew(SBox).WidthOverride(300)[SNew(SScrollBox)+SScrollBox::Slot()[Panel(Right)]]];
   Body->AddSlot().FillHeight(1)[Main];
  }else{
   auto List=SNew(SVerticalBox);
@@ -192,5 +175,5 @@ void SFourYearsDiplomacy::Rebuild(){
   }
   Body->AddSlot().FillHeight(1)[SNew(SScrollBox)+SScrollBox::Slot()[List]];
  }
- Body->AddSlot().AutoHeight().Padding(0,12,0,0)[Text(TEXT("FICTIONAL STRATEGIC SCENARIO  /  Schematically placed partners; no territorial conquest.  /  M or Esc returns to the office."),11,Muted,false,false)];
+ Body->AddSlot().AutoHeight().Padding(0,12,0,0)[Text(TEXT("NATURAL EARTH GEOGRAPHY  /  Robinson projection; de facto borders, v5.1.1  /  Fictional diplomacy  /  M or Esc: office"),11,Muted,false,false)];
 }

@@ -3,6 +3,8 @@
 #include "Widgets/SCompoundWidget.h"
 #include "FourYears/FourYearsSubsystem.h"
 class SVerticalBox;
+class SWorldAtlas;
+class SSearchBox;
 class SFourYearsDiplomacy : public SCompoundWidget
 {
 public:
@@ -22,8 +24,12 @@ private:
  void MessageResult(const FFourYearsActionResult&);
  TWeakObjectPtr<UFourYearsSubsystem> Game;
  TSharedPtr<SVerticalBox> Body;
+ TSharedPtr<SWorldAtlas> Atlas;
+ TSharedPtr<SSearchBox> AtlasSearch;
  FSimpleDelegate OnClose;
  FString Selected=TEXT("gulf");
+ FString SelectedCountry=TEXT("SAU");
+ bool FullAtlas=false;
  FString Message;
  int32 Page=0;
  bool Dirty=true,Closing=false,Success=true;

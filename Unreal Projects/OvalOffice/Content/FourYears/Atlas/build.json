@@ -1,0 +1,11 @@
+{
+  "countries": 258,
+  "cities": 556,
+  "vertices": 135070,
+  "triangles": 126844,
+  "projection": "Robinson",
+  "texture": [
+    6144,
+    3116
+  ]
+}
