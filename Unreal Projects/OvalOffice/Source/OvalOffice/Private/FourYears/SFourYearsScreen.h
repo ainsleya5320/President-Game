@@ -27,6 +27,7 @@ public:
 		SLATE_ARGUMENT(EFourYearsPage, Page)
 		SLATE_EVENT(FSimpleDelegate, OnClose)
 		SLATE_EVENT(FSimpleDelegate, OnWorldMap)
+		SLATE_EVENT(FSimpleDelegate, OnVoterAtlas)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -75,6 +76,7 @@ private:
 	TWeakObjectPtr<UFourYearsSubsystem> Subsystem;
 	FSimpleDelegate OnClose;
 	FSimpleDelegate OnWorldMap;
+	FSimpleDelegate OnVoterAtlas;
 	TSharedPtr<SVerticalBox> Content;
 	TSharedPtr<SScrollBox> Scroll;
 	TSharedPtr<STextBlock> Speech;

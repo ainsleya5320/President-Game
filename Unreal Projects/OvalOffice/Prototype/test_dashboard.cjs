@@ -14,7 +14,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
   const page=await browser.newPage({viewport:{width:1600,height:1080}}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto(`http://127.0.0.1:${server.address().port}/`);
-  await page.evaluate(()=>{$('begin').disabled=false});await page.locator('#begin').click();
+  await page.evaluate(()=>{$('begin').disabled=false});await page.locator('#begin').click();await page.locator('[data-party=democrat]').click();
   await page.locator('#dashboard').click();
   assert.equal(await page.locator('#panel').getAttribute('data-page'),'dashboard');
   assert.equal(await page.locator('.dash-node').count(),12);
@@ -43,7 +43,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
   // Replacement identities must not inherit the departed character's photograph.
   assert.match(await page.evaluate(()=>characterPortrait({name:'Dr. Nia Patel',initials:'NP'})),/portrait-letter/);
   await page.evaluate(()=>{
-   state=FourYearsSim.fresh();EX.platform(state,['housing','health','trust'],'housing');EX.propose(state,'housing');
+   state=FourYearsSim.fresh();FourYearsSim.chooseParty(state,"democrat");EX.platform(state,['housing','health','trust'],'housing');EX.propose(state,'housing');
    for(let q=0;q<3;q++){FourYearsSim.choose(state,1);FourYearsSim.advance(state)}
    selectedPolicy='housing';dashboardMetric='housing';openPage('dashboard');clearTimeout(toastTimer);$('toast').hidden=true;
   });

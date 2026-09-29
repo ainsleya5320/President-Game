@@ -57,6 +57,7 @@ void SFourYearsScreen::Construct(const FArguments& InArgs)
 	Subsystem = InArgs._Subsystem;
 	OnClose = InArgs._OnClose;
 	OnWorldMap = InArgs._OnWorldMap;
+	OnVoterAtlas = InArgs._OnVoterAtlas;
 	Page = InArgs._Page;
 	ChildSlot
 	[
@@ -119,6 +120,7 @@ void SFourYearsScreen::Tick(const FGeometry& AllottedGeometry, const double InCu
 FReply SFourYearsScreen::OnKeyDown(const FGeometry& MyGeometry, const FKeyEvent& InKeyEvent)
 {
 	const FKey Key = InKeyEvent.GetKey();
+	if (Key == EKeys::V && !InKeyEvent.IsRepeat()) { OnVoterAtlas.ExecuteIfBound(); return FReply::Handled(); }
 	if (Key == EKeys::M && !InKeyEvent.IsRepeat()) { OnWorldMap.ExecuteIfBound(); return FReply::Handled(); }
 	if (InKeyEvent.IsRepeat()) return FReply::Handled();
 	if (Page == EFourYearsPage::Advisers)
@@ -189,7 +191,9 @@ void SFourYearsScreen::BuildTabs()
 	Tabs->AddSlot().AutoWidth().Padding(0,0,8,0)[SNew(SButton).ButtonStyle(&ConversationButton()).IsFocusable(false).ContentPadding(FMargin(14,6))
 		.OnClicked_Lambda([this]{OnWorldMap.ExecuteIfBound();return FReply::Handled();})
 		[Label(TEXT("World map [M]"),12,Gold,true)]];
-	Tabs->AddSlot().FillWidth(1.f).HAlign(HAlign_Right).VAlign(VAlign_Center)[Label(TEXT("Esc or E returns to the office"), 10, Muted)];
+	Tabs->AddSlot().AutoWidth().Padding(0,0,8,0)[SNew(SButton).ButtonStyle(&ConversationButton()).IsFocusable(false).ContentPadding(FMargin(14,6))
+ .OnClicked_Lambda([this]{OnVoterAtlas.ExecuteIfBound();return FReply::Handled();})[Label(TEXT("Voters [V]"),12,Gold,true)]];
+ Tabs->AddSlot().FillWidth(1.f).HAlign(HAlign_Right).VAlign(VAlign_Center)[Label(TEXT("Esc or E returns to the office"), 10, Muted)];
 	Content->AddSlot().AutoHeight().Padding(FMargin(0.f, 0.f, 0.f, 12.f))[Tabs];
 }
 

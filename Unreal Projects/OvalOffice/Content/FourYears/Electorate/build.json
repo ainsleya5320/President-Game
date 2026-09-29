@@ -1,0 +1,1456 @@
+{
+  "counties": 3143,
+  "states": 51,
+  "electors": 538,
+  "cities": 231,
+  "fallbackElectionCounties": [
+    "02090",
+    "02275",
+    "02122",
+    "02066",
+    "02185",
+    "02110",
+    "02050",
+    "02100",
+    "02164",
+    "02020",
+    "02188",
+    "02195",
+    "02240",
+    "02290",
+    "02070",
+    "02282",
+    "02220",
+    "02150",
+    "02170",
+    "02180",
+    "02158",
+    "02013",
+    "15005",
+    "02130",
+    "02198",
+    "02060",
+    "02016",
+    "02105",
+    "02230",
+    "02063",
+    "02068"
+  ],
+  "correctedElectionJoins": [
+    [
+      "2024",
+      "AR",
+      "SALINE",
+      "05123",
+      "05125"
+    ],
+    [
+      "2024",
+      "AR",
+      "SCOTT",
+      "05125",
+      "05127"
+    ],
+    [
+      "2024",
+      "AR",
+      "SEARCY",
+      "05127",
+      "05129"
+    ],
+    [
+      "2024",
+      "AR",
+      "SEBASTIAN",
+      "05129",
+      "05131"
+    ],
+    [
+      "2024",
+      "AR",
+      "SEVIER",
+      "05131",
+      "05133"
+    ],
+    [
+      "2024",
+      "AR",
+      "SHARP",
+      "05133",
+      "05135"
+    ],
+    [
+      "2024",
+      "AR",
+      "ST FRANCIS",
+      "05135",
+      "05123"
+    ],
+    [
+      "2024",
+      "AZ",
+      "LA PAZ",
+      "04013",
+      "04012"
+    ],
+    [
+      "2024",
+      "AZ",
+      "MARICOPA",
+      "04015",
+      "04013"
+    ],
+    [
+      "2024",
+      "AZ",
+      "MOHAVE",
+      "04017",
+      "04015"
+    ],
+    [
+      "2024",
+      "AZ",
+      "NAVAJO",
+      "04019",
+      "04017"
+    ],
+    [
+      "2024",
+      "AZ",
+      "PIMA",
+      "04021",
+      "04019"
+    ],
+    [
+      "2024",
+      "AZ",
+      "PINAL",
+      "04023",
+      "04021"
+    ],
+    [
+      "2024",
+      "AZ",
+      "SANTA CRUZ",
+      "04025",
+      "04023"
+    ],
+    [
+      "2024",
+      "AZ",
+      "YAVAPAI",
+      "04027",
+      "04025"
+    ],
+    [
+      "2024",
+      "AZ",
+      "YUMA",
+      "04029",
+      "04027"
+    ],
+    [
+      "2024",
+      "CA",
+      "SUTTER",
+      "06103",
+      "06101"
+    ],
+    [
+      "2024",
+      "CA",
+      "TEHAMA",
+      "06105",
+      "06103"
+    ],
+    [
+      "2024",
+      "CA",
+      "TRINITY",
+      "06107",
+      "06105"
+    ],
+    [
+      "2024",
+      "CA",
+      "TULARE",
+      "06109",
+      "06107"
+    ],
+    [
+      "2024",
+      "CA",
+      "TUOLUMNE",
+      "06111",
+      "06109"
+    ],
+    [
+      "2024",
+      "CA",
+      "VENTURA",
+      "06113",
+      "06111"
+    ],
+    [
+      "2024",
+      "CA",
+      "YOLO",
+      "06115",
+      "06113"
+    ],
+    [
+      "2024",
+      "CA",
+      "YUBA",
+      "06117",
+      "06115"
+    ],
+    [
+      "2024",
+      "CO",
+      "EL PASO",
+      "08039",
+      "08041"
+    ],
+    [
+      "2024",
+      "CO",
+      "ELBERT",
+      "08041",
+      "08039"
+    ],
+    [
+      "2024",
+      "CO",
+      "LA PLATA",
+      "08065",
+      "08067"
+    ],
+    [
+      "2024",
+      "CO",
+      "LAKE",
+      "08067",
+      "08065"
+    ],
+    [
+      "2024",
+      "FL",
+      "ALACHUA",
+      "13001",
+      "12001"
+    ],
+    [
+      "2024",
+      "FL",
+      "BAKER",
+      "13003",
+      "12003"
+    ],
+    [
+      "2024",
+      "FL",
+      "BAY",
+      "13005",
+      "12005"
+    ],
+    [
+      "2024",
+      "FL",
+      "BRADFORD",
+      "13007",
+      "12007"
+    ],
+    [
+      "2024",
+      "FL",
+      "BREVARD",
+      "13009",
+      "12009"
+    ],
+    [
+      "2024",
+      "FL",
+      "BROWARD",
+      "13011",
+      "12011"
+    ],
+    [
+      "2024",
+      "FL",
+      "CALHOUN",
+      "13013",
+      "12013"
+    ],
+    [
+      "2024",
+      "FL",
+      "CHARLOTTE",
+      "13015",
+      "12015"
+    ],
+    [
+      "2024",
+      "FL",
+      "CITRUS",
+      "13017",
+      "12017"
+    ],
+    [
+      "2024",
+      "FL",
+      "CLAY",
+      "13019",
+      "12019"
+    ],
+    [
+      "2024",
+      "FL",
+      "COLLIER",
+      "13021",
+      "12021"
+    ],
+    [
+      "2024",
+      "FL",
+      "COLUMBIA",
+      "13023",
+      "12023"
+    ],
+    [
+      "2024",
+      "FL",
+      "DESOTO",
+      "13027",
+      "12027"
+    ],
+    [
+      "2024",
+      "FL",
+      "DIXIE",
+      "13029",
+      "12029"
+    ],
+    [
+      "2024",
+      "FL",
+      "DUVAL",
+      "13031",
+      "12031"
+    ],
+    [
+      "2024",
+      "FL",
+      "ESCAMBIA",
+      "13033",
+      "12033"
+    ],
+    [
+      "2024",
+      "FL",
+      "FLAGLER",
+      "13035",
+      "12035"
+    ],
+    [
+      "2024",
+      "FL",
+      "FRANKLIN",
+      "13037",
+      "12037"
+    ],
+    [
+      "2024",
+      "FL",
+      "GADSDEN",
+      "13039",
+      "12039"
+    ],
+    [
+      "2024",
+      "FL",
+      "GILCHRIST",
+      "13041",
+      "12041"
+    ],
+    [
+      "2024",
+      "FL",
+      "GLADES",
+      "13043",
+      "12043"
+    ],
+    [
+      "2024",
+      "FL",
+      "GULF",
+      "13045",
+      "12045"
+    ],
+    [
+      "2024",
+      "FL",
+      "HAMILTON",
+      "13047",
+      "12047"
+    ],
+    [
+      "2024",
+      "FL",
+      "HARDEE",
+      "13049",
+      "12049"
+    ],
+    [
+      "2024",
+      "FL",
+      "HENDRY",
+      "13051",
+      "12051"
+    ],
+    [
+      "2024",
+      "FL",
+      "HERNANDO",
+      "13053",
+      "12053"
+    ],
+    [
+      "2024",
+      "FL",
+      "HIGHLANDS",
+      "13055",
+      "12055"
+    ],
+    [
+      "2024",
+      "FL",
+      "HILLSBOROUGH",
+      "13057",
+      "12057"
+    ],
+    [
+      "2024",
+      "FL",
+      "HOLMES",
+      "13059",
+      "12059"
+    ],
+    [
+      "2024",
+      "FL",
+      "INDIAN RIVER",
+      "13061",
+      "12061"
+    ],
+    [
+      "2024",
+      "FL",
+      "JACKSON",
+      "13063",
+      "12063"
+    ],
+    [
+      "2024",
+      "FL",
+      "JEFFERSON",
+      "13065",
+      "12065"
+    ],
+    [
+      "2024",
+      "FL",
+      "LAFAYETTE",
+      "13067",
+      "12067"
+    ],
+    [
+      "2024",
+      "FL",
+      "LAKE",
+      "13069",
+      "12069"
+    ],
+    [
+      "2024",
+      "FL",
+      "LEE",
+      "13071",
+      "12071"
+    ],
+    [
+      "2024",
+      "FL",
+      "LEON",
+      "13073",
+      "12073"
+    ],
+    [
+      "2024",
+      "FL",
+      "LEVY",
+      "13075",
+      "12075"
+    ],
+    [
+      "2024",
+      "FL",
+      "LIBERTY",
+      "13077",
+      "12077"
+    ],
+    [
+      "2024",
+      "FL",
+      "MADISON",
+      "13079",
+      "12079"
+    ],
+    [
+      "2024",
+      "FL",
+      "MANATEE",
+      "13081",
+      "12081"
+    ],
+    [
+      "2024",
+      "FL",
+      "MARION",
+      "13083",
+      "12083"
+    ],
+    [
+      "2024",
+      "FL",
+      "MARTIN",
+      "13085",
+      "12085"
+    ],
+    [
+      "2024",
+      "FL",
+      "MIAMI-DADE",
+      "13086",
+      "12086"
+    ],
+    [
+      "2024",
+      "FL",
+      "MONROE",
+      "13087",
+      "12087"
+    ],
+    [
+      "2024",
+      "FL",
+      "NASSAU",
+      "13089",
+      "12089"
+    ],
+    [
+      "2024",
+      "FL",
+      "OKALOOSA",
+      "13091",
+      "12091"
+    ],
+    [
+      "2024",
+      "FL",
+      "OKEECHOBEE",
+      "13093",
+      "12093"
+    ],
+    [
+      "2024",
+      "FL",
+      "ORANGE",
+      "13095",
+      "12095"
+    ],
+    [
+      "2024",
+      "FL",
+      "OSCEOLA",
+      "13097",
+      "12097"
+    ],
+    [
+      "2024",
+      "FL",
+      "PALM BEACH",
+      "13099",
+      "12099"
+    ],
+    [
+      "2024",
+      "FL",
+      "PASCO",
+      "13101",
+      "12101"
+    ],
+    [
+      "2024",
+      "FL",
+      "PINELLAS",
+      "13103",
+      "12103"
+    ],
+    [
+      "2024",
+      "FL",
+      "POLK",
+      "13105",
+      "12105"
+    ],
+    [
+      "2024",
+      "FL",
+      "PUTNAM",
+      "13107",
+      "12107"
+    ],
+    [
+      "2024",
+      "FL",
+      "SANTA ROSA",
+      "13109",
+      "12113"
+    ],
+    [
+      "2024",
+      "FL",
+      "SARASOTA",
+      "13111",
+      "12115"
+    ],
+    [
+      "2024",
+      "FL",
+      "SEMINOLE",
+      "13113",
+      "12117"
+    ],
+    [
+      "2024",
+      "FL",
+      "ST. JOHNS",
+      "13115",
+      "12109"
+    ],
+    [
+      "2024",
+      "FL",
+      "ST. LUCIE",
+      "13117",
+      "12111"
+    ],
+    [
+      "2024",
+      "FL",
+      "SUMTER",
+      "13119",
+      "12119"
+    ],
+    [
+      "2024",
+      "FL",
+      "SUWANNEE",
+      "13121",
+      "12121"
+    ],
+    [
+      "2024",
+      "FL",
+      "TAYLOR",
+      "13123",
+      "12123"
+    ],
+    [
+      "2024",
+      "FL",
+      "UNION",
+      "13125",
+      "12125"
+    ],
+    [
+      "2024",
+      "FL",
+      "VOLUSIA",
+      "13127",
+      "12127"
+    ],
+    [
+      "2024",
+      "FL",
+      "WAKULLA",
+      "13129",
+      "12129"
+    ],
+    [
+      "2024",
+      "FL",
+      "WALTON",
+      "13131",
+      "12131"
+    ],
+    [
+      "2024",
+      "FL",
+      "WASHINGTON",
+      "13133",
+      "12133"
+    ],
+    [
+      "2024",
+      "GA",
+      "MACON",
+      "13189",
+      "13193"
+    ],
+    [
+      "2024",
+      "GA",
+      "MADISON",
+      "13191",
+      "13195"
+    ],
+    [
+      "2024",
+      "GA",
+      "MARION",
+      "13193",
+      "13197"
+    ],
+    [
+      "2024",
+      "GA",
+      "MCDUFFIE",
+      "13195",
+      "13189"
+    ],
+    [
+      "2024",
+      "GA",
+      "MCINTOSH",
+      "13197",
+      "13191"
+    ],
+    [
+      "2024",
+      "GA",
+      "MITCHELL",
+      "13203",
+      "13205"
+    ],
+    [
+      "2024",
+      "GA",
+      "MONROE",
+      "13205",
+      "13207"
+    ],
+    [
+      "2024",
+      "GA",
+      "MONTGOMERY",
+      "13207",
+      "13209"
+    ],
+    [
+      "2024",
+      "GA",
+      "MORGAN",
+      "13209",
+      "13211"
+    ],
+    [
+      "2024",
+      "IN",
+      "SPENCER",
+      "18146",
+      "18147"
+    ],
+    [
+      "2024",
+      "KS",
+      "MARION",
+      "20113",
+      "20115"
+    ],
+    [
+      "2024",
+      "KS",
+      "MARSHALL",
+      "20115",
+      "20117"
+    ],
+    [
+      "2024",
+      "KS",
+      "MCPHERSON",
+      "20117",
+      "20113"
+    ],
+    [
+      "2024",
+      "RI",
+      "BARRINGTON",
+      "4400105140",
+      "44001"
+    ],
+    [
+      "2024",
+      "RI",
+      "BRISTOL",
+      "4400109280",
+      "44001"
+    ],
+    [
+      "2024",
+      "RI",
+      "BURRILLVILLE",
+      "4400711800",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "CENTRAL FALLS",
+      "4400714140",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "CHARLESTOWN",
+      "4400914500",
+      "44009"
+    ],
+    [
+      "2024",
+      "RI",
+      "COVENTRY",
+      "4400318640",
+      "44003"
+    ],
+    [
+      "2024",
+      "RI",
+      "CRANSTON",
+      "4400719180",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "CUMBERLAND",
+      "4400720080",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "EAST GREENWICH",
+      "4400322240",
+      "44003"
+    ],
+    [
+      "2024",
+      "RI",
+      "EAST PROVIDENCE",
+      "4400722960",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "EXETER",
+      "4400925300",
+      "44009"
+    ],
+    [
+      "2024",
+      "RI",
+      "FOSTER",
+      "4400727460",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "GLOCESTER",
+      "4400730340",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "HOPKINTON",
+      "4400935380",
+      "44009"
+    ],
+    [
+      "2024",
+      "RI",
+      "JAMESTOWN",
+      "4400536820",
+      "44005"
+    ],
+    [
+      "2024",
+      "RI",
+      "JOHNSTON",
+      "4400737720",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "LINCOLN",
+      "4400741500",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "LITTLE COMPTON",
+      "4400542400",
+      "44005"
+    ],
+    [
+      "2024",
+      "RI",
+      "MIDDLETOWN",
+      "4400545460",
+      "44005"
+    ],
+    [
+      "2024",
+      "RI",
+      "NARRAGANSETT",
+      "4400948340",
+      "44009"
+    ],
+    [
+      "2024",
+      "RI",
+      "NEW SHOREHAM",
+      "4400950500",
+      "44009"
+    ],
+    [
+      "2024",
+      "RI",
+      "NEWPORT",
+      "4400549960",
+      "44005"
+    ],
+    [
+      "2024",
+      "RI",
+      "NORTH KINGSTOWN",
+      "4400951580",
+      "44009"
+    ],
+    [
+      "2024",
+      "RI",
+      "NORTH PROVIDENCE",
+      "4400751760",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "NORTH SMITHFIELD",
+      "4400752480",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "PAWTUCKET",
+      "4400754640",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "PORTSMOUTH",
+      "4400557880",
+      "44005"
+    ],
+    [
+      "2024",
+      "RI",
+      "PROVIDENCE",
+      "4400759000",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "RICHMOND",
+      "4400961160",
+      "44009"
+    ],
+    [
+      "2024",
+      "RI",
+      "SCITUATE",
+      "4400764220",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "SMITHFIELD",
+      "4400766200",
+      "44007"
+    ],
+    [
+      "2024",
+      "RI",
+      "SOUTH KINGSTOWN",
+      "4400967460",
+      "44009"
+    ],
+    [
+      "2024",
+      "RI",
+      "TIVERTON",
+      "4400570880",
+      "44005"
+    ],
+    [
+      "2024",
+      "RI",
+      "WARREN",
+      "4400173760",
+      "44001"
+    ],
+    [
+      "2024",
+      "RI",
+      "WARWICK",
+      "4400374300",
+      "44003"
+    ],
+    [
+      "2024",
+      "RI",
+      "WEST GREENWICH",
+      "4400377720",
+      "44003"
+    ],
+    [
+      "2024",
+      "RI",
+      "WEST WARWICK",
+      "4400378440",
+      "44003"
+    ],
+    [
+      "2024",
+      "RI",
+      "WESTERLY",
+      "4400977000",
+      "44009"
+    ],
+    [
+      "2024",
+      "RI",
+      "WOONSOCKET",
+      "4400780780",
+      "44007"
+    ],
+    [
+      "2024",
+      "SD",
+      "OGLALA LAKOTA",
+      "46113",
+      "46102"
+    ]
+  ],
+  "calibration": [
+    {
+      "state": "AK",
+      "demFactor": 0.9772819870916182,
+      "repFactor": 0.9772819870916183
+    },
+    {
+      "state": "AL",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "AR",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "AZ",
+      "demFactor": 1.0,
+      "repFactor": 0.9999999999999999
+    },
+    {
+      "state": "CA",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "CO",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "CT",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "DC",
+      "demFactor": 1.0,
+      "repFactor": 1.0000000000000007
+    },
+    {
+      "state": "DE",
+      "demFactor": 1.0,
+      "repFactor": 1.0000000000000002
+    },
+    {
+      "state": "FL",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "GA",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "HI",
+      "demFactor": 0.9999147505605348,
+      "repFactor": 0.9999147505605348
+    },
+    {
+      "state": "IA",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "ID",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "IL",
+      "demFactor": 0.9999999999999999,
+      "repFactor": 1.0000000000000002
+    },
+    {
+      "state": "IN",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "KS",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "KY",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "LA",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "MA",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "MD",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "ME",
+      "demFactor": 1.0123390233814036,
+      "repFactor": 1.0026154470531126
+    },
+    {
+      "state": "MI",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "MN",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "MO",
+      "demFactor": 1.0865749149953075,
+      "repFactor": 1.0151961946063215
+    },
+    {
+      "state": "MS",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "MT",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "NC",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "ND",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "NE",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "NH",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "NJ",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "NM",
+      "demFactor": 0.9999999999999999,
+      "repFactor": 1.0
+    },
+    {
+      "state": "NV",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "NY",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "OH",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "OK",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "OR",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "PA",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "RI",
+      "demFactor": 1.0049550660792952,
+      "repFactor": 1.0005366534292155
+    },
+    {
+      "state": "SC",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "SD",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "TN",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "TX",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "UT",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "VA",
+      "demFactor": 0.9993076117744536,
+      "repFactor": 0.9995238749256055
+    },
+    {
+      "state": "VT",
+      "demFactor": 1.1178213503493917,
+      "repFactor": 1.1049465549951414
+    },
+    {
+      "state": "WA",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "WI",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "WV",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    },
+    {
+      "state": "WY",
+      "demFactor": 1.0,
+      "repFactor": 1.0
+    }
+  ],
+  "sourceHashes": [
+    {
+      "file": "elections-state-2024.csv",
+      "url": "https://raw.githubusercontent.com/MEDSL/2024-elections-official/main/2024-president-state.csv",
+      "bytes": 75635,
+      "sha256": "d3170796305a9ee576d6362fbfdd9c4ffdf888566361b4b95f4d5e9d019a6348"
+    },
+    {
+      "file": "cities.zip",
+      "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_populated_places_simple.zip",
+      "bytes": 652145,
+      "sha256": "2963ee08f7743f13f37d5243acd77a2f7a510e26a36c7e04b920f1b381f2b251"
+    },
+    {
+      "file": "woodard-2017.html",
+      "url": "https://www.centralmaine.com/2017/01/06/the-american-nations-in-the-2016-presidential-election/",
+      "bytes": 232311,
+      "sha256": "a956208784ae27037d05ecc107e290f63a614211fdbb00a5622b375036ac2790"
+    },
+    {
+      "file": "woodard-state-shares.csv",
+      "url": "https://datawrapper.dwcdn.net/2Zc9P/3/dataset.csv",
+      "bytes": 4375,
+      "sha256": "7cf30718beeeea0f9d779cfcc8418b79f384229e103e3b3fdc818ac40f4f61b6"
+    },
+    {
+      "file": "woodard-counties.csv",
+      "url": "https://specialprojects.pressherald.com/americannations/county_results.csv",
+      "bytes": 440347,
+      "sha256": "9ded7c53c5e70cb27f0b907467a2ae391d722b9308fea93c948dce85b19bcabb"
+    },
+    {
+      "file": "People-metadata.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/People/MapServer/0?f=pjson",
+      "bytes": 15070,
+      "sha256": "a42671d7d3c7b44cd564ff12c294a2486726a909280c8aff6e36e5c34a9580e9"
+    },
+    {
+      "file": "Income-metadata.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/Income/MapServer/0?f=pjson",
+      "bytes": 9052,
+      "sha256": "7dd1dc3b7cd3220d09571c0312b51316f8f4d724169f447910e53cad28d7c0a8"
+    },
+    {
+      "file": "Income-0.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/Income/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=false&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID&f=json",
+      "bytes": 721773,
+      "sha256": "05926548eaaf623c0df247318a2278c0e34738107f24e1167bd3acd5feb132d0"
+    },
+    {
+      "file": "People-2000.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/People/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=false&resultOffset=2000&resultRecordCount=2000&orderByFields=OBJECTID&f=json",
+      "bytes": 2011976,
+      "sha256": "d1c3f130c0840f09bf46ed5d530653bb00eab5d26106e5fa1148d05117a60ca4"
+    },
+    {
+      "file": "Jobs-metadata.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/Jobs/MapServer/0?f=pjson",
+      "bytes": 12189,
+      "sha256": "70ec19cb1f829154b0ed8b5488e1bc27ea2afd3606b647a536e69d36f206639e"
+    },
+    {
+      "file": "states.zip",
+      "url": "https://www2.census.gov/geo/tiger/GENZ2021/shp/cb_2021_us_state_500k.zip",
+      "bytes": 3321661,
+      "sha256": "6566a14a837c4f102371aca18babb0ae2305cdc86e0ac40298eb3d41066f1a8f"
+    },
+    {
+      "file": "Income-2000.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/Income/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=false&resultOffset=2000&resultRecordCount=2000&orderByFields=OBJECTID&f=json",
+      "bytes": 414119,
+      "sha256": "3996467a49049e13200fd12a398dc459f1cb5346cabec201db99a032e4d6d50f"
+    },
+    {
+      "file": "People-0.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/People/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=false&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID&f=json",
+      "bytes": 3513003,
+      "sha256": "77bddb6386d0820c1cf05c9617abb3edc1e9c30ba5d01129da7711d20f2b3a98"
+    },
+    {
+      "file": "County_Classifications-metadata.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/County_Classifications/MapServer/0?f=pjson",
+      "bytes": 14078,
+      "sha256": "287fb4ca16d2b6f58ad4b221325e9cb0bb76955b75b85e540203a2765a1eda1d"
+    },
+    {
+      "file": "Jobs-2000.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/Jobs/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=false&resultOffset=2000&resultRecordCount=2000&orderByFields=OBJECTID&f=json",
+      "bytes": 1108265,
+      "sha256": "8b14fd065b77e9cbd0ace19f5789f3bef55ff422c51675c5a4f5ddfd56523141"
+    },
+    {
+      "file": "County_Classifications-2000.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/County_Classifications/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=false&resultOffset=2000&resultRecordCount=2000&orderByFields=OBJECTID&f=json",
+      "bytes": 693609,
+      "sha256": "8cee5dc15b1af0dc05a0641278f54b9d018ca1fd8b1ac1846889d02ac5a855fa"
+    },
+    {
+      "file": "County_Classifications-0.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/County_Classifications/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=false&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID&f=json",
+      "bytes": 1210493,
+      "sha256": "d2366f263d98662203151110dc48725bc34eeb81ed80b53b5bce4cd692f6599b"
+    },
+    {
+      "file": "Jobs-0.json",
+      "url": "https://gisportal.ers.usda.gov/server/rest/services/Rural_Atlas_Data/Jobs/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=false&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID&f=json",
+      "bytes": 1928234,
+      "sha256": "7edf2d796528146cd67933a0f0932305c846aa92b443ebe04da57efe1533f4b3"
+    },
+    {
+      "file": "elections.csv",
+      "url": "https://raw.githubusercontent.com/9t8/cmsc320_project/master/countypres_2000-2024.csv",
+      "bytes": 8802642,
+      "sha256": "23faa73e154e956af82dcdf9a7fd67eebc8035de674898a1e1c410048e2e8e67"
+    },
+    {
+      "file": "counties.zip",
+      "url": "https://www2.census.gov/geo/tiger/GENZ2021/shp/cb_2021_us_county_500k.zip",
+      "bytes": 11838247,
+      "sha256": "0262e163a6b2effa8e73863912814d499f6bdd07a05726960e0f4135ca62df1e"
+    }
+  ]
+}

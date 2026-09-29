@@ -12,6 +12,7 @@
 #include "SFourYearsScreen.h"
 #include "SFourYearsIntro.h"
 #include "SFourYearsDiplomacy.h"
+#include "SFourYearsElectorate.h"
 #include "Styling/CoreStyle.h"
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/Layout/SBox.h"
@@ -66,17 +67,20 @@ void AFourYearsPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReaso
 		if (Screen.IsValid()) Viewport->RemoveViewportWidgetContent(Screen.ToSharedRef());
 		if (Intro.IsValid()) Viewport->RemoveViewportWidgetContent(Intro.ToSharedRef());
 		if (WorldMap.IsValid()) Viewport->RemoveViewportWidgetContent(WorldMap.ToSharedRef());
+		if (VoterAtlas.IsValid()) Viewport->RemoveViewportWidgetContent(VoterAtlas.ToSharedRef());
 	}
 	Prompt.Reset();
 	Screen.Reset();
 	Intro.Reset();
 	WorldMap.Reset();
+	VoterAtlas.Reset();
 	Super::EndPlay(EndPlayReason);
 }
 
 void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+	if (bVoterAtlasRequested) { bVoterAtlasRequested = false; ShowVoterAtlas(); }
 	if (bWorldMapRequested) { bWorldMapRequested = false; ShowWorldMap(); }
 	if (IsLocalController() && !Intro.IsValid() && GetGameInstance())
 	{
@@ -106,7 +110,7 @@ void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 	{
 		const TCHAR* Text = bAtDesk ? TEXT("Press E at the Resolute Desk to read your quarterly briefing")
 			: bAtSofas ? TEXT("Press E by the sofas to meet your advisers")
-			: TEXT("W/A/S/D to walk · mouse to look · P for policies · C for Congress · the desk for briefings · the sofas for advisers");
+			: TEXT("W/A/S/D to walk · mouse to look · P policies · C Congress · M world · V voters · E at the desk or sofas");
 		const FString Nearby = GetInteractionPrompt();
 		PromptText->SetText(FText::FromString(Nearby.IsEmpty() ? FString(Text) : Nearby));
 	}
@@ -125,6 +129,7 @@ void AFourYearsPlayerController::PlayerTick(float DeltaTime)
 	}
 	if (WasInputKeyJustPressed(EKeys::I)) OpenInauguration();
 	if (WasInputKeyJustPressed(EKeys::M)) OpenWorldMap();
+	if (WasInputKeyJustPressed(EKeys::V)) OpenVoterAtlas();
 }
 
 FString AFourYearsPlayerController::GetInteractionPrompt() const
@@ -133,7 +138,7 @@ FString AFourYearsPlayerController::GetInteractionPrompt() const
 	if (Walker && Walker->GetRoom())
 	{
 		if (const auto* Point = Walker->GetRoom()->FindInteraction(Walker->GetActorLocation())) return Point->Prompt;
-		if (Walker->GetRoom()->WalkableAreas.Num()) return TEXT("CABINET ROOM  ·  W/A/S/D walk  ·  E at a named seat to meet  ·  P policies  ·  C Congress  ·  exit behind you");
+		if (Walker->GetRoom()->WalkableAreas.Num()) return TEXT("CABINET ROOM  ·  W/A/S/D walk  ·  E at a named seat to meet  ·  P policies  ·  C Congress  ·  M world  ·  V voters  ·  exit behind you");
 	}
 	return FString();
 }
@@ -171,7 +176,9 @@ void AFourYearsPlayerController::OpenCongress() { OpenScreen(static_cast<uint8>(
 
 void AFourYearsPlayerController::OpenScreen(uint8 Page)
 {
-	if (Intro.IsValid() || WorldMap.IsValid()) return;
+	if (Intro.IsValid() || WorldMap.IsValid() || VoterAtlas.IsValid()) return;
+	if (auto* Instance = GetGameInstance())
+		if (auto* Game = Instance->GetSubsystem<UFourYearsSubsystem>(); Game && !Game->GetState().Get("ended").Truthy() && Game->GetState().Get("electoral").Get("party").AsString().empty()) { OpenVoterAtlas(); return; }
 	const EFourYearsPage Target = static_cast<EFourYearsPage>(Page);
 	if (IsScreenOpen())
 	{
@@ -188,6 +195,7 @@ void AFourYearsPlayerController::OpenScreen(uint8 Page)
 		.Subsystem(Instance->GetSubsystem<UFourYearsSubsystem>())
 		.Page(Target)
 		.OnWorldMap(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::OpenWorldMap))
+		.OnVoterAtlas(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::OpenVoterAtlas))
 		.OnClose(FSimpleDelegate::CreateUObject(this, &AFourYearsPlayerController::CloseScreen));
 	if (const AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn()))
 	{
@@ -205,7 +213,7 @@ void AFourYearsPlayerController::OpenScreen(uint8 Page)
 
 void AFourYearsPlayerController::CloseScreen()
 {
-	if (!Screen.IsValid() && !WorldMap.IsValid())
+	if (!Screen.IsValid() && !WorldMap.IsValid() && !VoterAtlas.IsValid())
 	{
 		return;
 	}
@@ -213,9 +221,11 @@ void AFourYearsPlayerController::CloseScreen()
 	{
 		if (Screen.IsValid()) Viewport->RemoveViewportWidgetContent(Screen.ToSharedRef());
 		if (WorldMap.IsValid()) Viewport->RemoveViewportWidgetContent(WorldMap.ToSharedRef());
+		if (VoterAtlas.IsValid()) Viewport->RemoveViewportWidgetContent(VoterAtlas.ToSharedRef());
 	}
 	Screen.Reset();
 	WorldMap.Reset();
+	VoterAtlas.Reset();
 	if (Prompt.IsValid()) Prompt->SetVisibility(EVisibility::HitTestInvisible);
 	if (AFourYearsWalker* Walker = Cast<AFourYearsWalker>(GetPawn())) Walker->SetMovementEnabled(true);
 	SetInputMode(FInputModeGameOnly());
@@ -291,4 +301,14 @@ void AFourYearsPlayerController::FinishInauguration()
 	SetInputMode(FInputModeGameOnly());
 	SetShowMouseCursor(false);
 	FSlateApplication::Get().SetAllUserFocusToGameViewport();
+	if(auto* Game=GetGameInstance()->GetSubsystem<UFourYearsSubsystem>(); Game && Game->GetState().Get("electoral").Get("party").AsString().empty()) OpenVoterAtlas();
+}
+
+void AFourYearsPlayerController::OpenVoterAtlas(){if(!Intro.IsValid()&&!VoterAtlas.IsValid())bVoterAtlasRequested=true;}
+void AFourYearsPlayerController::ShowVoterAtlas(){
+ if(Intro.IsValid()||VoterAtlas.IsValid()||!IsLocalController())return;
+ auto* Viewport=GetWorld()?GetWorld()->GetGameViewport():nullptr;auto* Instance=GetGameInstance();if(!Viewport||!Instance)return;
+ CloseScreen();VoterAtlas=SNew(SFourYearsElectorate).Subsystem(Instance->GetSubsystem<UFourYearsSubsystem>()).OnClose(FSimpleDelegate::CreateUObject(this,&AFourYearsPlayerController::CloseScreen));
+ Viewport->AddViewportWidgetContent(VoterAtlas.ToSharedRef(),15);if(Prompt.IsValid())Prompt->SetVisibility(EVisibility::Collapsed);if(auto* Walker=Cast<AFourYearsWalker>(GetPawn()))Walker->SetMovementEnabled(false);
+ FInputModeUIOnly Mode;Mode.SetWidgetToFocus(VoterAtlas);Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);SetInputMode(Mode);SetShowMouseCursor(true);
 }

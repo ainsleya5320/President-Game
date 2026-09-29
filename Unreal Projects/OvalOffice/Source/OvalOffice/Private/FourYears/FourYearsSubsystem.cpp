@@ -1,4 +1,5 @@
 #include "FourYears/FourYearsSubsystem.h"
+#include "FourYears/Core/FourYearsElectoral.h"
 #include "FourYears/Core/FourYearsDiplomacy.h"
 
 #include "HAL/FileManager.h"
@@ -213,9 +214,9 @@ FFourYearsBriefing UFourYearsSubsystem::GetBriefing() const
 	if (Briefing.bTermOver)
 	{
 		const JsonValue& Final = State.Get("executive").Get("finalElection");
-		Briefing.Title = Final.Get("won").Truthy() ? TEXT("Re-elected") : TEXT("Defeated");
-		Briefing.Outcome = FString::Printf(TEXT("Final vote %s%% · %s of 100 regional electoral points."),
-			*ToFString(FourYears::FormatNumber(Final.Get("vote").AsNumber())), *ToFString(FourYears::FormatNumber(Final.Get("points").AsNumber())));
+		Briefing.Title = Final.Get("won").Truthy() ? TEXT("Re-elected") : Final.Get("tie").Truthy() ? TEXT("No Electoral College majority") : TEXT("Defeated");
+		Briefing.Outcome = FString::Printf(TEXT("Final vote %s%% · %s of %s."),
+			*ToFString(FourYears::FormatNumber(Final.Get("vote").AsNumber())), *ToFString(FourYears::FormatNumber(Final.Get("points").AsNumber())), Final.Get("total").AsNumber() == 538 ? TEXT("538 electoral votes") : TEXT("100 legacy regional points"));
 		Briefing.Body = TEXT("Your four years are on the record.");
 		return Briefing;
 	}
@@ -283,9 +284,9 @@ FFourYearsReport UFourYearsSubsystem::AdvanceQuarter()
 		const bool bMidterm = Election.Get("type").AsString() == "midterm";
 		const bool bWon = bMidterm ? Election.Get("majority").Truthy() : Election.Get("won").Truthy();
 		const JsonValue& Points = bMidterm ? Election.Get("regional").Get("points") : Election.Get("points");
-		Report.Election = FString::Printf(TEXT("%s: %s. Vote %s%% · %s of 100 regional points."),
+		Report.Election = FString::Printf(TEXT("%s: %s. Vote %s%% · %s of 538 projected electoral votes."),
 			bMidterm ? TEXT("Midterm election") : TEXT("General election"),
-			bWon ? (bMidterm ? TEXT("your coalition holds a majority") : TEXT("you are re-elected")) : (bMidterm ? TEXT("your coalition loses its majority") : TEXT("you are defeated")),
+			bWon ? (bMidterm ? TEXT("your coalition holds a majority") : TEXT("you are re-elected")) : (bMidterm ? TEXT("your coalition loses its majority") : (Election.Get("tie").Truthy() ? TEXT("no Electoral College majority") : TEXT("you are defeated"))),
 			*ToFString(FourYears::FormatNumber(Election.Get("vote").AsNumber())), *ToFString(FourYears::FormatNumber(Points.AsNumber())));
 	}
 	return Report;
@@ -656,3 +657,7 @@ FFourYearsActionResult UFourYearsSubsystem::CallVote()
 {
 	return bReady ? ToResult(Core.Vote(State)) : FFourYearsActionResult();
 }
+
+FFourYearsActionResult UFourYearsSubsystem::ChooseElectoralParty(const FString& Party){return bReady ? ToResult(FourYears::Electoral::ChooseParty(State,ToUtf8(Party))) : FFourYearsActionResult();}
+FFourYearsActionResult UFourYearsSubsystem::OrganizeCounty(const FString& County){return bReady ? ToResult(FourYears::Electoral::Organize(Core.Data().Get("us-electorate"),State,ToUtf8(County))) : FFourYearsActionResult();}
+FString UFourYearsSubsystem::GetVoterAtlasJson() const{return bReady ? ToFString(Core.VoterAtlas(State).Dump()) : TEXT("{}");}

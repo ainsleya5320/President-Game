@@ -1,6 +1,7 @@
 // Replays the browser game's reference trace through the C++ simulation core and reports any difference.
 // Build and run with: node Tests/FourYearsCore/run_parity.cjs
 #include "FourYears/Core/FourYearsSim.h"
+#include "FourYears/Core/FourYearsElectoral.h"
 
 #include <cmath>
 #include <cstdio>
@@ -129,6 +130,8 @@ JsonValue Derived(const FourYears::Simulation& Sim, const JsonValue& S)
 JsonValue Run(const FourYears::Simulation& Sim, JsonValue& S, const std::string& Action, const JsonValue& Args)
 {
 	const auto A = [&](std::size_t Index) { return Args[Index].AsString(); };
+	if (Action == "chooseParty") return FourYears::Electoral::ChooseParty(S, Args[0].AsString());
+	if (Action == "organize") return FourYears::Electoral::Organize(Sim.Data().Get("us-electorate"), S, Args[0].AsString());
 	if (Action == "changePolicy") return Sim.ChangePolicy(S, A(0), Args[1].AsNumber());
 	if (Action == "meeting") return Sim.Meeting(S, A(0), A(1));
 	if (Action == "campaignTrip") return Sim.CampaignTrip(S, A(0), A(1), A(2));

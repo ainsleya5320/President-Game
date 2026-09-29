@@ -8,7 +8,7 @@ const compiler=['g++','clang++'].find(c=>{try{execFileSync(c,['--version'],{stdi
 if(!compiler){console.error('No g++ or clang++ found; install one to run the parity test.');process.exit(2);}
 // Unreal-like settings: warnings as errors, shadowing checks, no exceptions or RTTI.
 execFileSync(compiler,['-std=c++17','-O2','-Wall','-Wextra','-Wshadow','-Werror','-fno-exceptions','-fno-rtti','-I',path.join(source,'Public'),
- path.join(__dirname,'parity_main.cpp'),path.join(source,'Private','FourYears','Core','FourYearsJson.cpp'),path.join(source,'Private','FourYears','Core','FourYearsSim.cpp'),'-o',binary],{stdio:'inherit'});
+ path.join(__dirname,'parity_main.cpp'),path.join(source,'Private','FourYears','Core','FourYearsJson.cpp'),path.join(source,'Private','FourYears','Core','FourYearsSim.cpp'),path.join(source,'Private','FourYears','Core','FourYearsElectoral.cpp'),'-o',binary],{stdio:'inherit'});
 execFileSync(process.execPath,[path.join(prototype,'parity','make_trace.cjs'),trace],{stdio:'inherit'});
 try{execFileSync(binary,[path.join(prototype,'data'),trace],{stdio:'inherit'});}catch{process.exitCode=1;}
 fs.rmSync(work,{recursive:true,force:true});

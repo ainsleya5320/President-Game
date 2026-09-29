@@ -64,6 +64,6 @@ const funded=Sim.fresh();funded.version=3;funded.levels.housing=4;funded.impleme
 const preserved=Sim.migrate(funded);assert.equal(preserved.executive.bills[0].status,'passed');assert.equal(preserved.executive.bills[0].progress,50);assert.equal(preserved.debt,72,'migration never charges for existing authority');
 Sim.changePolicy(preserved,'housing',3);assert.equal(Sim.changePolicy(preserved,'housing',4).ok,true);
 const tie=Sim.fresh();for(const r of E.REGIONS)tie.executive.regions[r.id].goodwill=['coast','plains'].includes(r.id)?15:-15;
-assert.equal(E.election(tie,50).points,50);assert.equal(E.election(tie,50).won,false,'a tied electoral count is not a majority');
-const term=Sim.fresh();for(let i=0;i<16;i++)turn(term);assert.ok(term.executive.finalElection);assert.equal(term.executive.finalElection.regions.length,4);assert.equal(E.propose(term,'housing').ok,false);assert.equal(E.legacy(term).goals.length,3);
+const electoral=E.election(tie,50);assert.equal(electoral.total,538);assert.equal(electoral.won,electoral.points>=270,'a presidency requires 270 electors');
+const term=Sim.fresh();for(let i=0;i<16;i++)turn(term);assert.ok(term.executive.finalElection);assert.equal(term.executive.finalElection.regions.length,56);assert.equal(E.propose(term,'housing').ok,false);assert.equal(E.legacy(term).goals.length,3);
 console.log('Executive systems passed: congressional votes, delivery, fiscal tradeoffs, storm and scandal branches, cabinet replacement, encounters, regional visits, migration and final legacy.');

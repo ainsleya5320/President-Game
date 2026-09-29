@@ -1,11 +1,12 @@
 from pathlib import Path
 from io import BytesIO
-import base64, gzip, json, struct
+import base64, gzip, json, struct, os
 from PIL import Image, ImageFilter
 from game_data import data_script
 
 here = Path(__file__).resolve().parent
-source = here.parents[2] / 'oval-office'
+asset_root = Path(os.environ.get('FOUR_YEARS_ASSET_ROOT', here.parents[2]))
+source = asset_root / 'oval-office'
 template = (here / 'office-game.template.html').read_text(encoding='utf-8')
 # Keep the original smooth furniture, carved trim, sash bars, and woven chair backs.
 # Transfer cutaway labels from the lightweight export without simplifying geometry.
@@ -31,7 +32,7 @@ model = base64.b64encode(gzip.compress(packed, compresslevel=7)).decode('ascii')
 
 def browser_aircraft(source_file=None, label='aircraft'):
     """Retain the authored meshes while resizing embedded textures for browser use."""
-    raw = (source_file or here.parents[2] / 'air-force-one' / 'Air_Force_One.glb').read_bytes()
+    raw = (source_file or asset_root / 'air-force-one' / 'Air_Force_One.glb').read_bytes()
     length = struct.unpack_from('<I', raw, 12)[0]
     doc = json.loads(raw[20:20+length])
     binary = raw[28+length:]
@@ -65,9 +66,9 @@ def browser_aircraft(source_file=None, label='aircraft'):
     return base64.b64encode(gzip.compress(glb, compresslevel=7)).decode('ascii')
 
 aircraft = browser_aircraft()
-west_wing = browser_aircraft(here.parents[2] / 'west-wing' / 'West_Wing.glb', 'West Wing')
-west_wing_nav = (here.parents[2] / 'west-wing' / 'navigation.json').read_text(encoding='utf-8')
-footprints = json.loads((here.parents[2] / 'air-force-one' / 'collision_footprints.json').read_text())
+west_wing = browser_aircraft(asset_root / 'west-wing' / 'West_Wing.glb', 'West Wing')
+west_wing_nav = (asset_root / 'west-wing' / 'navigation.json').read_text(encoding='utf-8')
+footprints = json.loads((asset_root / 'air-force-one' / 'collision_footprints.json').read_text())
 collision = json.dumps([p['polygon'] for p in footprints], separators=(',', ':'))
 palette = (source / 'material_palette.json').read_text(encoding='utf-8')
 output = here / 'Four_Years_Prototype.html'
@@ -91,7 +92,7 @@ memories = json.loads((here / 'assets' / 'memories' / 'generation.json').read_te
 desk_photos = ['data:image/jpeg;base64,' + jpg_data('memories/' + p['file'], (384, 384)) for p in memories['photos']]
 markup = markup.replace('__DESK_PHOTOS__', json.dumps(desk_photos))
 markup = markup.replace('__ROOM_POLISH__', (here / 'room-polish.js').read_text(encoding='utf-8'))
-markup = markup.replace('__EXECUTIVE_SYSTEMS__', (here / 'executive-systems.js').read_text(encoding='utf-8'))
+markup = markup.replace('__EXECUTIVE_SYSTEMS__', (here / 'electoral-model.js').read_text(encoding='utf-8') + '\n' + (here / 'executive-systems.js').read_text(encoding='utf-8'))
 markup = markup.replace('__EXECUTIVE_UI__', (here / 'executive-ui.js').read_text(encoding='utf-8'))
 markup = markup.replace('__GAME_DATA__', data_script(here / 'data'))
 markup = markup.replace('__SIMULATION_CORE__', (here / 'simulation-core.js').read_text(encoding='utf-8'))

@@ -302,6 +302,12 @@ public:
 	FFourYearsActionResult ChooseDiplomacyDoctrine(const FString& Doctrine);
 	UFUNCTION(BlueprintPure, Category = "Four Years|Diplomacy")
 	FString GetDiplomacyJson() const;
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Electorate")
+	FFourYearsActionResult ChooseElectoralParty(const FString& Party);
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Electorate")
+	FFourYearsActionResult OrganizeCounty(const FString& County);
+	UFUNCTION(BlueprintPure, Category = "Four Years|Electorate")
+	FString GetVoterAtlasJson() const;
 
 	// Where the president is: "oval" or "aircraft". Meetings need the Oval Office.
 	UFUNCTION(BlueprintCallable, Category = "Four Years")

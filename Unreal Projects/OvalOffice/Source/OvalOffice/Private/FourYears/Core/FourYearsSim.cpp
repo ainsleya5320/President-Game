@@ -1,4 +1,5 @@
 #include "FourYears/Core/FourYearsSim.h"
+#include "FourYears/Core/FourYearsElectoral.h"
 
 #include <algorithm>
 #include <cmath>
@@ -176,6 +177,8 @@ bool Simulation::LoadData(const std::vector<std::pair<std::string, std::string>>
 {
 	bLoaded = false;
 	Populations.clear();
+	ElectoralCacheKey.clear();
+	ElectoralCache=V();
 	GameData = V::Object();
 	for (const auto& File : Files)
 	{
@@ -188,7 +191,7 @@ bool Simulation::LoadData(const std::vector<std::pair<std::string, std::string>>
 		}
 		GameData.Set(File.first, std::move(Parsed));
 	}
-	for (const char* Required : {"metrics", "policies", "groups", "people", "campaign", "events", "situations", "electorate", "unrest", "executive"})
+	for (const char* Required : {"metrics", "policies", "groups", "people", "campaign", "events", "situations", "electorate", "unrest", "executive", "us-electorate"})
 	{
 		if (!GameData.Has(Required)) Errors.push_back(std::string("missing data file ") + Required + ".json");
 	}
@@ -656,7 +659,8 @@ V Simulation::Electorate(const V& S) const
 		if (bApprove) ApprovingTurnout += Turn;
 	}
 	V Result = V::Object();
-	Result.Set("poll", Num(JsRound(ApprovingTurnout / TurnoutSum * 100)));
+	Result.Set("poll", Num(JsRound(VoterAtlas(S).Get("approval").AsNumber())));
+	(void)ApprovingTurnout; (void)TurnoutSum;
 	Result.Set("overlap", Num(JsRound(Memberships / static_cast<double>(Count) * 10) / 10));
 	V Out = V::Array();
 	for (std::size_t J = 0; J < N; ++J)
@@ -674,7 +678,13 @@ V Simulation::Electorate(const V& S) const
 	return Result;
 }
 
-double Simulation::Poll(const V& S) const { return Electorate(S).Get("poll").AsNumber(); }
+const V& Simulation::VoterAtlas(const V& S) const {
+ const V Moods=GroupMoods(S);double Weighted=0,Total=0;for(const auto& G:Moods.Items()){Weighted+=G.Get("approval").AsNumber()*G.Get("share").AsNumber();Total+=G.Get("share").AsNumber();}
+ const double Signal=Weighted/Total;
+ std::string Key=Fmt(Signal);for(const char* K:{"metrics","levels","implemented","electoral","quarter","seed"})Key+=S.Get(K).Dump();Key+=S.Get("executive").Get("regions").Dump();
+ if(Key!=ElectoralCacheKey||ElectoralCache.IsUndefined()){ElectoralCacheKey=Key;ElectoralCache=Electoral::View(D("us-electorate"),S,Signal);}return ElectoralCache;
+}
+double Simulation::Poll(const V& S) const { return JsRound(VoterAtlas(S).Get("approval").AsNumber()); }
 V Simulation::Groups(const V& S) const { return Electorate(S).Get("groups"); }
 
 // unrestStage(anger): the highest stage reached, or -1.
@@ -1137,26 +1147,7 @@ V Simulation::RegionalView(const V& S, const std::string& RegionId, double BaseP
 // election(s, basePoll)
 V Simulation::Election(const V& S, double BasePoll) const
 {
-	double Points = 0;
-	V Regions = V::Array();
-	for (const V& Def : X("regions").Items())
-	{
-		const V View = RegionalView(S, Def.Get("id").AsString(), BasePoll);
-		const bool bWon = View.Get("approval").AsNumber() >= 50;
-		if (bWon) Points = Points + View.Get("points").AsNumber();
-		V Row = V::Object();
-		Row.Set("id", View.Get("id"));
-		Row.Set("name", View.Get("name"));
-		Row.Set("approval", View.Get("approval"));
-		Row.Set("points", View.Get("points"));
-		Row.Set("won", Bool(bWon));
-		Regions.Push(std::move(Row));
-	}
-	V Result = V::Object();
-	Result.Set("points", Num(Points));
-	Result.Set("regions", std::move(Regions));
-	Result.Set("won", Bool(Points > 50));
-	return Result;
+ (void)BasePoll;return Electoral::Election(VoterAtlas(S));
 }
 
 // regionalVisit(s, id)
@@ -2173,10 +2164,10 @@ V Simulation::Advance(V& S) const
 		const V Regional = Election(S, CurrentPoll);
 		V Midterm = V::Object();
 		Midterm.Set("vote", Num(CurrentPoll));
-		Midterm.Set("majority", Regional.Get("won"));
+		Midterm.Set("majority", Bool(CurrentPoll >= 50));
 		Midterm.Set("regional", Regional);
 		S.Set("midterm", Midterm);
-		S["executive"].Set("mandate", Num(Regional.Get("won").AsBool() ? 5 : -5));
+		S["executive"].Set("mandate", Num(CurrentPoll >= 50 ? 5 : -5));
 		if (!Midterm.Get("majority").Truthy()) S.Set("capital", Num(Bound(S.Get("capital").AsNumber() - 3, 0, 20)));
 		V ElectionReport = V::Object();
 		ElectionReport.Set("type", Str("midterm"));

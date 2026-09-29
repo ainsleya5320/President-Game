@@ -7,6 +7,6 @@ function dataScript(dir=path.join(__dirname,'data')){
 function loadSimulation(data){
  const read=f=>fs.readFileSync(path.join(__dirname,f),'utf8');
  const bundle=data?`const FourYearsData=${JSON.stringify(data)};`:dataScript();
- return vm.runInNewContext([bundle,read('executive-systems.js'),read('simulation-core.js'),'FourYearsSim'].join('\n'));
+ return vm.runInNewContext([bundle,read('electoral-model.js'),read('executive-systems.js'),read('simulation-core.js'),'FourYearsSim'].join('\n'));
 }
 module.exports={dataScript,loadSimulation};

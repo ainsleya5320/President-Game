@@ -9,7 +9,7 @@ assert.ok(view.overlap>1.5,'voters belong to several groups');
 for(const g of view.groups)assert.ok(Math.abs(g.share-Sim.GROUPS.find(x=>x.id===g.id).share)<=4,`${g.id} starts near its data share`);
 assert.ok(view.groups.reduce((n,g)=>n+g.share,0)>100);
 assert.ok(view.poll>=45&&view.poll<=58,'a new term starts competitive');
-const polls=new Set([1,2,3,4,5,6].map(seed=>Sim.poll(Sim.fresh(seed))));assert.ok(polls.size>1,'each term surveys a different country');
+assert.equal(Sim.poll(Sim.fresh(1)),Sim.poll(Sim.fresh(2)),'measured county demographics do not reroll between presidencies');
 
 // Membership follows conditions: failing public health creates more health-care voters.
 const sick=Sim.fresh(11);sick.metrics.health=25;

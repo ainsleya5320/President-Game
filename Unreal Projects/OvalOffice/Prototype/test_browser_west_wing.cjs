@@ -8,7 +8,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   browser=await chromium.launch({headless:true,executablePath:'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
   const page=await browser.newPage({viewport:{width:1500,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(`http://127.0.0.1:${server.address().port}/`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>!!window.wingTest,null,{timeout:90000});
-  await page.locator('#begin').click();await page.locator('#westwing').click();await page.waitForFunction(()=>window.wingTest.snapshot().location==='westwing',null,{timeout:90000});
+  await page.locator('#begin').click();await page.locator('[data-party=democrat]').click();await page.locator('#westwing').click();await page.waitForFunction(()=>window.wingTest.snapshot().location==='westwing',null,{timeout:90000});
   assert.equal(await page.locator('#wing-room option').count(),8);assert.ok((await page.evaluate(()=>wingTest.snapshot())).meshes>20);
   const quarter=(await page.evaluate(()=>wingTest.snapshot())).quarter;
   const out=path.join(__dirname,'../Saved/BrowserPrototype');fs.mkdirSync(out,{recursive:true});

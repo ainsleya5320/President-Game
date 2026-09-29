@@ -59,6 +59,7 @@ public:
 	const JsonValue* CurrentEvent(const JsonValue& S) const;
 	const JsonValue* Situation(const std::string& Name) const;
 	JsonValue Electorate(const JsonValue& S) const; // {poll, overlap, groups}
+	const JsonValue& VoterAtlas(const JsonValue& S) const;
 	double Poll(const JsonValue& S) const;
 	JsonValue Groups(const JsonValue& S) const;
 	JsonValue Unrest(const JsonValue& S) const;
@@ -118,5 +119,7 @@ private:
 	JsonValue PolicyList; // data/policies.json with each policy's implementation lag filled in.
 	bool bLoaded = false;
 	mutable std::map<unsigned int, std::unique_ptr<FPopulation>> Populations;
+	mutable std::string ElectoralCacheKey;
+	mutable JsonValue ElectoralCache;
 };
 } // namespace FourYears

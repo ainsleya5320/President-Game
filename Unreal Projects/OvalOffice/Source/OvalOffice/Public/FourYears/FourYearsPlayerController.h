@@ -7,6 +7,7 @@
 class SFourYearsScreen;
 class SFourYearsIntro;
 class SFourYearsDiplomacy;
+class SFourYearsElectorate;
 class STextBlock;
 class SWidget;
 
@@ -36,6 +37,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Four Years|Diplomacy")
 	void OpenWorldMap();
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Electorate")
+	void OpenVoterAtlas();
 
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void Interact();
@@ -47,7 +50,7 @@ public:
 	void CloseScreen();
 
 	UFUNCTION(BlueprintPure, Category = "Four Years")
-	bool IsScreenOpen() const { return Screen.IsValid() || Intro.IsValid() || WorldMap.IsValid(); }
+	bool IsScreenOpen() const { return Screen.IsValid() || Intro.IsValid() || WorldMap.IsValid() || VoterAtlas.IsValid(); }
 
 	UFUNCTION(BlueprintCallable, Category = "Four Years|Introduction")
 	void OpenInauguration();
@@ -64,11 +67,14 @@ public:
 private:
 	void OpenScreen(uint8 Page);
 	void ShowWorldMap();
+	void ShowVoterAtlas();
 
 	TSharedPtr<SWidget> Prompt;
 	TSharedPtr<STextBlock> PromptText;
 	TSharedPtr<SFourYearsScreen> Screen;
 	TSharedPtr<SFourYearsIntro> Intro;
 	TSharedPtr<SFourYearsDiplomacy> WorldMap;
+	TSharedPtr<SFourYearsElectorate> VoterAtlas;
 	bool bWorldMapRequested = false;
+	bool bVoterAtlasRequested = false;
 };

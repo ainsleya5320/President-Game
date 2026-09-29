@@ -5,6 +5,7 @@ const Sim=loadSimulation(),E=Sim.executive,clone=x=>JSON.parse(JSON.stringify(x)
 function bot(seed){let a=seed>>>0;return ()=>{a=(a+0x6d2b79f5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296;};}
 const pick=(r,list)=>list[Math.floor(r()*list.length)];
 const ACTIONS={
+ chooseParty:(s,a)=>Sim.chooseParty(s,a[0]),organize:(s,a)=>Sim.organize(s,a[0]),
  changePolicy:(s,a)=>Sim.changePolicy(s,a[0],a[1]),meeting:(s,a)=>Sim.meeting(s,a[0],a[1]),campaignTrip:(s,a)=>Sim.campaignTrip(s,a[0],a[1],a[2]),
  platform:(s,a)=>E.platform(s,a[0],a[1]),propose:(s,a)=>E.propose(s,a[0]),amend:(s,a)=>E.amend(s,a[0]),lobby:(s,a)=>E.lobby(s,a[0]),vote:s=>E.vote(s),
  regionalVisit:(s,a)=>E.regionalVisit(s,a[0]),teamAction:(s,a)=>E.teamAction(s,a[0],a[1]),respondCrisis:(s,a)=>E.respondCrisis(s,a[0],a[1]),
@@ -14,6 +15,8 @@ const ACTIONS={
 // Derived values the UI reads; they are compared as well as the saved state.
 function derived(s){const e=Sim.electorate(s),ev=Sim.currentEvent(s);return {poll:e.poll,overlap:e.overlap,groups:e.groups.map(g=>({id:g.id,approval:g.approval,turnout:g.turnout,share:g.share,support:g.support,anger:g.anger,stage:g.stage})),budget:Sim.budget(s),election:E.election(s,e.poll),event:ev?ev.id:null,slots:Sim.availableSlots(s),legacy:clone(E.legacy(s))};}
 function botAction(r,s){
+ if(!s.electoral?.party)return ['chooseParty',[s.seed%2?'democrat':'republican']];
+ if(r()<.12)return ['organize',[pick(r,['17031','06075','12086','bad'])]];
  // Mostly play sensibly so every success path is exercised; sometimes try something invalid on purpose.
  const live=s.executive.encounters.find(e=>e.quarter===s.quarter&&!e.done),crisis=s.executive.crises.find(c=>c.stage!=='resolved'&&!c.response);
  if(live&&r()<.8)return ['answerEncounter',[pick(r,E.encounterOptions(s,live).choices.map(c=>c.id))]];
