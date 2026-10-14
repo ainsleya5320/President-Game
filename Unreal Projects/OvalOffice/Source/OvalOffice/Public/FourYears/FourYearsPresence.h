@@ -23,6 +23,7 @@ private:
  UPROPERTY() TObjectPtr<USceneComponent> Body;
  float Time=0;
  float BaseYaw=0;
+ bool bDetailedModel=false;
 };
 
 // Lightweight, authored scene additions. Existing imported levels remain untouched.

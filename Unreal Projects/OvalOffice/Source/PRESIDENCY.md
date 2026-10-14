@@ -17,7 +17,7 @@ Four acts: The promise, The reckoning, The work, The legacy. Sixteen original ch
 
 WASD walks, mouse looks, E interacts with nearby staff or points of interest. J opens the journal; P policies; C Congress; M world map; V voters. Escape closes a screen. Time advances only through the quarterly briefing.
 
-Places connects the existing Oval Office, Cabinet Room and Air Force One with a new residence sitting room and limo cabin. Travel consumes neither time nor resources. The limo is a stationary secure cabin. The new rooms are runtime geometry; NPCs are simple stylized, non-voiced characters with idle motion and head tracking. The old browser West Wing remains intact but is not a new native map in this expansion.
+Places connects the existing Oval Office, Cabinet Room and Air Force One with a new residence sitting room and limo cabin. Travel consumes neither time nor resources. The limo is a stationary secure cabin. The new rooms are runtime geometry; NPCs use eight textured human models with fitted suits, distinct faces and hair, seated poses, restrained idle motion and head tracking. They remain non-voiced, stationary characters. The old browser West Wing remains intact but is not a new native map in this expansion.
 
 ## Costs and consequences
 

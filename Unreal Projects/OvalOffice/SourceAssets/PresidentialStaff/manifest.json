@@ -1,0 +1,703 @@
+{
+  "materials": [
+    {
+      "id": "ST_Skin_asian_female",
+      "texture": "middleage_lightskinned_female_diffuse2.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.58,
+      "masked": false,
+      "skin": true
+    },
+    {
+      "id": "ST_Chen_suit",
+      "texture": "male_elegantsuit01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.24,
+        0.32,
+        0.44
+      ],
+      "roughness": 0.84,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_shoes03",
+      "texture": "shoes03_diffuse.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.42,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_Chen_hair",
+      "texture": "ponytail01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.32,
+        0.25,
+        0.21
+      ],
+      "roughness": 0.67,
+      "masked": true,
+      "skin": false
+    },
+    {
+      "id": "ST_low-poly",
+      "texture": "brown_eye.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.3,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_eyebrow003",
+      "texture": "eyebrow003.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.42,
+      "masked": true,
+      "skin": false
+    },
+    {
+      "id": "ST_Studio",
+      "texture": null,
+      "normal": null,
+      "color": [
+        0.08,
+        0.105,
+        0.13
+      ],
+      "roughness": 0.8,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_Skin_caucasian_male",
+      "texture": "middleage_lightskinned_male_diffuse.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.58,
+      "masked": false,
+      "skin": true
+    },
+    {
+      "id": "ST_Brooks_suit",
+      "texture": "male_elegantsuit01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.42,
+        0.44,
+        0.48
+      ],
+      "roughness": 0.84,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_Brooks_hair",
+      "texture": "short02_diffuse.png",
+      "normal": "short02_normal.png",
+      "color": [
+        0.53,
+        0.47,
+        0.39
+      ],
+      "roughness": 0.67,
+      "masked": true,
+      "skin": false
+    },
+    {
+      "id": "ST_eyebrow001",
+      "texture": "eyebrow001.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.42,
+      "masked": true,
+      "skin": false
+    },
+    {
+      "id": "ST_Skin_african_male",
+      "texture": "middleage_darkskinned_male_diffuse.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.58,
+      "masked": false,
+      "skin": true
+    },
+    {
+      "id": "ST_Morgan_suit",
+      "texture": "male_elegantsuit01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.2,
+        0.23,
+        0.29
+      ],
+      "roughness": 0.84,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_Morgan_hair",
+      "texture": "short01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.25,
+        0.22,
+        0.2
+      ],
+      "roughness": 0.67,
+      "masked": true,
+      "skin": false
+    },
+    {
+      "id": "ST_Skin_caucasian_female",
+      "texture": "middleage_lightskinned_female_diffuse.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.58,
+      "masked": false,
+      "skin": true
+    },
+    {
+      "id": "ST_Ruiz_suit",
+      "texture": "male_elegantsuit01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.44,
+        0.23,
+        0.25
+      ],
+      "roughness": 0.84,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_Ruiz_hair",
+      "texture": "braid01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.5,
+        0.31,
+        0.18
+      ],
+      "roughness": 0.67,
+      "masked": true,
+      "skin": false
+    },
+    {
+      "id": "ST_Skin_african_female",
+      "texture": "middleage_darkskinned_female_diffuse.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.58,
+      "masked": false,
+      "skin": true
+    },
+    {
+      "id": "ST_Bell_suit",
+      "texture": "male_elegantsuit01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.2,
+        0.36,
+        0.36
+      ],
+      "roughness": 0.84,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_Bell_hair",
+      "texture": "afro_diffuse.png",
+      "normal": null,
+      "color": [
+        0.28,
+        0.22,
+        0.18
+      ],
+      "roughness": 0.67,
+      "masked": true,
+      "skin": false
+    },
+    {
+      "id": "ST_Mercer_suit",
+      "texture": "male_elegantsuit01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.43,
+        0.39,
+        0.32
+      ],
+      "roughness": 0.84,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_Mercer_hair",
+      "texture": "short02_diffuse.png",
+      "normal": "short02_normal.png",
+      "color": [
+        0.8,
+        0.77,
+        0.71
+      ],
+      "roughness": 0.67,
+      "masked": true,
+      "skin": false
+    },
+    {
+      "id": "ST_Ortega_suit",
+      "texture": "male_elegantsuit01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.23,
+        0.29,
+        0.36
+      ],
+      "roughness": 0.84,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_Ortega_hair",
+      "texture": "short02_diffuse.png",
+      "normal": "short02_normal.png",
+      "color": [
+        0.36,
+        0.32,
+        0.28
+      ],
+      "roughness": 0.67,
+      "masked": true,
+      "skin": false
+    },
+    {
+      "id": "ST_Skin_asian_male",
+      "texture": "middleage_lightskinned_male_diffuse2.png",
+      "normal": null,
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.58,
+      "masked": false,
+      "skin": true
+    },
+    {
+      "id": "ST_Ellis_suit",
+      "texture": "male_elegantsuit01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.37,
+        0.32,
+        0.27
+      ],
+      "roughness": 0.84,
+      "masked": false,
+      "skin": false
+    },
+    {
+      "id": "ST_Ellis_hair",
+      "texture": "short01_diffuse.png",
+      "normal": null,
+      "color": [
+        0.3,
+        0.24,
+        0.2
+      ],
+      "roughness": 0.67,
+      "masked": true,
+      "skin": false
+    }
+  ],
+  "groups": [
+    {
+      "name": "Chen_Head",
+      "materials": {
+        "ST_Chen_hair": "/Game/PresidentialStaff/Materials/ST_Chen_hair",
+        "ST_low-poly": "/Game/PresidentialStaff/Materials/ST_low-poly",
+        "ST_eyebrow003": "/Game/PresidentialStaff/Materials/ST_eyebrow003",
+        "ST_Skin_asian_female": "/Game/PresidentialStaff/Materials/ST_Skin_asian_female"
+      },
+      "triangles": 14324
+    },
+    {
+      "name": "Chen_Standing",
+      "materials": {
+        "ST_Chen_suit": "/Game/PresidentialStaff/Materials/ST_Chen_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_asian_female": "/Game/PresidentialStaff/Materials/ST_Skin_asian_female"
+      },
+      "triangles": 21687
+    },
+    {
+      "name": "Chen_Seated",
+      "materials": {
+        "ST_Chen_suit": "/Game/PresidentialStaff/Materials/ST_Chen_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_asian_female": "/Game/PresidentialStaff/Materials/ST_Skin_asian_female"
+      },
+      "triangles": 21688
+    },
+    {
+      "name": "Brooks_Head",
+      "materials": {
+        "ST_Brooks_hair": "/Game/PresidentialStaff/Materials/ST_Brooks_hair",
+        "ST_low-poly": "/Game/PresidentialStaff/Materials/ST_low-poly",
+        "ST_eyebrow001": "/Game/PresidentialStaff/Materials/ST_eyebrow001",
+        "ST_Skin_caucasian_male": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_male"
+      },
+      "triangles": 12310
+    },
+    {
+      "name": "Brooks_Standing",
+      "materials": {
+        "ST_Brooks_suit": "/Game/PresidentialStaff/Materials/ST_Brooks_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_caucasian_male": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_male"
+      },
+      "triangles": 21721
+    },
+    {
+      "name": "Brooks_Seated",
+      "materials": {
+        "ST_Brooks_suit": "/Game/PresidentialStaff/Materials/ST_Brooks_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_caucasian_male": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_male"
+      },
+      "triangles": 21721
+    },
+    {
+      "name": "Morgan_Head",
+      "materials": {
+        "ST_Morgan_hair": "/Game/PresidentialStaff/Materials/ST_Morgan_hair",
+        "ST_low-poly": "/Game/PresidentialStaff/Materials/ST_low-poly",
+        "ST_eyebrow001": "/Game/PresidentialStaff/Materials/ST_eyebrow001",
+        "ST_Skin_african_male": "/Game/PresidentialStaff/Materials/ST_Skin_african_male"
+      },
+      "triangles": 12648
+    },
+    {
+      "name": "Morgan_Standing",
+      "materials": {
+        "ST_Morgan_suit": "/Game/PresidentialStaff/Materials/ST_Morgan_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_african_male": "/Game/PresidentialStaff/Materials/ST_Skin_african_male"
+      },
+      "triangles": 21718
+    },
+    {
+      "name": "Morgan_Seated",
+      "materials": {
+        "ST_Morgan_suit": "/Game/PresidentialStaff/Materials/ST_Morgan_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_african_male": "/Game/PresidentialStaff/Materials/ST_Skin_african_male"
+      },
+      "triangles": 21717
+    },
+    {
+      "name": "Ruiz_Head",
+      "materials": {
+        "ST_Ruiz_hair": "/Game/PresidentialStaff/Materials/ST_Ruiz_hair",
+        "ST_low-poly": "/Game/PresidentialStaff/Materials/ST_low-poly",
+        "ST_eyebrow003": "/Game/PresidentialStaff/Materials/ST_eyebrow003",
+        "ST_Skin_caucasian_female": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_female"
+      },
+      "triangles": 14490
+    },
+    {
+      "name": "Ruiz_Standing",
+      "materials": {
+        "ST_Ruiz_suit": "/Game/PresidentialStaff/Materials/ST_Ruiz_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_caucasian_female": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_female"
+      },
+      "triangles": 21687
+    },
+    {
+      "name": "Ruiz_Seated",
+      "materials": {
+        "ST_Ruiz_suit": "/Game/PresidentialStaff/Materials/ST_Ruiz_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_caucasian_female": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_female"
+      },
+      "triangles": 21687
+    },
+    {
+      "name": "Bell_Head",
+      "materials": {
+        "ST_Bell_hair": "/Game/PresidentialStaff/Materials/ST_Bell_hair",
+        "ST_low-poly": "/Game/PresidentialStaff/Materials/ST_low-poly",
+        "ST_eyebrow003": "/Game/PresidentialStaff/Materials/ST_eyebrow003",
+        "ST_Skin_african_female": "/Game/PresidentialStaff/Materials/ST_Skin_african_female"
+      },
+      "triangles": 11164
+    },
+    {
+      "name": "Bell_Standing",
+      "materials": {
+        "ST_Bell_suit": "/Game/PresidentialStaff/Materials/ST_Bell_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_african_female": "/Game/PresidentialStaff/Materials/ST_Skin_african_female"
+      },
+      "triangles": 21688
+    },
+    {
+      "name": "Bell_Seated",
+      "materials": {
+        "ST_Bell_suit": "/Game/PresidentialStaff/Materials/ST_Bell_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_african_female": "/Game/PresidentialStaff/Materials/ST_Skin_african_female"
+      },
+      "triangles": 21688
+    },
+    {
+      "name": "Mercer_Head",
+      "materials": {
+        "ST_Mercer_hair": "/Game/PresidentialStaff/Materials/ST_Mercer_hair",
+        "ST_low-poly": "/Game/PresidentialStaff/Materials/ST_low-poly",
+        "ST_eyebrow003": "/Game/PresidentialStaff/Materials/ST_eyebrow003",
+        "ST_Skin_caucasian_female": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_female"
+      },
+      "triangles": 12316
+    },
+    {
+      "name": "Mercer_Standing",
+      "materials": {
+        "ST_Mercer_suit": "/Game/PresidentialStaff/Materials/ST_Mercer_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_caucasian_female": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_female"
+      },
+      "triangles": 21687
+    },
+    {
+      "name": "Mercer_Seated",
+      "materials": {
+        "ST_Mercer_suit": "/Game/PresidentialStaff/Materials/ST_Mercer_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_caucasian_female": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_female"
+      },
+      "triangles": 21688
+    },
+    {
+      "name": "Ortega_Head",
+      "materials": {
+        "ST_Ortega_hair": "/Game/PresidentialStaff/Materials/ST_Ortega_hair",
+        "ST_low-poly": "/Game/PresidentialStaff/Materials/ST_low-poly",
+        "ST_eyebrow001": "/Game/PresidentialStaff/Materials/ST_eyebrow001",
+        "ST_Skin_caucasian_male": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_male"
+      },
+      "triangles": 12310
+    },
+    {
+      "name": "Ortega_Standing",
+      "materials": {
+        "ST_Ortega_suit": "/Game/PresidentialStaff/Materials/ST_Ortega_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_caucasian_male": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_male"
+      },
+      "triangles": 21726
+    },
+    {
+      "name": "Ortega_Seated",
+      "materials": {
+        "ST_Ortega_suit": "/Game/PresidentialStaff/Materials/ST_Ortega_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_caucasian_male": "/Game/PresidentialStaff/Materials/ST_Skin_caucasian_male"
+      },
+      "triangles": 21726
+    },
+    {
+      "name": "Ellis_Head",
+      "materials": {
+        "ST_Ellis_hair": "/Game/PresidentialStaff/Materials/ST_Ellis_hair",
+        "ST_low-poly": "/Game/PresidentialStaff/Materials/ST_low-poly",
+        "ST_eyebrow001": "/Game/PresidentialStaff/Materials/ST_eyebrow001",
+        "ST_Skin_asian_male": "/Game/PresidentialStaff/Materials/ST_Skin_asian_male"
+      },
+      "triangles": 12652
+    },
+    {
+      "name": "Ellis_Standing",
+      "materials": {
+        "ST_Ellis_suit": "/Game/PresidentialStaff/Materials/ST_Ellis_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_asian_male": "/Game/PresidentialStaff/Materials/ST_Skin_asian_male"
+      },
+      "triangles": 21706
+    },
+    {
+      "name": "Ellis_Seated",
+      "materials": {
+        "ST_Ellis_suit": "/Game/PresidentialStaff/Materials/ST_Ellis_suit",
+        "ST_shoes03": "/Game/PresidentialStaff/Materials/ST_shoes03",
+        "ST_Skin_asian_male": "/Game/PresidentialStaff/Materials/ST_Skin_asian_male"
+      },
+      "triangles": 21705
+    }
+  ],
+  "characters": [
+    {
+      "id": "Chen",
+      "name": "Maya Chen",
+      "height": 167.0,
+      "headStanding": [
+        1.1023033410310745,
+        -3.2573929664714285e-09,
+        141.45087003707886
+      ],
+      "headSeated": [
+        1.1023033410310745,
+        -3.2573929664714285e-09,
+        108.06196216867178
+      ]
+    },
+    {
+      "id": "Brooks",
+      "name": "Daniel Brooks",
+      "height": 181.0,
+      "headStanding": [
+        1.3286278583109379,
+        0.0,
+        156.03660345077515
+      ],
+      "headSeated": [
+        1.3286278583109379,
+        0.0,
+        112.07219391237027
+      ]
+    },
+    {
+      "id": "Morgan",
+      "name": "Agent Morgan",
+      "height": 185.0,
+      "headStanding": [
+        1.485239528119564,
+        0.0,
+        159.43701267242432
+      ],
+      "headSeated": [
+        1.485239528119564,
+        0.0,
+        113.49138384823748
+      ]
+    },
+    {
+      "id": "Ruiz",
+      "name": "Elena Ruiz",
+      "height": 170.0,
+      "headStanding": [
+        1.1182283982634544,
+        0.0,
+        143.74825954437256
+      ],
+      "headSeated": [
+        1.1182283982634544,
+        0.0,
+        109.37564663237266
+      ]
+    },
+    {
+      "id": "Bell",
+      "name": "Samira Bell",
+      "height": 172.0,
+      "headStanding": [
+        1.503829937428236,
+        0.0,
+        145.44059038162231
+      ],
+      "headSeated": [
+        1.503829937428236,
+        0.0,
+        109.77408104041251
+      ]
+    },
+    {
+      "id": "Mercer",
+      "name": "Evelyn Mercer",
+      "height": 166.0,
+      "headStanding": [
+        3.275500610470772,
+        0.0,
+        140.20172357559204
+      ],
+      "headSeated": [
+        3.275500610470772,
+        0.0,
+        107.61345798048944
+      ]
+    },
+    {
+      "id": "Ortega",
+      "name": "Luis Ortega",
+      "height": 177.0,
+      "headStanding": [
+        1.2147217988967896,
+        0.0,
+        152.66709327697754
+      ],
+      "headSeated": [
+        1.2147217988967896,
+        0.0,
+        110.59287477228254
+      ]
+    },
+    {
+      "id": "Ellis",
+      "name": "Jordan Ellis",
+      "height": 176.0,
+      "headStanding": [
+        0.39749937132000923,
+        0.0,
+        149.79708194732666
+      ],
+      "headSeated": [
+        0.39749937132000923,
+        0.0,
+        111.01593886837584
+      ]
+    }
+  ]
+}

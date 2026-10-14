@@ -29,6 +29,23 @@ void Art(AActor* O,FVector P,int Theme){Box(O,P,FVector(140,6,100),Gold);Box(O,P
 AFourYearsStaff::AFourYearsStaff(){PrimaryActorTick.bCanEverTick=true;RootComponent=CreateDefaultSubobject<USceneComponent>(TEXT("Root"));Body=CreateDefaultSubobject<USceneComponent>(TEXT("Body"));Body->SetupAttachment(RootComponent);Head=CreateDefaultSubobject<USceneComponent>(TEXT("Head"));Head->SetupAttachment(Body);}
 void AFourYearsStaff::Build(const FString& Name,const FString& Action,int Style,bool Seated){
  PersonName=Name;Interaction=Action;BaseYaw=GetActorRotation().Yaw;Time=Style;
+ // Authored, UV-mapped Blender models replace the original primitive people.
+ // Character identity is stable across maps, independent of their seat or dialogue action.
+ struct FStaffModel {const TCHAR* Id;FVector StandingHead;FVector SeatedHead;};
+ static const FStaffModel Models[]={
+#include "PresidentialStaffCatalog.inl"
+ };
+ const FStaffModel* Model=&Models[0];
+ for(const auto& Candidate:Models){if(Name.Contains(Candidate.Id)){Model=&Candidate;break;}}
+ const FString BodyPath=FString::Printf(TEXT("/Game/PresidentialStaff/Meshes/SM_%s_%s.SM_%s_%s"),Model->Id,Seated?TEXT("Seated"):TEXT("Standing"),Model->Id,Seated?TEXT("Seated"):TEXT("Standing"));
+ const FString HeadPath=FString::Printf(TEXT("/Game/PresidentialStaff/Meshes/SM_%s_Head.SM_%s_Head"),Model->Id,Model->Id);
+ auto* BodyMesh=LoadObject<UStaticMesh>(nullptr,*BodyPath);auto* HeadMesh=LoadObject<UStaticMesh>(nullptr,*HeadPath);
+ if(BodyMesh&&HeadMesh){
+  auto Attach=[this](UStaticMesh* Mesh,USceneComponent* Parent){auto* C=NewObject<UStaticMeshComponent>(this);AddInstanceComponent(C);C->SetupAttachment(Parent);C->SetStaticMesh(Mesh);C->SetCollisionEnabled(ECollisionEnabled::NoCollision);C->SetMobility(EComponentMobility::Movable);C->SetCastShadow(true);C->RegisterComponent();};
+  Body->SetRelativeLocation(FVector::ZeroVector);Head->SetRelativeLocation(Seated?Model->SeatedHead:Model->StandingHead);
+  Attach(BodyMesh,Body);Attach(HeadMesh,Head);bDetailedModel=true;return;
+ }
+ UE_LOG(LogTemp,Warning,TEXT("Presidential staff assets missing for %s; using emergency placeholder"),*Name);
  const FLinearColor Skins[]={FLinearColor(.56f,.34f,.21f),FLinearColor(.83f,.61f,.43f),FLinearColor(.27f,.13f,.075f),FLinearColor(.66f,.44f,.28f)};
  const FLinearColor Skin=Skins[Style%4],Suit=Style%3==0?Navy:Style%3==1?FLinearColor(.13f,.14f,.16f):FLinearColor(.18f,.10f,.07f),Hair=Style%4==1?FLinearColor(.22f,.14f,.07f):FLinearColor(.025f,.018f,.015f);
  const float Hip=Seated?53:89;Body->SetRelativeLocation(FVector(0,0,Hip));
@@ -50,7 +67,18 @@ void AFourYearsStaff::Build(const FString& Name,const FString& Action,int Style,
  if(Style==0||Style==3){Shape(this,Head,TEXT("Sphere"),FVector(-8,0,-4),FVector(18,29,31),Hair);}
  Shape(this,Body,TEXT("Cube"),FVector(19,-14,43),FVector(2,5,3),Gold);
 }
-void AFourYearsStaff::Tick(float Dt){Super::Tick(Dt);Time+=Dt;Body->SetRelativeRotation(FRotator(0,0,FMath::Sin(Time*.8f)*.6f));auto* Pawn=UGameplayStatics::GetPlayerPawn(this,0);if(!Pawn)return;const FVector Delta=Pawn->GetActorLocation()-GetActorLocation();const float Want=Delta.Size2D()<320?FMath::Clamp(FRotator::NormalizeAxis(Delta.Rotation().Yaw-BaseYaw),-45.f,45.f):FMath::Sin(Time*.35f)*6;Head->SetRelativeRotation(FMath::RInterpTo(Head->GetRelativeRotation(),FRotator(0,Want,0),Dt,2));}
+void AFourYearsStaff::Tick(float Dt){
+ Super::Tick(Dt);Time+=Dt;
+ // Restrained breathing and attention shifts; no bobble-head or full-body rocking.
+ Body->SetRelativeRotation(FRotator(0,0,FMath::Sin(Time*.85f)*(bDetailedModel?.10f:.6f)));
+ auto* Pawn=UGameplayStatics::GetPlayerPawn(this,0);if(!Pawn)return;
+ const FVector Delta=Pawn->GetActorLocation()-GetActorLocation();
+ const bool Nearby=Delta.Size2D()<320;const float Limit=bDetailedModel?27.f:45.f;
+ const float Want=Nearby?FMath::Clamp(FRotator::NormalizeAxis(Delta.Rotation().Yaw-BaseYaw),-Limit,Limit):FMath::Sin(Time*.28f)*3.f;
+ const FVector EyeDelta=Pawn->GetActorLocation()-(Head->GetComponentLocation()+FVector(0,0,14));
+ const float Pitch=Nearby?FMath::Clamp(EyeDelta.Rotation().Pitch,-5.f,5.f):FMath::Sin(Time*.43f)*.7f;
+ Head->SetRelativeRotation(FMath::RInterpTo(Head->GetRelativeRotation(),FRotator(Pitch,Want,0),Dt,1.8f));
+}
 AFourYearsPresence::AFourYearsPresence(){RootComponent=CreateDefaultSubobject<USceneComponent>(TEXT("Root"));}
 AFourYearsStaff* AFourYearsPresence::Person(const FString& Name,const FString& Action,const FString& Place,FVector P,float Yaw,int Style,bool Seated){auto* A=GetWorld()->SpawnActor<AFourYearsStaff>(P,FRotator(0,Yaw,0));A->Place=Place;A->Build(Name,Action,Style,Seated);Staff.Add(A);return A;}
 void AFourYearsPresence::Build(){
