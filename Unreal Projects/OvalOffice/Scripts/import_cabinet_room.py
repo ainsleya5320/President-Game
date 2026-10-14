@@ -76,8 +76,9 @@ try:
  for actor in list(a.get_all_level_actors()):
   if actor.get_actor_label().startswith('CR_'):a.destroy_actor(actor)
  for name,mesh in meshes.items():
+  if name=='Rose_Garden':continue # photographic panorama replaces the old blocky garden
   o=spawn(u.StaticMeshActor,'CR_'+name,(0,0,0));o.static_mesh_component.set_static_mesh(mesh);o.set_actor_enable_collision(False)
- # Panorama fills beyond the modelled rose beds and trees.
+ # Photographic environment, shared with the Oval Office; no low-poly garden in front.
  env=spawn(u.StaticMeshActor,'CR_Garden panorama',(0,0,0));env.static_mesh_component.set_static_mesh(u.load_asset('/Engine/BasicShapes/Sphere'));env.static_mesh_component.set_material(0,u.load_asset('/Game/OvalOffice/Materials/M_GardenPanorama'));env.static_mesh_component.set_cast_shadow(False);env.set_actor_enable_collision(False);env.set_actor_scale3d(u.Vector(180,180,180))
  sky=spawn(u.SkyLight,'CR_Daylight ambient',(0,0,700));sc=sky.get_component_by_class(u.SkyLightComponent);sc.set_mobility(u.ComponentMobility.MOVABLE);sc.set_intensity(.9);sc.set_editor_property('source_type',u.SkyLightSourceType.SLS_SPECIFIED_CUBEMAP);sc.set_editor_property('cubemap',u.load_asset('/Game/OvalOffice/Textures/T_garden'));sc.set_editor_property('lower_hemisphere_is_black',False)
  sun=spawn(u.DirectionalLight,'CR_Afternoon sun',(-300,900,1100),look((-300,900,1100),(100,0,0)));sun.get_component_by_class(u.DirectionalLightComponent).set_mobility(u.ComponentMobility.MOVABLE);sun.get_component_by_class(u.DirectionalLightComponent).set_intensity(2.0)
@@ -98,6 +99,7 @@ try:
  editor.get_editor_world().get_world_settings().set_editor_property('default_game_mode',u.FourYearsGameMode)
  editor.set_level_viewport_camera_info(u.Vector(*hero),look(hero,target));levels.save_current_level();assets.save_directory(BASE,False,True)
  note('Cabinet Room saved')
+ exec(compile((P/'Scripts/refine_cabinet_garden.py').read_text(),str(P/'Scripts/refine_cabinet_garden.py'),'exec'),{'__name__':'__main__'})
  # Add a labelled, reversible portal at the existing Oval Office east door.
  levels.load_level('/Game/OvalOffice/Maps/OvalOffice')
  for actor in list(a.get_all_level_actors()):

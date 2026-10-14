@@ -19,8 +19,8 @@ CAST=[
  dict(id='Chen',name='Maya Chen',sex='female',ancestry='asian',age=.25,height=1.67,hair='ponytail01',suit=(.24,.32,.44),hair_tint=(.32,.25,.21)),
  dict(id='Brooks',name='Daniel Brooks',sex='male',ancestry='caucasian',age=.40,height=1.81,hair='short02',suit=(.42,.44,.48),hair_tint=(.53,.47,.39)),
  dict(id='Morgan',name='Agent Morgan',sex='male',ancestry='african',age=.20,height=1.85,hair='short01',suit=(.20,.23,.29),hair_tint=(.25,.22,.20)),
- dict(id='Ruiz',name='Elena Ruiz',sex='female',ancestry='caucasian',age=.24,height=1.70,hair='braid01',suit=(.44,.23,.25),hair_tint=(.50,.31,.18)),
- dict(id='Bell',name='Samira Bell',sex='female',ancestry='african',age=.32,height=1.72,hair='afro01',suit=(.20,.36,.36),hair_tint=(.28,.22,.18)),
+ dict(id='Ruiz',name='Elena Ruiz',sex='female',ancestry='caucasian',age=.24,height=1.70,hair='braid01',dress=True,suit=(.24,.045,.065),hair_tint=(.50,.31,.18)),
+ dict(id='Bell',name='Samira Bell',sex='female',ancestry='african',age=.32,height=1.72,hair='afro01',dress=True,suit=(.035,.15,.145),hair_tint=(.28,.22,.18)),
  dict(id='Mercer',name='Evelyn Mercer',sex='female',ancestry='caucasian',age=.67,height=1.66,hair='short02',suit=(.43,.39,.32),hair_tint=(.80,.77,.71)),
  dict(id='Ortega',name='Luis Ortega',sex='male',ancestry='caucasian',age=.55,height=1.77,hair='short02',suit=(.23,.29,.36),hair_tint=(.36,.32,.28)),
  dict(id='Ellis',name='Jordan Ellis',sex='male',ancestry='asian',age=.08,height=1.76,hair='short01',suit=(.37,.32,.27),hair_tint=(.30,.24,.20)),
@@ -197,16 +197,41 @@ def build(c):
  skinpath=A/'skins'/('middleage_'+c['ancestry']+'_'+c['sex']);skinfile=next(skinpath.glob('*diffuse*.png'))
  skin=material('ST_Skin_'+c['ancestry']+'_'+c['sex'],skinfile,rough=.58,skin=True)
  r=rig(raw,c['id']+'_Rig');objects=[];deleted=set()
- clothing='male_elegantsuit01' # fitted to each character's own body, including women's pantsuits
+ clothing='female_elegantsuit01' if c.get('dress') else 'male_elegantsuit01'
  assets=[('clothes',clothing,'suit'),('clothes','shoes03','shoe'),('hair',c['hair'],'hair'),('eyes','low-poly','eye'),('eyebrows','eyebrow001' if c['sex']=='male' else 'eyebrow003','brow')]
  for kind,asset,part in assets:
-  path=A/kind/asset;settings,coords,weights,hide=fit(path/(asset+'.mhclo'),raw);deleted.update(hide)
+  path=A/kind/asset;settings,coords,weights,hide=fit(path/(asset+'.mhclo'),raw)
+  if part=='shoe' and c.get('dress'):
+   hide={i for i in hide if (to_blender(raw[i]).z-ground)*scale<.085}
+  deleted.update(hide)
   data=objdata(path/settings['obj_file'][0]);assert len(data['v'])==len(coords),(asset,len(data['v']),len(coords))
+  if part=='suit' and c.get('dress'):
+   # Tuck the original shirt hem into the skirt waist to form a one-piece
+   # collared dress, rather than leaving a jacket-like peplum over the skirt.
+   adjacency={}
+   for face in data['f']:
+    for i in face:adjacency.setdefault(i,set()).update(face)
+   shirt={max(range(len(data['v'])),key=lambda i:data['v'][i].y)};todo=list(shirt)
+   while todo:
+    for i in adjacency[todo.pop()]-shirt:shirt.add(i);todo.append(i)
+   for i in shirt:
+    y=data['v'][i].y
+    if y<1.55:
+     t=max(0,min(1,(1.55-y)/(1.55-.538)))
+     coords[i].y+=.40*t;coords[i].x*=1-.09*t
   tex=next(path.glob('*diffuse.png'),None);nm=next(path.glob('*normal.png'),None)
+  # One continuous fabric colour turns the fitted blouse/skirt construction into
+  # a modest collared shirt dress. Retain the authored tailoring and fold normals.
+  if part=='suit' and c.get('dress'):tex=None
   if part=='eye':tex=A/'eyes/materials/brown_eye.png'
   if part=='brow':tex=path/(asset+'.png')
   mat=material('ST_'+c['id']+'_'+part if part in ['suit','hair'] else 'ST_'+asset,tex,c['suit'] if part=='suit' else c['hair_tint'] if part=='hair' else (1,1,1),rough=.84 if part=='suit' else .67 if part=='hair' else .30 if part=='eye' else .42,masked=part in ['hair','brow'],normal=nm)
-  o=mesh(c['id']+'_'+part,data,[to_blender(v) for v in coords],range(len(data['f'])),mat,weights);o['part']=part
+  if part=='suit' and c.get('dress'):MATERIALS[mat.name]['two_sided']=True
+  faceids=list(range(len(data['f'])))
+  if part=='shoe' and c.get('dress'):
+   faceids=[i for i in faceids if sum((to_blender(coords[v]).z-ground)*scale for v in data['f'][i])/len(data['f'][i])<.10]
+  o=mesh(c['id']+'_'+part,data,[to_blender(v) for v in coords],faceids,mat,weights);o['part']=part
+  if part=='suit' and c.get('dress'):o['skirt_vertex_ids']=[i for i in range(len(coords)) if i not in shirt]
   mod=o.modifiers.new('Human pose','ARMATURE');mod.object=r;objects.append(o)
  # Drop helper geometry and skin hidden by garments. Keep head and hands with UVs intact.
  faces=[i for i in BASE['g']['body'] if not all(v in deleted for v in BASE['f'][i])]
@@ -220,6 +245,26 @@ def build(c):
   for o in objects:
    n=evaluated(o)
    for v in n.data.vertices:v.co=(v.co-Vector((0,0,ground)))*scale
+   if is_seated and 'skirt_vertex_ids' in o:
+    # A continuous cloth envelope spans both thighs; per-leg skin weights are
+    # unsuitable for a skirt and otherwise pull a crease through the cushion.
+    import bmesh
+    drop=(bonepoint(RIG['pelvis']['head'],raw).z-ground)*scale-.54
+    ids=set(o['skirt_vertex_ids']);bm=bmesh.new();bm.from_mesh(n.data);bm.verts.ensure_lookup_table()
+    bmesh.ops.delete(bm,geom=[v for v in bm.verts if v.index in ids],context='VERTS');bm.to_mesh(n.data);bm.free()
+    vv=[];ff=[];rings=13;segments=48
+    profiles=[(.17,.12,0,.79,.015),(.225,.25,-.06,.62,.07),(.215,.29,-.20,.52,.035)]
+    for row in range(rings):
+     t=row/(rings-1)*2;idx=min(int(t),1);mix=t-idx
+     rx,ry,cy,z,arch=[a+(b-a)*mix for a,b in zip(profiles[idx],profiles[idx+1])]
+     for col in range(segments):
+      angle=col*math.tau/segments
+      vv.append((rx*math.cos(angle),cy+ry*math.sin(angle),drop+z-arch*math.sin(angle)+.003*math.sin(angle*8)*math.sin(t*math.pi/2)))
+    for row in range(rings-1):
+     for col in range(segments):
+      a=row*segments+col;b=row*segments+(col+1)%segments;ff.append((a,b,b+segments,a+segments))
+    clothdata=dict(v=vv,uv=[(0,0)],f=ff,fu=[[0]*4 for _ in ff])
+    cloth=mesh(c['id']+'_seated_dress_drape',clothdata,vv,range(len(ff)),o.data.materials[0]);dest.append(cloth)
    if o['part'] in ['hair','eye','brow']:
     if not is_seated:head.append(n)
     else:bpy.data.objects.remove(n,do_unlink=True)
@@ -281,8 +326,16 @@ def render(c,objects):
  scene.render.filepath=str(S/'Renders'/(c['id']+'_Face.png'));bpy.ops.render.render(write_still=True)
 
 chosen=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []
+previous=json.loads((S/'manifest.json').read_text()) if chosen and (S/'manifest.json').exists() else None
 for c in CAST:
  if not chosen or c['id'] in chosen:build(c)
+if previous:
+ # Updating two wardrobes must not drop the other six cast members from imports.
+ fresh={c['id']:c for c in CHARACTERS}
+ CHARACTERS=[fresh.get(c['id'],c) for c in previous['characters']]
+ changed={g['name']:g for g in EXPORTS}
+ EXPORTS=[changed.get(g['name'],g) for g in previous['groups']]
+ MATERIALS={**{m['id']:m for m in previous['materials']},**MATERIALS}
 (S/'manifest.json').write_text(json.dumps(dict(materials=list(MATERIALS.values()),groups=EXPORTS,characters=CHARACTERS),indent=2))
 if not chosen:
  catalog=P/'Source/OvalOffice/Private/FourYears/PresidentialStaffCatalog.inl'

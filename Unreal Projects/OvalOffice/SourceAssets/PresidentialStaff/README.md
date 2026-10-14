@@ -5,6 +5,11 @@ Maya Chen, Daniel Brooks, Agent Morgan, Elena Ruiz, Samira Bell, Evelyn Mercer,
 Luis Ortega and Jordan Ellis. Each has a distinct head shape, stature, skin texture,
 hair and clothing palette. The same identity is used in every room.
 
+Elena Ruiz and Samira Bell wear burgundy and teal collared dresses; Maya Chen
+and Evelyn Mercer retain tailored pantsuits. Dresses adapt the CC0 female formal
+garment with a tucked waist, unified fabric, sock-free shoes and a supported
+seated skirt drape. Wardrobe choices are fixed by character, not randomized.
+
 The Blender sources contain the fitted original meshes, a posing rig, and baked
 standing/seated game parts. The head is a separate textured mesh with its pivot
 under the collar; Unreal supplies restrained head tracking and idle movement.
@@ -18,6 +23,11 @@ interaction logic is retained.
 2. Run `Scripts/import_presidential_staff.py` through Unreal's Python editor.
 3. Rebuild the native module when the generated `PresidentialStaffCatalog.inl`
    changes. The catalog records the exact standing and seated head pivots.
+
+For a wardrobe-only update, append `-- Ruiz Bell` to the Blender command.
+Partial builds preserve the full cast manifest and do not rewrite head pivots.
+The importer accepts `STAFF_IDS=['Ruiz','Bell']` in its execution globals to
+restrict reimport to those characters.
 
 `Meshes/` contains centimetre-scale OBJ exports (+X forward). `Textures/` is shared
 by the editable `.blend` files through relative paths. `Renders/` contains actual
@@ -42,4 +52,4 @@ head seams, game exports and runtime integration. No MakeHuman add-on is install
 or required to play; the build script reads asset data directly.
 
 
-Validation: all 24 exported mesh parts passed bounds, floor-contact and texture checks. The Unreal build succeeded, and 99 native checks passed for asset loading, NPC conversations and travel through the Oval Office, Cabinet Room and aircraft. The campaign save was unchanged.
+Validation: all 24 exported mesh parts passed bounds, floor-contact and texture checks. The Unreal build succeeded. After the wardrobe/garden update, 104 native checks passed for asset loading, NPC conversations, the photographic garden and travel through the Oval Office, Cabinet Room and aircraft. The campaign save was unchanged.

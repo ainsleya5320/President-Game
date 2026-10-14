@@ -1,11 +1,12 @@
 """Import the Blender staff cast without changing room maps or gameplay saves."""
 import unreal as u, json, traceback
 from pathlib import Path
-P=Path(u.Paths.project_dir());S=P/'SourceAssets/PresidentialStaff';BASE='/Game/PresidentialStaff'
+P=Path(u.Paths.project_dir());S=P/globals().get('SOURCE_ASSET_DIRECTORY','SourceAssets/PresidentialStaff');BASE=globals().get('ASSET_BASE','/Game/PresidentialStaff')
+REPORT=globals().get('REPORT_PREFIX','StaffImport')
 at=u.AssetToolsHelpers.get_asset_tools();ea=u.get_editor_subsystem(u.EditorAssetSubsystem);ml=u.MaterialEditingLibrary
 report=[]
 def note(s):
- report.append(s);(P/'Saved/StaffImport.log').write_text('\n'.join(report));u.log('STAFF '+s)
+ report.append(s);(P/'Saved'/(REPORT+'.log')).write_text('\n'.join(report));u.log(REPORT+' '+s)
 def texture(file,normal=False):
  path=BASE+'/Textures/T_'+Path(file).stem;t=u.load_asset(path)
  if not t:
@@ -22,11 +23,17 @@ def color(m,value):
  n=ml.create_material_expression(m,u.MaterialExpressionConstant3Vector);n.set_editor_property('constant',u.LinearColor(*value,1));return n
 try:
  d=json.loads((S/'manifest.json').read_text())
+ selected=globals().get('STAFF_IDS',[])
+ if selected:
+  d['groups']=[g for g in d['groups'] if g['name'].split('_')[0] in selected]
+  needed={key for g in d['groups'] for key in g['materials']}
+  d['materials']=[m for m in d['materials'] if m['id'] in needed]
+  d['characters']=[c for c in d['characters'] if c['id'] in selected]
  u.SystemLibrary.execute_console_command(u.get_editor_subsystem(u.UnrealEditorSubsystem).get_editor_world(),'Interchange.FeatureFlags.Import.OBJ 0')
  for info in d['materials']:
   if info['id']=='ST_Studio':continue
   name=info['id'];m=u.load_asset(BASE+'/Materials/'+name) or at.create_asset(name,BASE+'/Materials',u.Material,u.MaterialFactoryNew())
-  ml.delete_all_material_expressions(m);m.set_editor_property('two_sided',info['masked'])
+  ml.delete_all_material_expressions(m);m.set_editor_property('two_sided',info.get('two_sided',info['masked']))
   m.set_editor_property('blend_mode',u.BlendMode.BLEND_MASKED if info['masked'] else u.BlendMode.BLEND_OPAQUE)
   if info['masked']:m.set_editor_property('opacity_mask_clip_value',.36)
   if info['texture']:
@@ -36,6 +43,9 @@ try:
     tint=color(m,info['color']);mul=ml.create_material_expression(m,u.MaterialExpressionMultiply);ml.connect_material_expressions(n,'RGB',mul,'A');ml.connect_material_expressions(tint,'',mul,'B');n=mul;pin=''
   else:n=color(m,info['color']);pin=''
   assert ml.connect_material_property(n,pin,u.MaterialProperty.MP_BASE_COLOR)
+  if info.get('emission',0):
+   gain=ml.create_material_expression(m,u.MaterialExpressionMultiply);gain.set_editor_property('const_b',info['emission']);ml.connect_material_expressions(n,pin,gain,'A');ml.connect_material_property(gain,'',u.MaterialProperty.MP_EMISSIVE_COLOR)
+  if info.get('metallic',0):ml.connect_material_property(constant(m,info['metallic']),'',u.MaterialProperty.MP_METALLIC)
   for val,prop in [(info['roughness'],u.MaterialProperty.MP_ROUGHNESS),(.24,u.MaterialProperty.MP_SPECULAR)]:ml.connect_material_property(constant(m,val),'',prop)
   if info['normal']:
    n=ml.create_material_expression(m,u.MaterialExpressionTextureSample);n.set_editor_property('texture',texture(info['normal'],True));n.set_editor_property('sampler_type',u.MaterialSamplerType.SAMPLERTYPE_NORMAL);ml.connect_material_property(n,'RGB',u.MaterialProperty.MP_NORMAL)
@@ -57,7 +67,7 @@ try:
   assert assigned==set(g['materials']),(name,assigned)
   ea.save_loaded_asset(me,False);note('Imported '+name+' / '+str(g['triangles'])+' triangles')
  ea.save_directory(BASE,False,True)
- (P/'Saved/StaffImport.json').write_text(json.dumps(dict(status='passed',meshes=len(d['groups']),characters=len(d['characters'])),indent=2))
+ (P/'Saved'/(REPORT+'.json')).write_text(json.dumps(dict(status='passed',meshes=len(d['groups']),characters=len(d['characters'])),indent=2))
  note('SUCCESS: cast imported; existing levels and saves untouched')
 except Exception:
  note(traceback.format_exc());raise

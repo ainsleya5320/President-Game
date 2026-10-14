@@ -43,7 +43,15 @@ def tick(dt):
    check('Adviser conversation opens',pc.is_screen_open());pc.navigate_presidency('travel:cabinet');stage=2
   elif stage==2:
    if 'CabinetRoom' not in w.get_name():return
-   validate_cast(w,'cabinet',6);check('Cabinet perimeter clear',pawn.can_stand(u.Vector2D(0,280)));pc.navigate_presidency('travel:aircraft');stage=3
+   validate_cast(w,'cabinet',6);check('Cabinet perimeter clear',pawn.can_stand(u.Vector2D(0,280)))
+   scene=u.GameplayStatics.get_all_actors_of_class(w,u.StaticMeshActor)
+   check('Old cartoon garden removed',not any(a.static_mesh_component.static_mesh and a.static_mesh_component.static_mesh.get_name()=='SM_Rose_Garden' for a in scene))
+   photos=[a for a in scene if a.static_mesh_component.get_material(0) and a.static_mesh_component.get_material(0).get_name()=='M_PhotographicGarden']
+   check('One continuous photographic garden',len(photos)==1)
+   check('Garden never blocks walking',not photos[0].get_actor_enable_collision())
+   for identity in ['Ruiz','Bell']:
+    check(identity+' dress material loaded',bool(u.load_asset('/Game/PresidentialStaff/Materials/ST_'+identity+'_suit')))
+   pc.navigate_presidency('travel:aircraft');stage=3
   elif stage==3:
    if 'AirForceOne' not in w.get_name():return
    validate_cast(w,'aircraft',1);check('Aircraft aisle clear',pawn.can_stand(u.Vector2D(800,276)));pc.navigate_presidency('travel:oval');stage=4
