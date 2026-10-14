@@ -1,0 +1,267 @@
+{
+  "materials": [
+    {
+      "id": "LM_Ivory_Leather",
+      "color": [
+        0.66,
+        0.6,
+        0.48
+      ],
+      "roughness": 0.56,
+      "metallic": 0,
+      "texture": null,
+      "normal": "cognac_leather_normal.png",
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Suede_Headliner",
+      "color": [
+        0.55,
+        0.52,
+        0.44
+      ],
+      "roughness": 0.93,
+      "metallic": 0,
+      "texture": null,
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Walnut_Veneer",
+      "color": [
+        0.52,
+        0.4,
+        0.28
+      ],
+      "roughness": 0.26,
+      "metallic": 0,
+      "texture": "walnut.png",
+      "normal": "walnut_normal.png",
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Walnut_Edge",
+      "color": [
+        0.055,
+        0.025,
+        0.013
+      ],
+      "roughness": 0.29,
+      "metallic": 0,
+      "texture": null,
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Brushed_Champagne_Metal",
+      "color": [
+        0.55,
+        0.5,
+        0.39
+      ],
+      "roughness": 0.25,
+      "metallic": 0.82,
+      "texture": null,
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Soft_Black_Trim",
+      "color": [
+        0.012,
+        0.017,
+        0.022
+      ],
+      "roughness": 0.47,
+      "metallic": 0,
+      "texture": null,
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Wool_Carpet",
+      "color": [
+        0.26,
+        0.25,
+        0.22
+      ],
+      "roughness": 0.96,
+      "metallic": 0,
+      "texture": null,
+      "normal": "hall_carpet_normal.png",
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Ivory_Stitching",
+      "color": [
+        0.42,
+        0.37,
+        0.29
+      ],
+      "roughness": 0.8,
+      "metallic": 0,
+      "texture": null,
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Display_Glass",
+      "color": [
+        0.025,
+        0.075,
+        0.11
+      ],
+      "roughness": 0.24,
+      "metallic": 0,
+      "texture": null,
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0.6
+    },
+    {
+      "id": "LM_Warm_Cove_Light",
+      "color": [
+        1,
+        0.84,
+        0.61
+      ],
+      "roughness": 0.3,
+      "metallic": 0,
+      "texture": null,
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 5
+    },
+    {
+      "id": "LM_Cut_Crystal",
+      "color": [
+        0.39,
+        0.48,
+        0.51
+      ],
+      "roughness": 0.13,
+      "metallic": 0,
+      "texture": null,
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0,
+      "opacity": 0.28
+    },
+    {
+      "id": "LM_Briefing_Paper",
+      "color": [
+        0.77,
+        0.75,
+        0.65
+      ],
+      "roughness": 0.85,
+      "metallic": 0,
+      "texture": null,
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Presidential_Seal",
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "roughness": 0.6,
+      "metallic": 0,
+      "texture": "presidential_seal.png",
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0
+    },
+    {
+      "id": "LM_Window_View",
+      "color": [
+        0.65,
+        0.72,
+        0.72
+      ],
+      "roughness": 0.8,
+      "metallic": 0,
+      "texture": "rose-garden.png",
+      "normal": null,
+      "normal_strength": 0.08,
+      "masked": false,
+      "skin": false,
+      "two_sided": true,
+      "emission": 0.5,
+      "mip": 3
+    }
+  ],
+  "groups": [
+    {
+      "name": "Interior",
+      "triangles": 69014,
+      "materials": {
+        "LM_Soft_Black_Trim": "/Game/PresidentialLimo/Materials/LM_Soft_Black_Trim",
+        "LM_Wool_Carpet": "/Game/PresidentialLimo/Materials/LM_Wool_Carpet",
+        "LM_Suede_Headliner": "/Game/PresidentialLimo/Materials/LM_Suede_Headliner",
+        "LM_Walnut_Veneer": "/Game/PresidentialLimo/Materials/LM_Walnut_Veneer",
+        "LM_Brushed_Champagne_Metal": "/Game/PresidentialLimo/Materials/LM_Brushed_Champagne_Metal",
+        "LM_Ivory_Leather": "/Game/PresidentialLimo/Materials/LM_Ivory_Leather",
+        "LM_Window_View": "/Game/PresidentialLimo/Materials/LM_Window_View",
+        "LM_Walnut_Edge": "/Game/PresidentialLimo/Materials/LM_Walnut_Edge",
+        "LM_Warm_Cove_Light": "/Game/PresidentialLimo/Materials/LM_Warm_Cove_Light",
+        "LM_Ivory_Stitching": "/Game/PresidentialLimo/Materials/LM_Ivory_Stitching",
+        "LM_Cut_Crystal": "/Game/PresidentialLimo/Materials/LM_Cut_Crystal",
+        "LM_Display_Glass": "/Game/PresidentialLimo/Materials/LM_Display_Glass",
+        "LM_Briefing_Paper": "/Game/PresidentialLimo/Materials/LM_Briefing_Paper",
+        "LM_Presidential_Seal": "/Game/PresidentialLimo/Materials/LM_Presidential_Seal"
+      }
+    }
+  ],
+  "characters": []
+}

@@ -34,10 +34,16 @@ try:
   if info['id']=='ST_Studio':continue
   name=info['id'];m=u.load_asset(BASE+'/Materials/'+name) or at.create_asset(name,BASE+'/Materials',u.Material,u.MaterialFactoryNew())
   ml.delete_all_material_expressions(m);m.set_editor_property('two_sided',info.get('two_sided',info['masked']))
-  m.set_editor_property('blend_mode',u.BlendMode.BLEND_MASKED if info['masked'] else u.BlendMode.BLEND_OPAQUE)
+  m.set_editor_property('blend_mode',u.BlendMode.BLEND_TRANSLUCENT if 'opacity' in info else u.BlendMode.BLEND_MASKED if info['masked'] else u.BlendMode.BLEND_OPAQUE)
+  if 'opacity' in info:
+   m.set_editor_property('translucency_lighting_mode',u.TranslucencyLightingMode.TLM_SURFACE_PER_PIXEL_LIGHTING)
+   ml.connect_material_property(constant(m,info['opacity']),'',u.MaterialProperty.MP_OPACITY)
   if info['masked']:m.set_editor_property('opacity_mask_clip_value',.36)
   if info['texture']:
    n=ml.create_material_expression(m,u.MaterialExpressionTextureSample);n.set_editor_property('texture',texture(info['texture']));pin='RGB'
+   if 'mip' in info:
+    tex=n.get_editor_property('texture');tex.set_editor_property('power_of_two_mode',u.TexturePowerOfTwoSetting.STRETCH_TO_POWER_OF_TWO);tex.set_editor_property('mip_gen_settings',u.TextureMipGenSettings.TMGS_SIMPLE_AVERAGE);ea.save_loaded_asset(tex,False)
+    n.set_editor_property('mip_value_mode',u.TextureMipValueMode.TMVM_MIP_LEVEL);n.set_editor_property('const_mip_value',info['mip'])
    if info['masked']:ml.connect_material_property(n,'A',u.MaterialProperty.MP_OPACITY_MASK)
    if info['color']!=[1,1,1]:
     tint=color(m,info['color']);mul=ml.create_material_expression(m,u.MaterialExpressionMultiply);ml.connect_material_expressions(n,'RGB',mul,'A');ml.connect_material_expressions(tint,'',mul,'B');n=mul;pin=''
@@ -48,7 +54,10 @@ try:
   if info.get('metallic',0):ml.connect_material_property(constant(m,info['metallic']),'',u.MaterialProperty.MP_METALLIC)
   for val,prop in [(info['roughness'],u.MaterialProperty.MP_ROUGHNESS),(.24,u.MaterialProperty.MP_SPECULAR)]:ml.connect_material_property(constant(m,val),'',prop)
   if info['normal']:
-   n=ml.create_material_expression(m,u.MaterialExpressionTextureSample);n.set_editor_property('texture',texture(info['normal'],True));n.set_editor_property('sampler_type',u.MaterialSamplerType.SAMPLERTYPE_NORMAL);ml.connect_material_property(n,'RGB',u.MaterialProperty.MP_NORMAL)
+   n=ml.create_material_expression(m,u.MaterialExpressionTextureSample);n.set_editor_property('texture',texture(info['normal'],True));n.set_editor_property('sampler_type',u.MaterialSamplerType.SAMPLERTYPE_NORMAL)
+   if info.get('normal_strength',1)!=1:
+    blend=ml.create_material_expression(m,u.MaterialExpressionLinearInterpolate);blend.set_editor_property('const_alpha',info['normal_strength']);ml.connect_material_expressions(color(m,(0,0,1)),'',blend,'A');ml.connect_material_expressions(n,'RGB',blend,'B');ml.connect_material_property(blend,'',u.MaterialProperty.MP_NORMAL)
+   else:ml.connect_material_property(n,'RGB',u.MaterialProperty.MP_NORMAL)
   ml.recompile_material(m);ea.save_loaded_asset(m,False)
  note('Materials ready')
  for g in d['groups']:

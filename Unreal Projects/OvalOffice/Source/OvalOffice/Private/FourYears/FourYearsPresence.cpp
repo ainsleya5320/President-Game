@@ -129,6 +129,13 @@ void AFourYearsPresence::Residence(){
 }
 void AFourYearsPresence::Limo(){
  const FVector O(5000,0,0);LimoRoom=GetWorld()->SpawnActor<AFourYearsRoom>();auto* R=LimoRoom.Get();R->RoomId=TEXT("limo");R->RoomLabel=TEXT("PRESIDENTIAL MOTORCADE / SECURE CABIN");R->WalkableAreas={FBox2D(FVector2D(4760,-48),FVector2D(5190,48))};R->ArrivalPosition=O+FVector(-170,0,145);R->ArrivalYaw=0;R->CameraHeight=145;Rooms.Add(R);
+ auto* CabinMesh=LoadObject<UStaticMesh>(nullptr,TEXT("/Game/PresidentialLimo/Meshes/SM_Interior.SM_Interior"));
+ if(CabinMesh){
+  auto* Cabin=NewObject<UStaticMeshComponent>(this,TEXT("PresidentialLimoInterior"));AddInstanceComponent(Cabin);Cabin->SetupAttachment(RootComponent);Cabin->SetStaticMesh(CabinMesh);Cabin->SetRelativeLocation(O);Cabin->SetMobility(EComponentMobility::Movable);Cabin->SetCollisionEnabled(ECollisionEnabled::NoCollision);Cabin->RegisterComponent();
+  R->WalkableAreas={FBox2D(FVector2D(4760,-25),FVector2D(5145,55))};
+  R->Obstacles={FBox2D(FVector2D(4910,-125),FVector2D(5022,-15))};
+ }else{
+ UE_LOG(LogTemp,Warning,TEXT("Presidential limo mesh missing; using legacy cabin"));
  Box(this,O+FVector(0,0,-7),FVector(560,275,14),Navy);Box(this,O+FVector(0,0,207),FVector(560,275,16),Navy);Box(this,O+FVector(-275,0,100),FVector(15,275,210),Navy);Box(this,O+FVector(245,0,100),FVector(18,275,210),Navy);
  for(int Side:{-1,1}){
   Box(this,O+FVector(0,Side*131,196),FVector(550,16,28),Navy);
@@ -141,11 +148,13 @@ void AFourYearsPresence::Limo(){
   for(int I=0;I<8;++I){Box(this,O+FVector(-235+I*67,Side*125,110+I%3*15),FVector(48,3,100+I%3*25),FLinearColor(.16f+I%2*.07f,.20f,.22f));for(int K=0;K<3;++K)Box(this,O+FVector(-228+I*67,Side*122,110+K*20),FVector(7,2,8),FLinearColor(.6f,.46f,.19f));}
  }
  Box(this,O+FVector(227,0,133),FVector(3,133,58),FLinearColor(.035f,.065f,.09f));Box(this,O+FVector(217,0,83),FVector(25,190,28),Wood);Box(this,O+FVector(201,-44,101),FVector(14,35,18),Navy);Box(this,O+FVector(0,0,198),FVector(360,16,3),White);
- Person(TEXT("Maya Chen"),TEXT("adviser:chen"),TEXT("limo"),O+FVector(60,88,0),-110,0,true);
- Interaction(R,FVector2D(4810,0),TEXT("E: motorcade destinations"),TEXT("travel"));Interaction(R,FVector2D(5160,0),TEXT("E: secure phone / Congress"),TEXT("relations"));
- Light(this,O+FVector(-120,0,173),FLinearColor(1,.8f,.57f),3400);Light(this,O+FVector(145,0,165),FLinearColor(.67f,.80f,1),2800);
+ }
+ Person(TEXT("Maya Chen"),TEXT("adviser:chen"),TEXT("limo"),O+(CabinMesh?FVector(212,55,0):FVector(60,88,0)),CabinMesh?180:-110,0,true);
+ Interaction(R,FVector2D(4810,0),TEXT("E: motorcade destinations"),TEXT("travel"));Interaction(R,CabinMesh?FVector2D(5080,-15):FVector2D(5160,0),TEXT("E: secure phone / Congress"),TEXT("relations"));
+ Light(this,O+FVector(-120,0,173),FLinearColor(1,.90f,.80f),CabinMesh?1800:3400);Light(this,O+FVector(145,0,173),FLinearColor(1,.94f,.85f),CabinMesh?1800:2800);
+ if(CabinMesh)Light(this,O+FVector(0,-65,160),FLinearColor(1,.90f,.80f),800);
 }
-AFourYearsStaff* AFourYearsPresence::Nearby(const FVector& P)const{AFourYearsStaff* Best=nullptr;float Distance=145;for(const auto& A:Staff)if(A&&A->Place==CurrentPlace){const float D=FVector::Dist2D(P,A->GetActorLocation());if(D<Distance){Distance=D;Best=A.Get();}}return Best;}
+AFourYearsStaff* AFourYearsPresence::Nearby(const FVector& P)const{AFourYearsStaff* Best=nullptr;float Distance=CurrentPlace==TEXT("limo")?105:145;for(const auto& A:Staff)if(A&&A->Place==CurrentPlace){const float D=FVector::Dist2D(P,A->GetActorLocation());if(D<Distance){Distance=D;Best=A.Get();}}return Best;}
 bool AFourYearsPresence::Enter(const FString& Place){
  AFourYearsRoom* R=Place==TEXT("residence")?ResidenceRoom.Get():Place==TEXT("limo")?LimoRoom.Get():Place==MainRoom->RoomId?MainRoom.Get():nullptr;
  if(!R)return false;auto* W=Cast<AFourYearsWalker>(UGameplayStatics::GetPlayerPawn(this,0));if(!W)return false;
