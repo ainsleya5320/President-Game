@@ -4,6 +4,8 @@
 #include "GameFramework/PlayerController.h"
 #include "FourYearsPlayerController.generated.h"
 
+class SFourYearsPresidency;
+class AFourYearsPresence;
 class SFourYearsScreen;
 class SFourYearsIntro;
 class SFourYearsDiplomacy;
@@ -25,6 +27,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void OpenBriefing();
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	void OpenPresidency();
+	UFUNCTION(BlueprintCallable, Category = "Four Years")
+	void NavigatePresidency(FString Destination);
 
 	UFUNCTION(BlueprintCallable, Category = "Four Years")
 	void OpenPolicies();
@@ -50,7 +56,7 @@ public:
 	void CloseScreen();
 
 	UFUNCTION(BlueprintPure, Category = "Four Years")
-	bool IsScreenOpen() const { return Screen.IsValid() || Intro.IsValid() || WorldMap.IsValid() || VoterAtlas.IsValid(); }
+	bool IsScreenOpen() const { return Presidency.IsValid() || Screen.IsValid() || Intro.IsValid() || WorldMap.IsValid() || VoterAtlas.IsValid(); }
 
 	UFUNCTION(BlueprintCallable, Category = "Four Years|Introduction")
 	void OpenInauguration();
@@ -67,6 +73,12 @@ public:
 private:
 	void OpenScreen(uint8 Page);
 	void ShowWorldMap();
+	void ShowPresidency(const FString& Page);
+	void PerformNavigation(const FString& Destination);
+	UPROPERTY() TObjectPtr<AFourYearsPresence> Presence;
+	TSharedPtr<SFourYearsPresidency> Presidency;
+	FString PendingNavigation;
+	bool bWelcomeShown = false;
 	void ShowVoterAtlas();
 
 	TSharedPtr<SWidget> Prompt;

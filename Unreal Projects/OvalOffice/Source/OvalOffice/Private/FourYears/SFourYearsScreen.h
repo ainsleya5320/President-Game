@@ -28,6 +28,7 @@ public:
 		SLATE_EVENT(FSimpleDelegate, OnClose)
 		SLATE_EVENT(FSimpleDelegate, OnWorldMap)
 		SLATE_EVENT(FSimpleDelegate, OnVoterAtlas)
+		SLATE_EVENT(FSimpleDelegate, OnPresidency)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -77,6 +78,7 @@ private:
 	FSimpleDelegate OnClose;
 	FSimpleDelegate OnWorldMap;
 	FSimpleDelegate OnVoterAtlas;
+	FSimpleDelegate OnPresidency;
 	TSharedPtr<SVerticalBox> Content;
 	TSharedPtr<SScrollBox> Scroll;
 	TSharedPtr<STextBlock> Speech;

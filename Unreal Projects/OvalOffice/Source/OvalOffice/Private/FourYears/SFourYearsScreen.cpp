@@ -58,6 +58,7 @@ void SFourYearsScreen::Construct(const FArguments& InArgs)
 	OnClose = InArgs._OnClose;
 	OnWorldMap = InArgs._OnWorldMap;
 	OnVoterAtlas = InArgs._OnVoterAtlas;
+	OnPresidency = InArgs._OnPresidency;
 	Page = InArgs._Page;
 	ChildSlot
 	[
@@ -120,6 +121,7 @@ void SFourYearsScreen::Tick(const FGeometry& AllottedGeometry, const double InCu
 FReply SFourYearsScreen::OnKeyDown(const FGeometry& MyGeometry, const FKeyEvent& InKeyEvent)
 {
 	const FKey Key = InKeyEvent.GetKey();
+	if(Key==EKeys::J&&!InKeyEvent.IsRepeat()){OnPresidency.ExecuteIfBound();return FReply::Handled();}
 	if (Key == EKeys::V && !InKeyEvent.IsRepeat()) { OnVoterAtlas.ExecuteIfBound(); return FReply::Handled(); }
 	if (Key == EKeys::M && !InKeyEvent.IsRepeat()) { OnWorldMap.ExecuteIfBound(); return FReply::Handled(); }
 	if (InKeyEvent.IsRepeat()) return FReply::Handled();
@@ -218,6 +220,7 @@ void SFourYearsScreen::Rebuild()
 		return;
 	}
 	BuildTabs();
+	AddButton(TEXT("Presidency journal [J]"),TEXT("Your next chapter, travel, government and legacy"),FOnClicked::CreateLambda([this]{OnPresidency.ExecuteIfBound();return FReply::Handled();}));
 	switch (Page)
 	{
 	case EFourYearsPage::Policies: BuildPolicies(*Game); break;
@@ -260,7 +263,7 @@ void SFourYearsScreen::BuildBriefing(UFourYearsSubsystem& Game)
 	if (Briefing.bTermOver)
 	{
 		AddText(Briefing.Outcome, 15, Gold, true);
-		AddButton(TEXT("Start a new term"), TEXT("Begin again with a new country and a new event deck"), FOnClicked::CreateSP(this, &SFourYearsScreen::NewTerm));
+		AddButton(TEXT("Your legacy and epilogue [J]"), TEXT("Read your final record, explore the rooms, or start a new presidency"), FOnClicked::CreateSP(this, &SFourYearsScreen::NewTerm));
 	}
 	else if (Briefing.ChosenIndex >= 0 && Briefing.Choices.IsValidIndex(Briefing.ChosenIndex))
 	{
@@ -745,19 +748,7 @@ FReply SFourYearsScreen::Continue()
 	return FReply::Handled();
 }
 
-FReply SFourYearsScreen::NewTerm()
-{
-	if (UFourYearsSubsystem* Game = Subsystem.Get())
-	{
-		Game->StartNewTerm();
-        ConversationReplies.Reset();
-        SelectedAdviser.Reset();
-        FocusPolicyId.Reset();
-	}
-	Report.Reset();
-	bNeedsRebuild = true;
-	return FReply::Handled();
-}
+FReply SFourYearsScreen::NewTerm(){OnPresidency.ExecuteIfBound();return FReply::Handled();}
 
 FReply SFourYearsScreen::ChangePolicy(FString PolicyId, int32 Level)
 {

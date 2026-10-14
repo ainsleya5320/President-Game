@@ -6,6 +6,8 @@
 #include "InputCoreTypes.h"
 #include "FourYears/FourYearsRoom.h"
 #include "EngineUtils.h"
+#include "Engine/World.h"
+#include "FourYears/FourYearsPresence.h"
 
 AFourYearsWalker::AFourYearsWalker()
 {
@@ -27,22 +29,25 @@ AFourYearsWalker::AFourYearsWalker()
 
 void AFourYearsWalker::BeginPlay()
 {
-	Super::BeginPlay();
-	for (TActorIterator<AFourYearsRoom> It(GetWorld()); It; ++It) { Room = *It; break; }
-	if (Room && Room->WalkableAreas.Num()) Furniture = Room->Obstacles;
-	FVector Start = GetActorLocation();
-	if (Room && GetWorld()->URL.HasOption(TEXT("FromRoom")))
-	{
-		Start = Room->ArrivalPosition;
-		bApplyArrivalView = true;
-	}
-	if (!CanStand(FVector2D(Start.X, Start.Y)))
-	{
-		Start.X = -400.f;
-		Start.Y = 0.f;
-	}
-	Start.Z = EyeHeight;
-	SetActorLocation(Start);
+ Super::BeginPlay();
+ for(TActorIterator<AFourYearsRoom> It(GetWorld());It;++It){UseRoom(*It,GetWorld()->URL.HasOption(TEXT("FromRoom")));break;}
+ if(!Room){FVector P=GetActorLocation();P.Z=EyeHeight;if(!CanStand(FVector2D(P.X,P.Y)))P=FVector(-400,0,EyeHeight);SetActorLocation(P);}
+}
+void AFourYearsWalker::UseRoom(AFourYearsRoom* NewRoom,bool bTeleport)
+{
+ Room=NewRoom;if(!Room)return;EyeHeight=Room->CameraHeight;
+ const bool PrivateScene=Room->RoomId==TEXT("residence")||Room->RoomId==TEXT("limo");
+ Camera->PostProcessSettings.bOverride_AutoExposureBias=PrivateScene;
+ Camera->PostProcessSettings.AutoExposureBias=-.7f;
+ Camera->PostProcessSettings.bOverride_AutoExposureMinBrightness=PrivateScene;
+ Camera->PostProcessSettings.bOverride_AutoExposureMaxBrightness=PrivateScene;
+ Camera->PostProcessSettings.AutoExposureMinBrightness=1.f;Camera->PostProcessSettings.AutoExposureMaxBrightness=1.f;
+ Furniture=Room->WalkableAreas.Num()?Room->Obstacles:TArray<FBox2D>{
+  FBox2D(FVector2D(-250,-123),FVector2D(-52,123)),FBox2D(FVector2D(205,-165),FVector2D(345,165)),
+  FBox2D(FVector2D(-265,-400),FVector2D(-18,-170)),FBox2D(FVector2D(-265,170),FVector2D(-18,400))};
+ FVector P=GetActorLocation();
+ if(bTeleport||!CanStand(FVector2D(P.X,P.Y))){P=Room->ArrivalPosition;bApplyArrivalView=true;}
+ P.Z=EyeHeight;SetActorLocation(P);
 }
 
 bool AFourYearsWalker::CanStand(const FVector2D& Position) const
@@ -65,7 +70,11 @@ bool AFourYearsWalker::CanStand(const FVector2D& Position) const
 			return false;
 		}
 	}
-	return true;
+ for(TActorIterator<AFourYearsStaff> It(GetWorld());It;++It)
+  if(Room && It->Place==Room->RoomId && FVector2D::Distance(Position,FVector2D(It->GetActorLocation()))<29.f)return false;
+ if(Room && Room->bUseWorldCollision){FCollisionQueryParams Params(SCENE_QUERY_STAT(PresidentialWalk),true,this);
+  if(GetWorld()->OverlapBlockingTestByChannel(FVector(Position,90),FQuat::Identity,ECC_WorldStatic,FCollisionShape::MakeCapsule(25,78),Params))return false;}
+ return true;
 }
 
 bool AFourYearsWalker::IsNearDesk() const
@@ -104,7 +113,7 @@ void AFourYearsWalker::Tick(float DeltaSeconds)
 	const FRotator Yaw(0.f, PlayerController->GetControlRotation().Yaw, 0.f);
 	FVector Direction = FRotationMatrix(Yaw).GetUnitAxis(EAxis::X) * Forward + FRotationMatrix(Yaw).GetUnitAxis(EAxis::Y) * Right;
 	Direction.Z = 0.f;
-	const FVector Step = Direction.GetSafeNormal() * WalkSpeed * DeltaSeconds;
+	const FVector Step = Direction.GetSafeNormal() * WalkSpeed * FMath::Min(DeltaSeconds, .05f);
 	const FVector Current = GetActorLocation();
 	// Slide along walls and furniture by trying each axis on its own when the full step is blocked.
 	for (const FVector& Candidate : {Current + Step, Current + FVector(Step.X, 0.f, 0.f), Current + FVector(0.f, Step.Y, 0.f)})

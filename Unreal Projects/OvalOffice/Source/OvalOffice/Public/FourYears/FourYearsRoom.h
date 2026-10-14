@@ -23,6 +23,9 @@ class OVALOFFICE_API AFourYearsRoom : public AActor
 	GENERATED_BODY()
 public:
 	AFourYearsRoom();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FString RoomId = TEXT("oval");
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float CameraHeight = 165.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bUseWorldCollision = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FString RoomLabel = TEXT("THE OVAL OFFICE");
 	// Empty retains the original Oval Office floor plan. Rectangles form a union.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TArray<FBox2D> WalkableAreas;

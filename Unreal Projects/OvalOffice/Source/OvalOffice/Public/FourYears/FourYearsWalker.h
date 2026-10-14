@@ -26,6 +26,7 @@ public:
 
 	// By the sofas and the fireplace, where advisers meet the president.
 	bool IsNearSittingArea() const;
+	void UseRoom(AFourYearsRoom* NewRoom, bool bTeleport);
 	AFourYearsRoom* GetRoom() const { return Room; }
 	UFUNCTION(BlueprintPure, Category = "Four Years")
 	bool CanStand(const FVector2D& Position) const;

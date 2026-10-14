@@ -1,0 +1,829 @@
+{
+  "title": "FOUR YEARS: THE PRESIDENCY",
+  "acts": [
+    {
+      "name": "The promise",
+      "subtitle": "Build a mandate and learn the cost of governing."
+    },
+    {
+      "name": "The reckoning",
+      "subtitle": "Weather the crisis and face the midterm verdict."
+    },
+    {
+      "name": "The work",
+      "subtitle": "Turn a coalition into results people can feel."
+    },
+    {
+      "name": "The legacy",
+      "subtitle": "Finish the work and face the electorate."
+    }
+  ],
+  "chapters": [
+    {
+      "title": "The first night",
+      "place": "residence",
+      "speaker": "Maya Chen",
+      "body": "The crowds have gone. A workers' letter and an unsigned delivery plan wait on the residence table. What kind of presidency begins tomorrow?",
+      "choices": [
+        {
+          "label": "Invite the families to tell their stories",
+          "effects": {
+            "trust": 2,
+            "housing": 1
+          },
+          "capital": 0,
+          "debt": 2,
+          "flag": "listen",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Commission a delivery plan",
+          "effects": {
+            "jobs": 2
+          },
+          "capital": -1,
+          "debt": 0,
+          "flag": "delivery",
+          "later": {
+            "growth": 2
+          },
+          "relations": {}
+        },
+        {
+          "label": "Set strict spending limits",
+          "effects": {
+            "equality": -1
+          },
+          "capital": 0,
+          "debt": -5,
+          "flag": "discipline",
+          "later": {},
+          "relations": {
+            "fiscal": 5
+          }
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "The ride to Capitol Hill",
+      "place": "limo",
+      "speaker": "Daniel Brooks",
+      "body": "Rain beads on the armored windows. The Speaker has given you twenty minutes. Will you arrive with a coalition or an ultimatum?",
+      "choices": [
+        {
+          "label": "Offer independent oversight",
+          "effects": {
+            "trust": 1
+          },
+          "capital": -1,
+          "debt": 0,
+          "flag": "oversight",
+          "later": {},
+          "relations": {
+            "center": 6,
+            "fiscal": 3
+          }
+        },
+        {
+          "label": "Put smaller communities first",
+          "effects": {
+            "jobs": 1
+          },
+          "capital": 0,
+          "debt": 3,
+          "flag": "regional",
+          "later": {},
+          "relations": {
+            "regional": 7
+          }
+        },
+        {
+          "label": "Demand the whole platform",
+          "effects": {
+            "trust": -1
+          },
+          "capital": 2,
+          "debt": 0,
+          "flag": "pressure",
+          "later": {},
+          "relations": {
+            "reform": 6,
+            "center": -6
+          }
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "The resilience briefing",
+      "place": "cabinet",
+      "speaker": "Elena Ruiz",
+      "body": "Engineers say the grid cannot absorb a severe storm. Governors want redundancy before the next emergency.",
+      "choices": [
+        {
+          "label": "Fund resilience now",
+          "effects": {
+            "energy": 2
+          },
+          "capital": 0,
+          "debt": 6,
+          "flag": "resilience",
+          "later": {
+            "energy": 3
+          },
+          "relations": {}
+        },
+        {
+          "label": "Publish a local risk register",
+          "effects": {
+            "trust": 2
+          },
+          "capital": -1,
+          "debt": 0,
+          "flag": "risk_register",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Wait for better forecasts",
+          "effects": {},
+          "capital": 1,
+          "debt": -2,
+          "flag": "wait",
+          "later": {},
+          "relations": {}
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "Dinner without cameras",
+      "place": "residence",
+      "speaker": "Samira Bell",
+      "body": "An aide asks whether you have spoken to anyone this week who does not need something from you. The first year is almost gone.",
+      "choices": [
+        {
+          "label": "Make room for honest conversation",
+          "effects": {
+            "trust": 2
+          },
+          "capital": 0,
+          "debt": 0,
+          "flag": "listen",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Invite the caucus leaders to dinner",
+          "effects": {},
+          "capital": 0,
+          "debt": 2,
+          "flag": "coalition",
+          "later": {},
+          "relations": {
+            "center": 6,
+            "regional": 5
+          }
+        },
+        {
+          "label": "Work through the night",
+          "effects": {
+            "trust": -1
+          },
+          "capital": 2,
+          "debt": 0,
+          "flag": "work",
+          "later": {},
+          "relations": {}
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "When the storm arrives",
+      "place": "cabinet",
+      "speaker": "Elena Ruiz",
+      "body": "A coastal storm knocks out substations and threatens clinics. Governors ask who is in charge. Your earlier preparation now matters.",
+      "choices": [
+        {
+          "label": "Coordinate a federal relief surge",
+          "effects": {
+            "health": 3,
+            "energy": 2
+          },
+          "capital": 0,
+          "debt": 7,
+          "flag": "relief",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Give governors matching grants",
+          "effects": {
+            "energy": 1
+          },
+          "capital": 0,
+          "debt": 4,
+          "flag": "regional",
+          "later": {},
+          "relations": {
+            "regional": 7
+          }
+        },
+        {
+          "label": "Keep emergency spending narrow",
+          "effects": {
+            "energy": -2,
+            "trust": -2
+          },
+          "capital": 0,
+          "debt": 1,
+          "flag": "discipline",
+          "later": {},
+          "relations": {
+            "fiscal": 5
+          }
+        }
+      ],
+      "recall": "resilience"
+    },
+    {
+      "title": "The contractor file",
+      "place": "oval",
+      "speaker": "Maya Chen",
+      "body": "A reporter traces emergency contracts to a political donor. There is no criminal finding, but the questions are real. Your oversight arrangements face a test.",
+      "choices": [
+        {
+          "label": "Publish the files and appoint an auditor",
+          "effects": {
+            "trust": 3
+          },
+          "capital": -2,
+          "debt": 0,
+          "flag": "clean_record",
+          "later": {},
+          "relations": {
+            "center": 4
+          }
+        },
+        {
+          "label": "Suspend the contract for review",
+          "effects": {
+            "trust": 1,
+            "jobs": -1
+          },
+          "capital": 0,
+          "debt": 3,
+          "flag": "review",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Attack the story as politics",
+          "effects": {
+            "trust": -3
+          },
+          "capital": 2,
+          "debt": 0,
+          "flag": "secrecy",
+          "later": {},
+          "relations": {
+            "center": -5
+          }
+        }
+      ],
+      "recall": "oversight"
+    },
+    {
+      "title": "A town beyond the motorcade",
+      "place": "limo",
+      "speaker": "Samira Bell",
+      "body": "The route bypasses a shuttered factory. A handwritten sign asks you to stop. Your staff can get you safely inside, but the schedule will slip.",
+      "choices": [
+        {
+          "label": "Stop and listen to the workers",
+          "effects": {
+            "trust": 2,
+            "jobs": 1
+          },
+          "capital": -1,
+          "debt": 0,
+          "flag": "listen",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Start a retraining partnership",
+          "effects": {
+            "schools": 2
+          },
+          "capital": 0,
+          "debt": 5,
+          "flag": "skills",
+          "later": {
+            "jobs": 3
+          },
+          "relations": {}
+        },
+        {
+          "label": "Keep the schedule and send the secretary",
+          "effects": {},
+          "capital": 1,
+          "debt": 0,
+          "flag": "delegate",
+          "later": {},
+          "relations": {}
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "The night before the midterms",
+      "place": "residence",
+      "speaker": "Daniel Brooks",
+      "body": "The television map is a patchwork of close races. Your record will decide how much room Congress gives you for the next two years.",
+      "choices": [
+        {
+          "label": "Make a candid case for your record",
+          "effects": {
+            "trust": 2
+          },
+          "capital": -1,
+          "debt": 0,
+          "flag": "candor",
+          "later": {},
+          "relations": {
+            "center": 3
+          }
+        },
+        {
+          "label": "Promise spending restraint",
+          "effects": {
+            "equality": -1
+          },
+          "capital": 0,
+          "debt": -4,
+          "flag": "discipline",
+          "later": {},
+          "relations": {
+            "fiscal": 5
+          }
+        },
+        {
+          "label": "Rally the base against the opposition",
+          "effects": {
+            "trust": -1
+          },
+          "capital": 2,
+          "debt": 0,
+          "flag": "pressure",
+          "later": {},
+          "relations": {
+            "reform": 6,
+            "center": -6
+          }
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "A different Congress",
+      "place": "cabinet",
+      "speaker": "Daniel Brooks",
+      "body": "The midterm result is in. Some colleagues lost friends; others gained committee gavels. You still have two years and a country to run.",
+      "choices": [
+        {
+          "label": "Invite a cross-caucus working group",
+          "effects": {},
+          "capital": -2,
+          "debt": 0,
+          "flag": "coalition",
+          "later": {},
+          "relations": {
+            "center": 6,
+            "regional": 5
+          }
+        },
+        {
+          "label": "Narrow the agenda to delivery",
+          "effects": {
+            "jobs": 2,
+            "trust": 1
+          },
+          "capital": 0,
+          "debt": 0,
+          "flag": "delivery",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Confront the new leadership",
+          "effects": {
+            "trust": -1
+          },
+          "capital": 2,
+          "debt": 0,
+          "flag": "pressure",
+          "later": {},
+          "relations": {
+            "reform": 6,
+            "center": -6
+          }
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "The cost of an open world",
+      "place": "limo",
+      "speaker": "Elena Ruiz",
+      "body": "Shipping disruptions are raising prices. Trading partners want reassurance while manufacturers want protection.",
+      "choices": [
+        {
+          "label": "Keep trade lanes open with partners",
+          "effects": {
+            "prices": 2,
+            "growth": 1
+          },
+          "capital": -2,
+          "debt": 0,
+          "flag": "partners",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Provide temporary industry support",
+          "effects": {
+            "jobs": 2,
+            "prices": -1
+          },
+          "capital": 0,
+          "debt": 5,
+          "flag": "industry",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Let firms adapt without federal aid",
+          "effects": {
+            "jobs": -2,
+            "growth": 1
+          },
+          "capital": 0,
+          "debt": -3,
+          "flag": "discipline",
+          "later": {},
+          "relations": {
+            "fiscal": 5
+          }
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "The promise ledger",
+      "place": "oval",
+      "speaker": "Maya Chen",
+      "body": "A family from your first year sends a second letter. When will the promised changes reach their street? Your staff brings the delivery ledger.",
+      "choices": [
+        {
+          "label": "Send inspectors and publish deadlines",
+          "effects": {
+            "trust": 2,
+            "housing": 2
+          },
+          "capital": -2,
+          "debt": 0,
+          "flag": "delivery",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Redirect grants to the slowest places",
+          "effects": {
+            "housing": 3
+          },
+          "capital": 0,
+          "debt": 4,
+          "flag": "regional",
+          "later": {},
+          "relations": {
+            "regional": 7
+          }
+        },
+        {
+          "label": "Emphasize the national averages",
+          "effects": {
+            "trust": -2
+          },
+          "capital": 1,
+          "debt": 0,
+          "flag": "spin",
+          "later": {},
+          "relations": {}
+        }
+      ],
+      "recall": "listen"
+    },
+    {
+      "title": "A country at the table",
+      "place": "residence",
+      "speaker": "Samira Bell",
+      "body": "A teacher, a sheriff and a business owner each have one question for you. At this dinner, there is no applause sign.",
+      "choices": [
+        {
+          "label": "Let disagreement remain on the record",
+          "effects": {
+            "trust": 3,
+            "liberty": 1
+          },
+          "capital": -1,
+          "debt": 0,
+          "flag": "candor",
+          "later": {},
+          "relations": {
+            "center": 3
+          }
+        },
+        {
+          "label": "Offer a practical services compact",
+          "effects": {
+            "health": 1,
+            "schools": 1
+          },
+          "capital": 0,
+          "debt": 4,
+          "flag": "coalition",
+          "later": {},
+          "relations": {
+            "center": 6,
+            "regional": 5
+          }
+        },
+        {
+          "label": "Turn the dinner into a campaign moment",
+          "effects": {
+            "trust": -2
+          },
+          "capital": 2,
+          "debt": 0,
+          "flag": "spin",
+          "later": {},
+          "relations": {}
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "The final legislative window",
+      "place": "cabinet",
+      "speaker": "Daniel Brooks",
+      "body": "Committee chairs warn that the campaign will soon consume the calendar. One more major project might pass if you can hold a coalition together.",
+      "choices": [
+        {
+          "label": "Spend capital on a durable agreement",
+          "effects": {},
+          "capital": -3,
+          "debt": 0,
+          "flag": "coalition",
+          "later": {},
+          "relations": {
+            "center": 6,
+            "regional": 5
+          }
+        },
+        {
+          "label": "Promise an implementation audit",
+          "effects": {
+            "trust": 2
+          },
+          "capital": 0,
+          "debt": 0,
+          "flag": "oversight",
+          "later": {},
+          "relations": {
+            "center": 6,
+            "fiscal": 3
+          }
+        },
+        {
+          "label": "Save your strength for the election",
+          "effects": {},
+          "capital": 2,
+          "debt": 0,
+          "flag": "wait",
+          "later": {},
+          "relations": {}
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "The road home",
+      "place": "limo",
+      "speaker": "Maya Chen",
+      "body": "The motorcade passes campaign signs for you and your opponent. Will your next speech defend a record, offer repair, or blame someone else?",
+      "choices": [
+        {
+          "label": "Explain what worked and what did not",
+          "effects": {
+            "trust": 2
+          },
+          "capital": 0,
+          "debt": 0,
+          "flag": "candor",
+          "later": {},
+          "relations": {
+            "center": 3
+          }
+        },
+        {
+          "label": "Fund a final delivery push",
+          "effects": {
+            "housing": 2,
+            "health": 2
+          },
+          "capital": 0,
+          "debt": 6,
+          "flag": "delivery",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Blame obstruction in Congress",
+          "effects": {
+            "trust": -2
+          },
+          "capital": 2,
+          "debt": 0,
+          "flag": "pressure",
+          "later": {},
+          "relations": {
+            "reform": 6,
+            "center": -6
+          }
+        }
+      ],
+      "recall": "delivery"
+    },
+    {
+      "title": "The final question",
+      "place": "residence",
+      "speaker": "Samira Bell",
+      "body": "Before the last debate, an adviser asks what holding this office changed about you. Your answer will never fit on a polling chart.",
+      "choices": [
+        {
+          "label": "Describe what you learned from the country",
+          "effects": {
+            "trust": 3
+          },
+          "capital": -1,
+          "debt": 0,
+          "flag": "candor",
+          "later": {},
+          "relations": {
+            "center": 3
+          }
+        },
+        {
+          "label": "Rehearse a disciplined policy case",
+          "effects": {
+            "schools": 1,
+            "growth": 1
+          },
+          "capital": 1,
+          "debt": 0,
+          "flag": "delivery",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Make it a contest of strength",
+          "effects": {
+            "liberty": -2
+          },
+          "capital": 2,
+          "debt": 0,
+          "flag": "pressure",
+          "later": {},
+          "relations": {
+            "reform": 6,
+            "center": -6
+          }
+        }
+      ],
+      "recall": ""
+    },
+    {
+      "title": "Election eve",
+      "place": "oval",
+      "speaker": "Maya Chen",
+      "body": "The last briefing sits on the Resolute Desk. Four years of decisions are already out in the country. What kind of ending will you prepare for?",
+      "choices": [
+        {
+          "label": "Prepare to serve, whatever the result",
+          "effects": {
+            "trust": 2
+          },
+          "capital": 0,
+          "debt": 0,
+          "flag": "stewardship",
+          "later": {},
+          "relations": {}
+        },
+        {
+          "label": "Thank the staff and share the credit",
+          "effects": {
+            "trust": 1
+          },
+          "capital": 0,
+          "debt": 0,
+          "flag": "gratitude",
+          "later": {},
+          "relations": {
+            "center": 3,
+            "regional": 3,
+            "fiscal": 3,
+            "reform": 3
+          }
+        },
+        {
+          "label": "Make one last policy appeal",
+          "effects": {
+            "housing": 1,
+            "health": 1
+          },
+          "capital": -1,
+          "debt": 0,
+          "flag": "delivery",
+          "later": {},
+          "relations": {}
+        }
+      ],
+      "recall": ""
+    }
+  ],
+  "mandates": [
+    {
+      "id": "homes",
+      "name": "A fair start",
+      "goals": [
+        "housing",
+        "health",
+        "trust"
+      ],
+      "signature": "housing",
+      "body": "Homes, accessible care and a government people trust."
+    },
+    {
+      "id": "strength",
+      "name": "A resilient country",
+      "goals": [
+        "energy",
+        "debt",
+        "trust"
+      ],
+      "signature": "grid",
+      "body": "Reliable infrastructure, secure livelihoods and trusted institutions."
+    },
+    {
+      "id": "opportunity",
+      "name": "A generation of opportunity",
+      "goals": [
+        "schools",
+        "housing",
+        "health"
+      ],
+      "signature": "schools",
+      "body": "Education, homes and accessible care that open doors."
+    }
+  ],
+  "leaders": [
+    {
+      "id": "center",
+      "name": "Speaker Evelyn Mercer",
+      "role": "Pragmatic center",
+      "want": "Independent oversight and credible delivery."
+    },
+    {
+      "id": "regional",
+      "name": "Senator Luis Ortega",
+      "role": "Regional coalition",
+      "want": "Small communities receiving visible investment."
+    },
+    {
+      "id": "fiscal",
+      "name": "Senator Ruth Caldwell",
+      "role": "Budget hawks",
+      "want": "Revenue, spending discipline and audited programs."
+    },
+    {
+      "id": "reform",
+      "name": "Representative Nadia Price",
+      "role": "Reform caucus",
+      "want": "Programs reaching people at meaningful scale."
+    }
+  ]
+}

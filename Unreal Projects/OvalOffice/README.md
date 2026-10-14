@@ -4,9 +4,11 @@ Open `OvalOffice.uproject` with Unreal Engine 5.8. The startup map is the furnis
 
 **Air Force One is also available as a native first-person level.** Open `Play Air Force One.cmd` to walk through the aircraft, or `Edit Air Force One.cmd` to edit it. See `AIR FORCE ONE.md` for controls and details.
 
-For the playable presidency game, run the repository's **Play Four Years.cmd**, or serve `Prototype/Four_Years_Prototype.html` in a modern browser. It contains the walkable Oval Office, Air Force One's office/hallway/conference suite and a full four-year political simulation with policies, budgets, voter groups, quarterly dilemmas and elections. Use **Board Air Force One** and **Return to Oval Office** to switch locations while keeping the same term. `GAME_CONCEPT.md` explains the gameplay systems and what remains to be built natively in Unreal.
+For the complete native presidency campaign, run **Play Four Years in Unreal.cmd** at the repository root. Walk with **WASD**, look with the mouse and press **J** for the Presidency journal. It connects your 16-quarter campaign, travel, congressional relationships, crises, personal chapters and final legacy. Staff inhabit the rooms and respond through conversation screens. Existing saves continue at their current quarter; the Record page offers a new term with a confirmation and backup.
 
-The playable prototype now includes a Rose Garden-inspired exterior view, framed fireplace artwork, mantel greenery, and clearer door panels and hardware. These additions are in the browser prototype; the original native Unreal level remains an editable room model. Generated image source files and prompts are documented in `Prototype/assets/ASSET_NOTES.md`.
+The native campaign connects the Oval Office, Cabinet Room and Air Force One, plus a residence sitting room and a secure limo cabin. **P** opens policies, **C** Congress, **M** diplomacy and **V** the county electorate. See [native gameplay documentation](Source/README.md) and [campaign guide](Source/PRESIDENCY.md).
+
+The earlier browser game remains available through **Play Four Years.cmd** and `Prototype/Four_Years_Prototype.html`, including its West Wing exploration. It does not contain the new native campaign presentation.
 
 ## Explore
 
@@ -19,7 +21,7 @@ The playable prototype now includes a Rose Garden-inspired exterior view, framed
 
 Two editable levels, 31 static mesh assets, 62 material instances, image textures, daylight and lamp lighting, and interior/desk/cutaway cameras. Geometry was transferred from the original Blender model at centimetre scale. Source meshes, textures and import scripts are included for reproducibility.
 
-The original native Oval Office is a visual design scene with free camera navigation; its character controls and decision gameplay have not been built. The native Air Force One level has a walking character and collision; the browser game supplies the shared decision system and location switching. The models are artistic approximations, not exact architectural surveys or photoreal replicas. Blender procedural surfaces have been translated into simpler Unreal materials; lighting is rebuilt for Unreal.
+The imported architectural models are artistic approximations, not exact surveys or photoreal replicas. The new NPCs deliberately use basic stylized geometry. The residence and limo are authored in C++ and generated when the game starts; the existing room assets remain editable in Unreal.
 
 ## Graphics
 

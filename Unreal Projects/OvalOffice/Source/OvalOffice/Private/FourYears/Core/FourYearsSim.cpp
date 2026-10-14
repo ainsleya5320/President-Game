@@ -1042,6 +1042,7 @@ V Simulation::Votes(const V& S, const V& BillState) const
 	{
 		const std::string Id = Bloc.Get("id").AsString();
 		double Support = Bloc.Get("base").AsNumber() + (Bond - 50) * .25 + S.Get("executive").Get("mandate").AsNumber() - S.Get("executive").Get("opposition").Get("momentum").AsNumber() * .15 + (TeamState.Get("status").AsString() == "resigned" ? -10 : 0);
+		if (S.Get("presidency").Get("relations").Has(Id)) Support += (S.Get("presidency").Get("relations").Get(Id).AsNumber() - 50) * .35;
 		if (Contains(BillState.Get("lobbied"), Id)) Support += 15;
 		for (const V& A : X("amendments").Items())
 		{

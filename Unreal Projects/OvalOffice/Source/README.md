@@ -4,6 +4,15 @@ The presidency simulation now runs natively in Unreal Engine 5.8, sharing its co
 
 ## What is playable
 
+**The Presidency campaign**: press **J** for your mandate, personal chapter, travel, government and legacy. A complete term has four acts and 16 chapters, with 48 authored responses, delayed consequences and callbacks to earlier decisions. Choose your party after inauguration, select three goals through a mandate preset, govern through midterms, then reach an election result and personal epilogue. Old saves join at their current quarter; start a new presidency from the Record page for the full opening.
+
+**People and places**: simple stylized 3D staff populate the Oval Office and Cabinet Room, with idle movement and head turns. Walk up and press **E** to talk. The journal links the existing Oval Office, Cabinet Room and Air Force One with a new private residence sitting room and a secure limo cabin. The two new scenes are original runtime geometry, not surveyed reconstructions. The limo is a stationary conversation space, not a driving simulation.
+
+**Congress and the working day**: four caucus leaders have persistent relationships that influence every bill, separately from bill-specific lobbying. Government also exposes cabinet support/replacement, two-stage press appearances, election debates and domestic crisis choices. Rest in the residence or prepare in the limo once per quarter. Fatigue creates a cost for neglecting your private life.
+
+The full campaign rules, controls, save behavior and testing are documented in [PRESIDENCY.md](PRESIDENCY.md).
+
+
 **The American Electorate**: press **V** for a detailed county atlas, eight map layers, state Electoral College projections, cultural coalitions, local voter mixes and field organizing. Choose a Democratic or Republican president after the inauguration; existing saves receive a one-time choice when opening the atlas. The 538-vote presidential election needs 270 to win. See [electorate sources, rules and limitations](../Content/FourYears/Electorate/README.md).
 
 **International diplomacy**: press **M** for the interactive world map, twelve partners, trade agreements, security partnerships, rival influence, a crisis desk, and three selectable foreign-policy victory paths. Actions compete for domestic political capital and international outcomes appear in quarterly reports. See [DIPLOMACY.md](DIPLOMACY.md) for rules, save compatibility and tests.
@@ -43,7 +52,7 @@ See [CONVERSATIONS.md](CONVERSATIONS.md) for dialogue authoring, future scene in
 
 Policies, meetings and Congress close once the quarter's decision is filed, as in the browser game. Esc or E closes the screen. The term saves automatically to `Saved/FourYears/Term.json`.
 
-Still browser-only: the government team, campaign trips, crises and press conferences, the dashboard, and the West Wing and Air Force One travel. The C++ simulation already implements all of their rules; they only need screens.
+The browser remains a separate earlier interface. Its dashboard, campaign trips and West Wing exploration remain available there. The new Presidency journal, chapters, NPCs, residence and limo are native Unreal features. Shared congressional calculations remain compatible with saves containing the new relationships.
 
 ## Build
 

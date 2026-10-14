@@ -317,6 +317,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Four Years")
 	FString GetSavePath() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Presidency")
+	FFourYearsActionResult PresidencyAction(const FString& Action, const FString& Target);
+	UFUNCTION(BlueprintPure, Category = "Four Years|Presidency")
+	FString GetPresidencyJson() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Four Years|Presidency")
+	FFourYearsActionResult ExecutiveAction(const FString& Action, const FString& Target, const FString& Choice);
+
 	// Direct access for C++ screens that need more than the briefing.
 	const FourYears::Simulation& GetSimulation() const { return Core; }
 	FourYears::JsonValue& GetState() { return State; }

@@ -1,5 +1,6 @@
 #include "FourYears/FourYearsSubsystem.h"
 #include "FourYears/Core/FourYearsElectoral.h"
+#include "FourYears/Core/FourYearsPresidency.h"
 #include "FourYears/Core/FourYearsDiplomacy.h"
 
 #include "HAL/FileManager.h"
@@ -123,6 +124,7 @@ bool UFourYearsSubsystem::LoadTerm()
 	// Migrate upgrades saves from any earlier version, including saves copied from the browser game.
 	State = Core.Migrate(std::move(Saved));
 	FourYears::Diplomacy::Initialize(State);
+	FourYears::Presidency::Initialize(State);
 	return true;
 }
 
@@ -145,10 +147,13 @@ void UFourYearsSubsystem::StartNewTerm()
 	{
 		return;
 	}
-	const double Seed = static_cast<double>(FDateTime::Now().GetTicks() % 2147483647);
+	if(State.IsObject() && IFileManager::Get().FileExists(*GetSavePath()))
+  IFileManager::Get().Copy(*FPaths::Combine(FPaths::GetPath(GetSavePath()),TEXT("PreviousTerm.json")),*GetSavePath());
+ const double Seed = static_cast<double>(FDateTime::Now().GetTicks() % 2147483647);
 	State = Core.Fresh(Seed);
 	State.Set("inaugurationSeen", JsonValue::Boolean(false));
 	FourYears::Diplomacy::Initialize(State);
+	FourYears::Presidency::Initialize(State);
 	SaveTerm();
 }
 
@@ -260,11 +265,12 @@ bool UFourYearsSubsystem::ChooseResponse(int32 ChoiceIndex)
 FFourYearsReport UFourYearsSubsystem::AdvanceQuarter()
 {
 	FFourYearsReport Report;
-	if (!bReady)
+	if (!bReady || State.Get("ended").Truthy() || State.Get("agendaChoice").IsNull())
 	{
 		return Report;
 	}
 	// Resolve international effects before domestic polling and elections account for them.
+	const JsonValue PersonalChanges = FourYears::Presidency::BeforeAdvance(State);
 	const JsonValue WorldChanges = FourYears::Diplomacy::Advance(State);
 	const JsonValue Result = Core.Advance(State);
 	if (!Result.IsObject())
@@ -273,6 +279,7 @@ FFourYearsReport UFourYearsSubsystem::AdvanceQuarter()
 	}
 	SaveTerm();
 	Report.Quarter = static_cast<int32>(Result.Get("quarter").AsNumber());
+	for (const JsonValue& Change : PersonalChanges.Items()) Report.Changes.Add(ToFString(Change.AsString()));
 	for (const JsonValue& Change : WorldChanges.Items()) Report.Changes.Add(ToFString(Change.AsString()));
 	for (const JsonValue& Change : Result.Get("changes").Items())
 	{
@@ -661,3 +668,18 @@ FFourYearsActionResult UFourYearsSubsystem::CallVote()
 FFourYearsActionResult UFourYearsSubsystem::ChooseElectoralParty(const FString& Party){return bReady ? ToResult(FourYears::Electoral::ChooseParty(State,ToUtf8(Party))) : FFourYearsActionResult();}
 FFourYearsActionResult UFourYearsSubsystem::OrganizeCounty(const FString& County){return bReady ? ToResult(FourYears::Electoral::Organize(Core.Data().Get("us-electorate"),State,ToUtf8(County))) : FFourYearsActionResult();}
 FString UFourYearsSubsystem::GetVoterAtlasJson() const{return bReady ? ToFString(Core.VoterAtlas(State).Dump()) : TEXT("{}");}
+
+FFourYearsActionResult UFourYearsSubsystem::PresidencyAction(const FString& Action, const FString& Target) { return bReady ? ToResult(FourYears::Presidency::Act(Core,State,ToUtf8(Action),ToUtf8(Target))) : FFourYearsActionResult(); }
+FString UFourYearsSubsystem::GetPresidencyJson() const { return bReady ? ToFString(FourYears::Presidency::View(Core,State).Dump()) : TEXT("{}"); }
+
+FFourYearsActionResult UFourYearsSubsystem::ExecutiveAction(const FString& Action,const FString& Target,const FString& Choice)
+{
+ if(!bReady)return FFourYearsActionResult();
+ const std::string T=TCHAR_TO_UTF8(*Target),C=TCHAR_TO_UTF8(*Choice);
+ if(Action==TEXT("team"))return ToResult(Core.TeamAction(State,T,C));
+ if(Action==TEXT("crisis"))return ToResult(Core.RespondCrisis(State,T,C));
+ if(Action==TEXT("media"))return ToResult(Core.StartEncounter(State,T));
+ if(Action==TEXT("answer"))return ToResult(Core.AnswerEncounter(State,T));
+ if(Action==TEXT("visit"))return ToResult(Core.RegionalVisit(State,T));
+ return FFourYearsActionResult();
+}
